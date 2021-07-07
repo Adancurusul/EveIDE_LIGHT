@@ -1,9 +1,10 @@
-from qtpy.QtWidgets import QApplication, QMainWindow,QWidget,QFileDialog
+from qtpy.QtWidgets import QApplication, QMainWindow,QWidget,QFileDialog,QMessageBox
 import qtpy
 from qtpy import QtGui
 from qtpy import QtCore
 from ui.ui_select_workspace import Ui_SelectWorkspace
 import sys
+import os
 import logging
 from eve_module.cfgRead import cfgRead
 
@@ -15,10 +16,11 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
     def __init__(self):
         super(SelectWorkspace,self).__init__()
         self.cfgDict = {}
+        self.currentPath = None #path which the editor need to open
         self.cfgReader = cfgRead(cfgMainPath)
         if self.cfgReader.check_path():
             self.cfgDict = self.cfgReader.get_dict()
-
+        #self.init()
 
     def init(self):
         self.setupUi(self)
@@ -41,7 +43,13 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
     def button_hander(self,buttonName):
         if buttonName == "ok":
             self.cfgDict["useAsDefault"]  = int(self.useAsDefault_checkBox.isChecked())
-            self.close()
+            currentWorkspacePath = self.workspace_lineEdit.text()
+            if os.path.exists(currentWorkspacePath) :
+                self.cfgDict["workspaceNow"] = currentWorkspacePath
+                self.currentPath = currentWorkspacePath
+                self.close()
+            else :
+                QMessageBox.critical(self, "ERROR", "The path is not valid", QMessageBox.Ok)
         elif buttonName == "cancel":
             self.close()
 
@@ -55,7 +63,7 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
 
     def select_from_file_system(self):
         pathNow = QFileDialog.getExistingDirectory(None, "Choose Dict Path", "../")
-        print(pathNow)
+        #print(pathNow)
 
     def closeEvent(self, event ) :
         self.cfgReader.write_dict(self.cfgDict)

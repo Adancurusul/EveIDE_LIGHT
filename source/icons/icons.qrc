@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="pic">
+    <file>simulate.png</file>
+    <file>project.png</file>
+    <file>compile.png</file>
+    <file>close.png</file>
+    <file>refresh.png</file>
+    <file>minimize.png</file>
+    <file>collapse.png</file>
+    <file>expand.png</file>
+  </qresource>
+</RCC>

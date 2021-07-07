@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>leftModuleWidget</class>
+ <widget class="QWidget" name="leftModuleWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>364</width>
+    <height>682</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_3">
+   <item>
+    <widget class="QDockWidget" name="dockWidget">
+     <widget class="QWidget" name="dockWidgetContents">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QTabWidget" name="leftModuleWidgetIn">
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="tabPosition">
+          <enum>QTabWidget::West</enum>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="project_tab">
+          <attribute name="icon">
+           <iconset resource="../icons/icons.qrc">
+            <normaloff>:/pic/project.png</normaloff>:/pic/project.png</iconset>
+          </attribute>
+          <attribute name="title">
+           <string>project</string>
+          </attribute>
+          <layout class="QHBoxLayout" name="horizontalLayout_6"/>
+         </widget>
+         <widget class="QWidget" name="compile_tab">
+          <attribute name="icon">
+           <iconset resource="../icons/icons.qrc">
+            <normaloff>:/pic/compile.png</normaloff>:/pic/compile.png</iconset>
+          </attribute>
+          <attribute name="title">
+           <string>compile</string>
+          </attribute>
+          <layout class="QHBoxLayout" name="horizontalLayout_5"/>
+         </widget>
+         <widget class="QWidget" name="simulate_tab">
+          <attribute name="icon">
+           <iconset resource="../icons/icons.qrc">
+            <normaloff>:/pic/simulate.png</normaloff>:/pic/simulate.png</iconset>
+          </attribute>
+          <attribute name="title">
+           <string>simulate</string>
+          </attribute>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../icons/icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>
