@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="pic">
+    <file>start.png</file>
+    <file>select.png</file>
     <file>simulate.png</file>
     <file>project.png</file>
     <file>compile.png</file>

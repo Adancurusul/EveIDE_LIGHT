@@ -20,7 +20,7 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
         self.cfgReader = cfgRead(cfgMainPath)
         if self.cfgReader.check_path():
             self.cfgDict = self.cfgReader.get_dict()
-        #self.init()
+        self.init()
 
     def init(self):
         self.setupUi(self)
@@ -44,8 +44,12 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
         if buttonName == "ok":
             self.cfgDict["useAsDefault"]  = int(self.useAsDefault_checkBox.isChecked())
             currentWorkspacePath = self.workspace_lineEdit.text()
+            currentWorkspacePath = currentWorkspacePath.replace('\\','/')
+            print(currentWorkspacePath)
             if os.path.exists(currentWorkspacePath) :
+
                 self.cfgDict["workspaceNow"] = currentWorkspacePath
+
                 self.currentPath = currentWorkspacePath
                 self.close()
             else :
