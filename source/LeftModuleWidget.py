@@ -34,10 +34,15 @@ currentDir = currentDir.replace("\\","/")
 defaultGccPath = currentDir+"/module/gcc/bin"
 logging.debug("currentDir: "+currentDir)
 cfgPath = "..\configure\cfgSImulater.evecfg"
+
+
+
+
 eachModuleDict = {"modules":[{ "project":{"basicProperty":{"defaultWidth":300,"currentWidth":200}}},{ "compile":{"basicProperty":{"defaultWidth":300,"currentWidth":200}}},{"simulate":{"basicProperty":{"defaultWidth":300,"currentWidth":200},}}]}
 dictLeftTab = {
     "moduleList":[]
 }
+
 ex_projectPath = r"D:/codes/EveIDE_Plus/EveIDE_Plus/source/t_exCpro"
 ex_proName ="t_exCpro"
 compileSettingDefault = {"gccPath":"none"}
@@ -64,6 +69,7 @@ class LeftModuleWidget(QWidget,Ui_leftModuleWidget):
         self.projectWidget = moduleProjectTree()
         self.simulateWidget = moduleProjectTree()
         self.moduleList = [self.projectWidget,self.compileWidget,self.simulateWidget]
+        self.compileWidget.compile_pushButton.clicked.connect(self.compileWidget.do_compile)
         self.init_ui()
     def init_ui(self):
         self.setupUi(self)
@@ -94,7 +100,7 @@ class LeftModuleWidget(QWidget,Ui_leftModuleWidget):
         self.compileWidget.setHidden(1)
         #下面为测试代码
         self.compileWidget.addSettingsDictList(compileSettingDefaultListEx)
-       # self.compile_tab.setHidden(0)
+    # self.compile_tab.setHidden(0)
 
     def add_module_project_widget(self):
         layout = QFormLayout()
@@ -120,7 +126,8 @@ class moduleCompileWidget(Ui_CompileWidget,QWidget):
         self.outputDir_lineEdit.textChanged.connect(lambda:self.set_tool_tips(self.outputDir_lineEdit,self.outputDir_lineEdit.text()))
         self.moreToolchain_pushButton.clicked.connect(lambda : self.change_dir_by_file_selector(self.toolchain_lineEdit))
         self.moreOutputDir_pushButton.clicked.connect(lambda : self.change_dir_by_file_selector(self.outputDir_lineEdit))
-        self.compile_pushButton.clicked.connect(self.do_compile)
+        self.useDefault_pushButton.clicked.connect(self.change_into_default_settings)
+        #self.compile_pushButton.clicked.connect(self.do_compile)
         self.init_name()
     def change_dir_by_file_selector(self,currentLineEdit):
         pathNow = QFileDialog.getExistingDirectory(None, "Choose Dict Path", "../")
@@ -131,6 +138,35 @@ class moduleCompileWidget(Ui_CompileWidget,QWidget):
         pass
     def make_and_show(self):
         pass
+    def change_into_default_settings(self):
+        currentProjectName = self.project_comboBox.currentText()
+        for indexNow in range(len(self.compileSettingDictList)):
+            print(indexNow)
+            if currentProjectName == self.compileSettingDictList[indexNow].get("projectName","nothing") :
+                self.compileSettingDictList[indexNow] = self.compileSettingDictDefault
+                logging.debug("change into default settings")
+                #eachDict = self.compileSettingDictDefault
+                break
+        for eachDict in self.compileSettingDictList :
+            if eachDict.get("projectName","nothing") == currentProjectName :
+                self.currentProjectDict = eachDict
+                self.toolchain_lineEdit.setText(eachDict.get("gccPath","nothing"))
+                self.toolchain_lineEdit.setToolTip(eachDict.get("gccPath","nothing"))
+                self.outputDir_lineEdit.setText(eachDict.get("outputPath","nothing"))
+                self.outputDir_lineEdit.setToolTip(eachDict.get("outputPath","nothing"))
+                self.binaryOutput_checkBox.setChecked(eachDict.get("binaryOutput",0))
+                self.mifOutput_checkBox.setChecked(eachDict.get("mifOutput",0))
+                self.coeOutput_checkBox.setChecked(eachDict.get("coeOutput",0))
+                self.normalOutput_checkBox.setChecked(eachDict.get("normalOutput",0))
+                self.i_checkBox.setChecked(eachDict.get("i",0))
+                self.a_checkBox.setChecked(eachDict.get("a",0))
+                self.m_checkBox.setChecked(eachDict.get("m",0))
+                self.c_checkBox.setChecked(eachDict.get("c",0))
+                self.f_checkBox.setChecked(eachDict.get("f",0))
+                self.autoMakefile_checkBox.setChecked((eachDict.get("autoMakefile",1)))
+                self.bit64_checkBox.setChecked(eachDict.get("if64bit",0))
+                self.bit32_checkBox.setChecked(not eachDict.get("if64bit",0))
+                break
     def do_compile(self):
         '''
         Todo:

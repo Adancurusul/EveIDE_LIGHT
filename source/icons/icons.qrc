@@ -1,5 +1,9 @@
 <RCC>
   <qresource prefix="pic">
+    <file>save.png</file>
+    <file>new.png</file>
+    <file>open.png</file>
+    <file>save_as.png</file>
     <file>start.png</file>
     <file>select.png</file>
     <file>simulate.png</file>

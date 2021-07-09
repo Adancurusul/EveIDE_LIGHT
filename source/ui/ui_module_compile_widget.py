@@ -38,10 +38,10 @@ class Ui_CompileWidget(object):
 
         self.horizontalLayout_4.addItem(self.horizontalSpacer_6)
 
-        self.pushButton = QPushButton(CompileWidget)
-        self.pushButton.setObjectName(u"pushButton")
+        self.useDefault_pushButton = QPushButton(CompileWidget)
+        self.useDefault_pushButton.setObjectName(u"useDefault_pushButton")
 
-        self.horizontalLayout_4.addWidget(self.pushButton)
+        self.horizontalLayout_4.addWidget(self.useDefault_pushButton)
 
 
         self.verticalLayout_7.addLayout(self.horizontalLayout_4)
@@ -53,6 +53,15 @@ class Ui_CompileWidget(object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.toolchain_lineEdit = QLineEdit(self.groupBox_2)
         self.toolchain_lineEdit.setObjectName(u"toolchain_lineEdit")
+        palette = QPalette()
+        brush = QBrush(QColor(0, 0, 0, 255))
+        brush.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.Text, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.Text, brush)
+        brush1 = QBrush(QColor(120, 120, 120, 255))
+        brush1.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Disabled, QPalette.Text, brush1)
+        self.toolchain_lineEdit.setPalette(palette)
 
         self.horizontalLayout_2.addWidget(self.toolchain_lineEdit)
 
@@ -114,6 +123,11 @@ class Ui_CompileWidget(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.outputDir_lineEdit = QLineEdit(self.groupBox)
         self.outputDir_lineEdit.setObjectName(u"outputDir_lineEdit")
+        palette1 = QPalette()
+        palette1.setBrush(QPalette.Active, QPalette.Text, brush)
+        palette1.setBrush(QPalette.Inactive, QPalette.Text, brush)
+        palette1.setBrush(QPalette.Disabled, QPalette.Text, brush1)
+        self.outputDir_lineEdit.setPalette(palette1)
 
         self.horizontalLayout.addWidget(self.outputDir_lineEdit)
 
@@ -240,13 +254,13 @@ class Ui_CompileWidget(object):
 
         self.horizontalLayout_7.addItem(self.horizontalSpacer_3)
 
-        self.pushButton_2 = QPushButton(CompileWidget)
-        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.compile_pushButton = QPushButton(CompileWidget)
+        self.compile_pushButton.setObjectName(u"compile_pushButton")
         icon1 = QIcon()
         icon1.addFile(u":/pic/start.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.pushButton_2.setIcon(icon1)
+        self.compile_pushButton.setIcon(icon1)
 
-        self.horizontalLayout_7.addWidget(self.pushButton_2)
+        self.horizontalLayout_7.addWidget(self.compile_pushButton)
 
         self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -268,7 +282,7 @@ class Ui_CompileWidget(object):
     def retranslateUi(self, CompileWidget):
         CompileWidget.setWindowTitle(QCoreApplication.translate("CompileWidget", u"Form", None))
         self.label.setText(QCoreApplication.translate("CompileWidget", u"Project:", None))
-        self.pushButton.setText(QCoreApplication.translate("CompileWidget", u"useDefaultSettings", None))
+        self.useDefault_pushButton.setText(QCoreApplication.translate("CompileWidget", u"useDefaultSettings", None))
 #if QT_CONFIG(tooltip)
         self.groupBox_2.setToolTip("")
 #endif // QT_CONFIG(tooltip)
@@ -300,6 +314,6 @@ class Ui_CompileWidget(object):
         self.f_checkBox.setText(QCoreApplication.translate("CompileWidget", u"f", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("CompileWidget", u"MakeFile", None))
         self.autoMakefile_checkBox.setText(QCoreApplication.translate("CompileWidget", u"Auto generate", None))
-        self.pushButton_2.setText(QCoreApplication.translate("CompileWidget", u"compile", None))
+        self.compile_pushButton.setText(QCoreApplication.translate("CompileWidget", u"compile", None))
     # retranslateUi
 
