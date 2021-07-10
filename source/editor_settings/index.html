@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+<div id="container" style="width:100%;height:100%"></div>
+
+<!-- 引入base64方法,设置编辑器内容时使用-->
+<script src="./base64.js"></script>   
+<!-- 根据实际路径进行修改 -->
+<script src="./package/dev/vs/loader.js"></script>
+<script>
+    // <!-- 根据实际路径进行修改 -->
+    require.config({paths: {'vs': './package/dev/vs'}});
+    require(['vs/editor/editor.main'], function () {
+        monaco.editor.defineTheme('BlackTheme', {
+            base: 'vs-dark',
+            inherit: true,
+            rules: [{ background: '#3e414a' }],
+            colors: {
+                // 相关颜色属性配置
+                // 'editor.foreground': '#000000',
+                //'editor.background': '#3e414a',     //背景色
+                // 'editorCursor.foreground': '#8B0000',
+                // 'editor.lineHighlightBackground': '#0000FF20',
+                // 'editorLineNumber.foreground': '#008800',
+                // 'editor.selectionBackground': '#88000030',
+                // 'editor.inactiveSelectionBackground': '#88000015'
+            }
+        });
+        //设置自定义主题
+        monaco.editor.setTheme('BlackTheme');
+
+        editor = monaco.editor.create(document.getElementById('container'), {
+            value: "",
+            language: 'verilog',  //默认语言
+            mouseWheelZoom:true,     // 鼠标滚轮缩放
+            wordWrap:"on",           // 自动换行
+            scrollBeyondLastLine:false,
+            minimap:{
+                enabled:true          // 显示右侧小地图
+            }
+        });
+        window.onresize = function () {
+            editor.layout();
+        };
+    });
+</script>
+</body>
+</html>
