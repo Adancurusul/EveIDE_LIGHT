@@ -18,7 +18,7 @@ class Ui_CompileWidget(object):
     def setupUi(self, CompileWidget):
         if not CompileWidget.objectName():
             CompileWidget.setObjectName(u"CompileWidget")
-        CompileWidget.resize(419, 449)
+        CompileWidget.resize(377, 691)
         self.verticalLayout_7 = QVBoxLayout(CompileWidget)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.horizontalLayout_4 = QHBoxLayout()
@@ -53,15 +53,6 @@ class Ui_CompileWidget(object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.toolchain_lineEdit = QLineEdit(self.groupBox_2)
         self.toolchain_lineEdit.setObjectName(u"toolchain_lineEdit")
-        palette = QPalette()
-        brush = QBrush(QColor(0, 0, 0, 255))
-        brush.setStyle(Qt.SolidPattern)
-        palette.setBrush(QPalette.Active, QPalette.Text, brush)
-        palette.setBrush(QPalette.Inactive, QPalette.Text, brush)
-        brush1 = QBrush(QColor(120, 120, 120, 255))
-        brush1.setStyle(Qt.SolidPattern)
-        palette.setBrush(QPalette.Disabled, QPalette.Text, brush1)
-        self.toolchain_lineEdit.setPalette(palette)
 
         self.horizontalLayout_2.addWidget(self.toolchain_lineEdit)
 
@@ -77,87 +68,6 @@ class Ui_CompileWidget(object):
 
 
         self.verticalLayout_7.addWidget(self.groupBox_2)
-
-        self.horizontalLayout_5 = QHBoxLayout()
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.verticalLayout_6 = QVBoxLayout()
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.groupBox = QGroupBox(CompileWidget)
-        self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setMinimumSize(QSize(141, 0))
-        self.verticalLayout_5 = QVBoxLayout(self.groupBox)
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.binaryOutput_checkBox = QCheckBox(self.groupBox)
-        self.binaryOutput_checkBox.setObjectName(u"binaryOutput_checkBox")
-        self.binaryOutput_checkBox.setChecked(True)
-
-        self.verticalLayout_5.addWidget(self.binaryOutput_checkBox)
-
-        self.mifOutput_checkBox = QCheckBox(self.groupBox)
-        self.mifOutput_checkBox.setObjectName(u"mifOutput_checkBox")
-
-        self.verticalLayout_5.addWidget(self.mifOutput_checkBox)
-
-        self.coeOutput_checkBox = QCheckBox(self.groupBox)
-        self.coeOutput_checkBox.setObjectName(u"coeOutput_checkBox")
-
-        self.verticalLayout_5.addWidget(self.coeOutput_checkBox)
-
-        self.normalOutput_checkBox = QCheckBox(self.groupBox)
-        self.normalOutput_checkBox.setObjectName(u"normalOutput_checkBox")
-
-        self.verticalLayout_5.addWidget(self.normalOutput_checkBox)
-
-        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Fixed)
-
-        self.verticalLayout_5.addItem(self.verticalSpacer_5)
-
-        self.verticalLayout = QVBoxLayout()
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.label_2 = QLabel(self.groupBox)
-        self.label_2.setObjectName(u"label_2")
-
-        self.verticalLayout.addWidget(self.label_2)
-
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.outputDir_lineEdit = QLineEdit(self.groupBox)
-        self.outputDir_lineEdit.setObjectName(u"outputDir_lineEdit")
-        palette1 = QPalette()
-        palette1.setBrush(QPalette.Active, QPalette.Text, brush)
-        palette1.setBrush(QPalette.Inactive, QPalette.Text, brush)
-        palette1.setBrush(QPalette.Disabled, QPalette.Text, brush1)
-        self.outputDir_lineEdit.setPalette(palette1)
-
-        self.horizontalLayout.addWidget(self.outputDir_lineEdit)
-
-        self.moreOutputDir_pushButton = QPushButton(self.groupBox)
-        self.moreOutputDir_pushButton.setObjectName(u"moreOutputDir_pushButton")
-        self.moreOutputDir_pushButton.setMinimumSize(QSize(20, 20))
-        self.moreOutputDir_pushButton.setMaximumSize(QSize(21, 21))
-        self.moreOutputDir_pushButton.setIcon(icon)
-
-        self.horizontalLayout.addWidget(self.moreOutputDir_pushButton)
-
-
-        self.verticalLayout.addLayout(self.horizontalLayout)
-
-
-        self.verticalLayout_5.addLayout(self.verticalLayout)
-
-
-        self.verticalLayout_6.addWidget(self.groupBox)
-
-        self.verticalSpacer_2 = QSpacerItem(68, 18, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_6.addItem(self.verticalSpacer_2)
-
-
-        self.horizontalLayout_5.addLayout(self.verticalLayout_6)
-
-        self.horizontalSpacer_2 = QSpacerItem(13, 25, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_5.addItem(self.horizontalSpacer_2)
 
         self.verticalLayout_4 = QVBoxLayout()
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
@@ -239,14 +149,78 @@ class Ui_CompileWidget(object):
         self.verticalLayout_4.addItem(self.verticalSpacer_3)
 
 
-        self.horizontalLayout_5.addLayout(self.verticalLayout_4)
+        self.verticalLayout_7.addLayout(self.verticalLayout_4)
 
-        self.horizontalSpacer_5 = QSpacerItem(13, 38, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.verticalLayout_6 = QVBoxLayout()
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.groupBox = QGroupBox(CompileWidget)
+        self.groupBox.setObjectName(u"groupBox")
+        self.groupBox.setMinimumSize(QSize(141, 0))
+        self.verticalLayout_5 = QVBoxLayout(self.groupBox)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.binaryOutput_checkBox = QCheckBox(self.groupBox)
+        self.binaryOutput_checkBox.setObjectName(u"binaryOutput_checkBox")
+        self.binaryOutput_checkBox.setChecked(True)
 
-        self.horizontalLayout_5.addItem(self.horizontalSpacer_5)
+        self.verticalLayout_5.addWidget(self.binaryOutput_checkBox)
+
+        self.mifOutput_checkBox = QCheckBox(self.groupBox)
+        self.mifOutput_checkBox.setObjectName(u"mifOutput_checkBox")
+
+        self.verticalLayout_5.addWidget(self.mifOutput_checkBox)
+
+        self.coeOutput_checkBox = QCheckBox(self.groupBox)
+        self.coeOutput_checkBox.setObjectName(u"coeOutput_checkBox")
+
+        self.verticalLayout_5.addWidget(self.coeOutput_checkBox)
+
+        self.normalOutput_checkBox = QCheckBox(self.groupBox)
+        self.normalOutput_checkBox.setObjectName(u"normalOutput_checkBox")
+
+        self.verticalLayout_5.addWidget(self.normalOutput_checkBox)
+
+        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Fixed)
+
+        self.verticalLayout_5.addItem(self.verticalSpacer_5)
+
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.label_2 = QLabel(self.groupBox)
+        self.label_2.setObjectName(u"label_2")
+
+        self.verticalLayout.addWidget(self.label_2)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.outputDir_lineEdit = QLineEdit(self.groupBox)
+        self.outputDir_lineEdit.setObjectName(u"outputDir_lineEdit")
+        self.outputDir_lineEdit.setMinimumSize(QSize(0, 20))
+
+        self.horizontalLayout.addWidget(self.outputDir_lineEdit)
+
+        self.moreOutputDir_pushButton = QPushButton(self.groupBox)
+        self.moreOutputDir_pushButton.setObjectName(u"moreOutputDir_pushButton")
+        self.moreOutputDir_pushButton.setMinimumSize(QSize(20, 20))
+        self.moreOutputDir_pushButton.setMaximumSize(QSize(21, 21))
+        self.moreOutputDir_pushButton.setIcon(icon)
+
+        self.horizontalLayout.addWidget(self.moreOutputDir_pushButton)
 
 
-        self.verticalLayout_7.addLayout(self.horizontalLayout_5)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+
+
+        self.verticalLayout_5.addLayout(self.verticalLayout)
+
+
+        self.verticalLayout_6.addWidget(self.groupBox)
+
+        self.verticalSpacer_2 = QSpacerItem(68, 18, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_6.addItem(self.verticalSpacer_2)
+
+
+        self.verticalLayout_7.addLayout(self.verticalLayout_6)
 
         self.horizontalLayout_7 = QHBoxLayout()
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
@@ -291,6 +265,16 @@ class Ui_CompileWidget(object):
         self.moreToolchain_pushButton.setToolTip(QCoreApplication.translate("CompileWidget", u"select", None))
 #endif // QT_CONFIG(tooltip)
         self.moreToolchain_pushButton.setText("")
+        self.groupBox_3.setTitle(QCoreApplication.translate("CompileWidget", u"CompileSettings", None))
+        self.bit64_checkBox.setText(QCoreApplication.translate("CompileWidget", u"64bit", None))
+        self.bit32_checkBox.setText(QCoreApplication.translate("CompileWidget", u"32bit", None))
+        self.i_checkBox.setText(QCoreApplication.translate("CompileWidget", u"i", None))
+        self.a_checkBox.setText(QCoreApplication.translate("CompileWidget", u"a", None))
+        self.m_checkBox.setText(QCoreApplication.translate("CompileWidget", u"m", None))
+        self.c_checkBox.setText(QCoreApplication.translate("CompileWidget", u"c", None))
+        self.f_checkBox.setText(QCoreApplication.translate("CompileWidget", u"f", None))
+        self.groupBox_4.setTitle(QCoreApplication.translate("CompileWidget", u"MakeFile", None))
+        self.autoMakefile_checkBox.setText(QCoreApplication.translate("CompileWidget", u"Auto generate", None))
         self.groupBox.setTitle(QCoreApplication.translate("CompileWidget", u"OutputSettings", None))
         self.binaryOutput_checkBox.setText(QCoreApplication.translate("CompileWidget", u"BinaryOutput", None))
         self.mifOutput_checkBox.setText(QCoreApplication.translate("CompileWidget", u"MifOutput", None))
@@ -304,16 +288,6 @@ class Ui_CompileWidget(object):
         self.moreOutputDir_pushButton.setToolTip(QCoreApplication.translate("CompileWidget", u"select", None))
 #endif // QT_CONFIG(tooltip)
         self.moreOutputDir_pushButton.setText("")
-        self.groupBox_3.setTitle(QCoreApplication.translate("CompileWidget", u"CompileSettings", None))
-        self.bit64_checkBox.setText(QCoreApplication.translate("CompileWidget", u"64bit", None))
-        self.bit32_checkBox.setText(QCoreApplication.translate("CompileWidget", u"32bit", None))
-        self.i_checkBox.setText(QCoreApplication.translate("CompileWidget", u"i", None))
-        self.a_checkBox.setText(QCoreApplication.translate("CompileWidget", u"a", None))
-        self.m_checkBox.setText(QCoreApplication.translate("CompileWidget", u"m", None))
-        self.c_checkBox.setText(QCoreApplication.translate("CompileWidget", u"c", None))
-        self.f_checkBox.setText(QCoreApplication.translate("CompileWidget", u"f", None))
-        self.groupBox_4.setTitle(QCoreApplication.translate("CompileWidget", u"MakeFile", None))
-        self.autoMakefile_checkBox.setText(QCoreApplication.translate("CompileWidget", u"Auto generate", None))
         self.compile_pushButton.setText(QCoreApplication.translate("CompileWidget", u"compile", None))
     # retranslateUi
 

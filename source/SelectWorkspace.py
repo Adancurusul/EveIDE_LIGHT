@@ -80,6 +80,10 @@ if __name__ == '__main__':
                         datefmt='%a, %d %b %Y %H:%M:%S',)
     app = QApplication(sys.argv)
     mainWin = SelectWorkspace()
+    from qt_material import apply_stylesheet
+
+
+    apply_stylesheet(app, theme='light_blue.xml')
     #mainWin.ui_init()
     mainWin.show()
     sys.exit(app.exec_())

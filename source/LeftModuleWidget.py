@@ -8,7 +8,7 @@ LeftSideTab
 '''
 
 
-from qtpy.QtWidgets import QApplication, QMainWindow,QWidget,QFileDialog,QFormLayout,QLineEdit
+from qtpy.QtWidgets import QApplication, QMainWindow,QWidget,QFileDialog,QFormLayout,QLineEdit,QHBoxLayout,QTabWidget
 from qtpy.QtCore import Qt
 from qtpy.QtGui import QPalette,QBrush,QColor
 import qtpy
@@ -71,12 +71,14 @@ class LeftModuleWidget(QWidget,Ui_leftModuleWidget):
         self.moduleList = [self.projectWidget,self.compileWidget,self.simulateWidget]
         self.compileWidget.compile_pushButton.clicked.connect(self.compileWidget.do_compile)
         self.init_ui()
+
     def init_ui(self):
         self.setupUi(self)
         self.add_module_project_widget()
         self.add_module_compile_widget()
         self.add_module_simulate_widget()
         self.leftModuleWidgetIn.currentChanged.connect(self.change_tab_module)
+        self.leftModuleWidgetIn.setTabPosition(QTabWidget.South)
     def change_tab_module(self):
         for eachModule in self.moduleList :
             eachModule.setHidden(1)
@@ -116,6 +118,7 @@ class moduleCompileWidget(Ui_CompileWidget,QWidget):
         super(moduleCompileWidget,self).__init__()
         self.setupUi(self)
         self.currentProjectDict = {}
+        self.setMinimumSize(419,499)
         self.name = "moduleCompileWidget"
         #下为测试代码
         self.compileSettingDictDefault = compileSettingDefaultEx
@@ -297,9 +300,13 @@ def i():
 def init ():
 
     app = QApplication(sys.argv)
-    #mainWin = moduleProjectTree()
     mainWin = LeftModuleWidget()
+    from qt_material import apply_stylesheet
+
+    #mainWin = LeftModuleWidget()
+
     #mainWin.init()
+    #apply_stylesheet(app, theme='light_blue.xml')
     mainWin.show()
     sys.exit(app.exec_())
 if __name__ == '__main__':

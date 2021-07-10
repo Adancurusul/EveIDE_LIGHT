@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>419</width>
-    <height>449</height>
+    <width>377</width>
+    <height>691</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,45 +73,7 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QLineEdit" name="toolchain_lineEdit">
-        <property name="palette">
-         <palette>
-          <active>
-           <colorrole role="Text">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </active>
-          <inactive>
-           <colorrole role="Text">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </inactive>
-          <disabled>
-           <colorrole role="Text">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>120</red>
-              <green>120</green>
-              <blue>120</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </disabled>
-         </palette>
-        </property>
-       </widget>
+       <widget class="QLineEdit" name="toolchain_lineEdit"/>
       </item>
       <item>
        <widget class="QPushButton" name="moreToolchain_pushButton">
@@ -143,25 +105,19 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <layout class="QVBoxLayout" name="verticalLayout_4">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_6">
-       <item>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="minimumSize">
-          <size>
-           <width>141</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="title">
-          <string>OutputSettings</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="title">
+        <string>CompileSettings</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QCheckBox" name="binaryOutput_checkBox">
+           <widget class="QCheckBox" name="bit64_checkBox">
             <property name="text">
-             <string>BinaryOutput</string>
+             <string>64bit</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -169,303 +125,248 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="mifOutput_checkBox">
+           <widget class="QCheckBox" name="bit32_checkBox">
             <property name="text">
-             <string>MifOutput</string>
+             <string>32bit</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
             </property>
            </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="coeOutput_checkBox">
-            <property name="text">
-             <string>CoeOutput</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="normalOutput_checkBox">
-            <property name="text">
-             <string>NormalOutput</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout">
-            <item>
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>output dir:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <item>
-               <widget class="QLineEdit" name="outputDir_lineEdit">
-                <property name="palette">
-                 <palette>
-                  <active>
-                   <colorrole role="Text">
-                    <brush brushstyle="SolidPattern">
-                     <color alpha="255">
-                      <red>0</red>
-                      <green>0</green>
-                      <blue>0</blue>
-                     </color>
-                    </brush>
-                   </colorrole>
-                  </active>
-                  <inactive>
-                   <colorrole role="Text">
-                    <brush brushstyle="SolidPattern">
-                     <color alpha="255">
-                      <red>0</red>
-                      <green>0</green>
-                      <blue>0</blue>
-                     </color>
-                    </brush>
-                   </colorrole>
-                  </inactive>
-                  <disabled>
-                   <colorrole role="Text">
-                    <brush brushstyle="SolidPattern">
-                     <color alpha="255">
-                      <red>120</red>
-                      <green>120</green>
-                      <blue>120</blue>
-                     </color>
-                    </brush>
-                   </colorrole>
-                  </disabled>
-                 </palette>
-                </property>
-                <property name="toolTip">
-                 <string>PathNow</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="moreOutputDir_pushButton">
-                <property name="minimumSize">
-                 <size>
-                  <width>20</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>21</width>
-                  <height>21</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>select</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="icon">
-                 <iconset resource="../icons/icons.qrc">
-                  <normaloff>:/pic/select.png</normaloff>:/pic/select.png</iconset>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
           </item>
          </layout>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>68</width>
-           <height>18</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>17</width>
+            <height>13</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QCheckBox" name="i_checkBox">
+            <property name="text">
+             <string>i</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="a_checkBox">
+            <property name="text">
+             <string>a</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="m_checkBox">
+            <property name="text">
+             <string>m</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="c_checkBox">
+            <property name="text">
+             <string>c</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="f_checkBox">
+            <property name="text">
+             <string>f</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_2">
+      <widget class="QGroupBox" name="groupBox_4">
+       <property name="title">
+        <string>MakeFile</string>
+       </property>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="autoMakefile_checkBox">
+          <property name="text">
+           <string>Auto generate</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_3">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>13</width>
-         <height>25</height>
+         <width>38</width>
+         <height>18</height>
         </size>
        </property>
       </spacer>
      </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_6">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
-       <item>
-        <widget class="QGroupBox" name="groupBox_3">
-         <property name="title">
-          <string>CompileSettings</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
+      <widget class="QGroupBox" name="groupBox">
+       <property name="minimumSize">
+        <size>
+         <width>141</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="title">
+        <string>OutputSettings</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="QCheckBox" name="binaryOutput_checkBox">
+          <property name="text">
+           <string>BinaryOutput</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="mifOutput_checkBox">
+          <property name="text">
+           <string>MifOutput</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="coeOutput_checkBox">
+          <property name="text">
+           <string>CoeOutput</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="normalOutput_checkBox">
+          <property name="text">
+           <string>NormalOutput</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
-            <item>
-             <widget class="QCheckBox" name="bit64_checkBox">
-              <property name="text">
-               <string>64bit</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="bit32_checkBox">
-              <property name="text">
-               <string>32bit</string>
-              </property>
-              <property name="checked">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>17</width>
-              <height>13</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <item>
-             <widget class="QCheckBox" name="i_checkBox">
-              <property name="text">
-               <string>i</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="a_checkBox">
-              <property name="text">
-               <string>a</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="m_checkBox">
-              <property name="text">
-               <string>m</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="c_checkBox">
-              <property name="text">
-               <string>c</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="f_checkBox">
-              <property name="text">
-               <string>f</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_4">
-         <property name="title">
-          <string>MakeFile</string>
-         </property>
-         <layout class="QFormLayout" name="formLayout">
-          <item row="0" column="0">
-           <widget class="QCheckBox" name="autoMakefile_checkBox">
+           <widget class="QLabel" name="label_2">
             <property name="text">
-             <string>Auto generate</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
+             <string>output dir:</string>
             </property>
            </widget>
           </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QLineEdit" name="outputDir_lineEdit">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>PathNow</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="moreOutputDir_pushButton">
+              <property name="minimumSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>21</width>
+                <height>21</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>select</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../icons/icons.qrc">
+                <normaloff>:/pic/select.png</normaloff>:/pic/select.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
          </layout>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>38</width>
-           <height>18</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+        </item>
+       </layout>
+      </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_5">
+      <spacer name="verticalSpacer_2">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>13</width>
-         <height>38</height>
+         <width>68</width>
+         <height>18</height>
         </size>
        </property>
       </spacer>

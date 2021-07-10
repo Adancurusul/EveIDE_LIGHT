@@ -18,16 +18,10 @@ class Ui_leftModuleWidget(object):
     def setupUi(self, leftModuleWidget):
         if not leftModuleWidget.objectName():
             leftModuleWidget.setObjectName(u"leftModuleWidget")
-        leftModuleWidget.resize(364, 682)
-        self.horizontalLayout_3 = QHBoxLayout(leftModuleWidget)
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.dockWidget = QDockWidget(leftModuleWidget)
-        self.dockWidget.setObjectName(u"dockWidget")
-        self.dockWidgetContents = QWidget()
-        self.dockWidgetContents.setObjectName(u"dockWidgetContents")
-        self.horizontalLayout = QHBoxLayout(self.dockWidgetContents)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.leftModuleWidgetIn = QTabWidget(self.dockWidgetContents)
+        leftModuleWidget.resize(374, 598)
+        self.horizontalLayout_2 = QHBoxLayout(leftModuleWidget)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.leftModuleWidgetIn = QTabWidget(leftModuleWidget)
         self.leftModuleWidgetIn.setObjectName(u"leftModuleWidgetIn")
         self.leftModuleWidgetIn.setLayoutDirection(Qt.LeftToRight)
         self.leftModuleWidgetIn.setTabPosition(QTabWidget.West)
@@ -47,11 +41,7 @@ class Ui_leftModuleWidget(object):
         icon2.addFile(u":/pic/simulate.png", QSize(), QIcon.Normal, QIcon.Off)
         self.leftModuleWidgetIn.addTab(self.simulate_tab, icon2, "")
 
-        self.horizontalLayout.addWidget(self.leftModuleWidgetIn)
-
-        self.dockWidget.setWidget(self.dockWidgetContents)
-
-        self.horizontalLayout_3.addWidget(self.dockWidget)
+        self.horizontalLayout_2.addWidget(self.leftModuleWidgetIn)
 
 
         self.retranslateUi(leftModuleWidget)
