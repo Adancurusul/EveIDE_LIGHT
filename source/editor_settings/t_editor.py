@@ -10,8 +10,9 @@ class MainWindow(QMainWindow):
         self.setGeometry(5,30,1355,730)  #窗口的大小和位置设置
         self.browser=QWebEngineView()
         self.page = QWebEnginePage()
-        self.editor_index = "D:\\codes\\EveIDE_Plus\\EveIDE_Plus\\source\\editor_settings\\index.html"
-        self.page.setUrl(QUrl.fromLocalFile(self.editor_index))
+        #self.editor_index = "D:\\codes\\EveIDE_Plus\\EveIDE_Plus\\source\\editor_settings\\index.html"
+        #self.page.setUrl(QUrl.fromLocalFile(self.editor_index))
+        self.page.setUrl(QUrl('https://www.baidu.com'))
         #加载外部的web界面
         self.browser.setPage(self.page)
         self.setCentralWidget(self.browser)
@@ -47,11 +48,11 @@ class Editor(QWebEngineView):
         self.editor_flag = []
         self.browser=QWebEngineView()
         #加载外部的web界面
-        self.browser.load(QUrl('https://www.baidu.com'))
+        #self.browser.load(QUrl('https://www.baidu.com'))
         #self.setCentralWidget(self.browser)
         # 这里是本地html路径,需根据实际情况进行修改.
-        #self.editor_index = "D:\\codes\\EveIDE_Plus\\EveIDE_Plus\\source\\editor_settings\\index.html"
-        #self.load(QUrl.fromLocalFile(self.editor_index))
+        self.editor_index = "D:\\codes\\EveIDE_Plus\\EveIDE_Plus\\source\\editor_settings\\index.html"
+        self.load(QUrl.fromLocalFile(self.editor_index))
 
     def get_value(self, callback):
         """设置编辑器内容"""
@@ -72,7 +73,7 @@ class Editor(QWebEngineView):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    w = MainWindow()
+    w = Editor()
     w.setWindowTitle('Editor')
     w.show()
     #w.set_value("ababa")

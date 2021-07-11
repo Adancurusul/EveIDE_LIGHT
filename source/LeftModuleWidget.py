@@ -78,7 +78,7 @@ class LeftModuleWidget(QWidget,Ui_leftModuleWidget):
         self.add_module_compile_widget()
         self.add_module_simulate_widget()
         self.leftModuleWidgetIn.currentChanged.connect(self.change_tab_module)
-        self.leftModuleWidgetIn.setTabPosition(QTabWidget.South)
+        #self.leftModuleWidgetIn.setTabPosition(QTabWidget.South)
     def change_tab_module(self):
         for eachModule in self.moduleList :
             eachModule.setHidden(1)
