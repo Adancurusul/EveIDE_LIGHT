@@ -27,7 +27,7 @@ class EditorWidget(QWebEngineView):
 
     def get_value(self, callback):
         """设置编辑器内容"""
-        self.page()..runJavaScript("monaco.editor.getModels()[0].getValue()", callback)
+        self.page().runJavaScript("monaco.editor.getModels()[0].getValue()", callback)
 
     def set_value(self, data):
         """获取编辑器内容"""
