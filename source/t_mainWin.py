@@ -19,6 +19,7 @@ class MainWinUi(QMainWindow,Ui_MainWindow):
         self.initLogic()
         self.untitledNum = 1
     def initLogic(self):
+
         self.actionnew.triggered.connect(lambda :  self.addEditorWidget("untitled"))
         self.actionopen.triggered.connect(self.openFile)
         self.timerUpdateUi = QTimer()
@@ -27,7 +28,7 @@ class MainWinUi(QMainWindow,Ui_MainWindow):
     def openFile(self):
         editorNow = self.mdi.currentSubWindow().widget()
         valueNow = ""
-        editorNow.get_value(valueNow)
+        #editorNow.get_value(valueNow)
         print(valueNow)
 
     def saveFile(self):

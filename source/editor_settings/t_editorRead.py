@@ -1,9 +1,3 @@
-import os
-from qtpy import QtWidgets
-from qtpy.QtWidgets import QWidget,QHBoxLayout,QMainWindow
-from qtpy.QtCore import QUrl,QThread
-from qtpy.QtWebEngineWidgets import QWebEngineView,QWebEnginePage
-
 import json
 import os
 
@@ -73,11 +67,15 @@ class EditorBridge(BaseBridge):
 class EditorWidget(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super(EditorWidget, self).__init__(parent)
+
         self._view = QtWebEngineWidgets.QWebEngineView()
+
         channel = QtWebChannel.QWebChannel(self)
         self.view.page().setWebChannel(channel)
+
         self._bridge = EditorBridge()
         channel.registerObject("bridge", self.bridge)
+
         #self.setCentralWidget(self.view)
         from qtpy.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton
         layout = QGridLayout()
@@ -120,43 +118,6 @@ class EditorWidget(QtWidgets.QWidget):
         print("theme", self.bridge.theme)
 
 
-
-
-
-
-class EditorWidgetv(QWidget):
-    def __init__(self, ):
-        super().__init__()
-        self.loadA()
-    def loadB(self):
-        self.view = QWebEngineView()
-        self.editor_index = "C:\\Users\\User\\Documents\\GitHub\\EveIDE_Plus\\source\\editor_settings\\index.html"
-        self.view.load(QUrl.fromLocalFile(self.editor_index))
-        layout = QHBoxLayout()
-        layout.addWidget(self.view, 0)
-        self.setLayout(layout)
-    def loadA(self):
-        self.editor_flag = []
-
-        # self.browser.load(QUrl.fromLocalFile(self.editor_index))
-        self.view = QWebEngineView()
-        # channel = QtWebChannel.QWebChannel(self)
-        # self.view.page().setWebChannel(channel)
-        # self._bridge = EditorBridge()
-        # channel.registerObject("bridge", self.bridge)
-        filename = os.path.join(CURRENT_DIR, "t_index.html")
-        self.view.load(QtCore.QUrl.fromLocalFile(filename))
-        from qtpy.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QHBoxLayout
-        layout = QHBoxLayout()
-        layout.addWidget(self.view, 0)
-        self.setLayout(layout)
-
-    @property
-    def bridge(self):
-        return self._bridge
-
-
-
 if __name__ == "__main__":
     import sys
 
@@ -167,11 +128,4 @@ if __name__ == "__main__":
     w = EditorWidget()
     w.show()
 
-    sys.exit(app.exec_())
-
-    app = QtWidgets.QApplication(sys.argv)
-    w = EditorWidget()
-    w.setWindowTitle('Editor')
-    w.show()
-    #w.set_value("ababa")
     sys.exit(app.exec_())
