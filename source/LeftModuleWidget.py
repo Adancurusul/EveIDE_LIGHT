@@ -78,6 +78,7 @@ class LeftModuleWidget(QWidget,Ui_leftModuleWidget):
         self.add_module_compile_widget()
         self.add_module_simulate_widget()
         self.leftModuleWidgetIn.currentChanged.connect(self.change_tab_module)
+
         #self.leftModuleWidgetIn.setTabPosition(QTabWidget.South)
     def change_tab_module(self):
         for eachModule in self.moduleList :
@@ -280,9 +281,18 @@ class moduleProjectTree(Ui_ProjectTree,QWidget):
         super(moduleProjectTree,self).__init__()
         self.setupUi(self)
         self.name = "moduleProjectTree"
+        self.expand_pushButton.clicked.connect(self.expand_tree)
+        self.collapse_pushButton.clicked.connect(self.collapse_tree)
         #self.setMinimumSize(0,0)
         #self.resize(0,0)
         #self.setWindowFlags(Qt.FramelessWindowHint)
+
+    def expand_tree(self):
+        self.projectFile_treeWidget.expandAll()
+
+    def collapse_tree(self):
+        self.projectFile_treeWidget.collapseAll()
+
 
 
 

@@ -18,11 +18,9 @@ class Ui_ProjectTree(object):
     def setupUi(self, ProjectTree):
         if not ProjectTree.objectName():
             ProjectTree.setObjectName(u"ProjectTree")
-        ProjectTree.resize(263, 672)
+        ProjectTree.resize(294, 528)
         ProjectTree.setMaximumSize(QSize(16777215, 16777215))
-        self.gridLayout = QGridLayout(ProjectTree)
-        self.gridLayout.setObjectName(u"gridLayout")
-        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout = QVBoxLayout(ProjectTree)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -76,13 +74,10 @@ class Ui_ProjectTree(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
-        self.treeView = QTreeView(ProjectTree)
-        self.treeView.setObjectName(u"treeView")
+        self.projectFile_treeWidget = QTreeWidget(ProjectTree)
+        self.projectFile_treeWidget.setObjectName(u"projectFile_treeWidget")
 
-        self.verticalLayout.addWidget(self.treeView)
-
-
-        self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
+        self.verticalLayout.addWidget(self.projectFile_treeWidget)
 
 
         self.retranslateUi(ProjectTree)

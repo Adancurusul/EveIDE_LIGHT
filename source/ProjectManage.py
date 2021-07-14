@@ -30,7 +30,7 @@ class ProjectManage():
                 #dirDictNow["homePath"] = self.relative_path(home)
                 #dirDictNow["fatherName"] = os.path.basename(home)
                 treeDict["dirs"].append(dirDictNow)
-                dirDictNow["child"] = None
+                dirDictNow["child"] = []
             for eachFile in files :
                 fileDictNow = {}
                 fileDictNow["fullPath"] = self.relative_path(os.path.join(home,eachFile))
@@ -51,7 +51,7 @@ class ProjectManage():
                 for searchNode in searchNodeList :
                     childName = searchNode.get("name","")
                     if nodeNow == childName :
-                        searchNode["child"] = eachDict
+                        searchNode["child"].append(eachDict)
                         del rootTreeList[-1]
                         #break
         print(rootTreeList)
@@ -78,7 +78,7 @@ class ProjectManage():
                 # dirDictNow["homePath"] = self.relative_path(home)
                 # dirDictNow["fatherName"] = os.path.basename(home)
                 treeDict["dirs"].append(dirDictNow)
-                dirDictNow["child"] = None
+                dirDictNow["child"] = []
             for eachFile in files:
                 fileDictNow = {}
                 fileDictNow["fullPath"] = self.relative_path(os.path.join(home, eachFile))

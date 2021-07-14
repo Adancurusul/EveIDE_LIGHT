@@ -71,6 +71,10 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
 
     def closeEvent(self, event ) :
         self.cfgReader.write_dict(self.cfgDict)
+        if not os.path.exists("./cfgPorjectList.evecfg"):
+            with open("/cfgPorjectList.evecfg","w+"):
+                pass
+
         logging.debug("close choosing workspace ui")
 
 
@@ -80,10 +84,10 @@ if __name__ == '__main__':
                         datefmt='%a, %d %b %Y %H:%M:%S',)
     app = QApplication(sys.argv)
     mainWin = SelectWorkspace()
-    from qt_material import apply_stylesheet
+    #from qt_material import apply_stylesheet
 
 
-    apply_stylesheet(app, theme='light_blue.xml')
+    #apply_stylesheet(app, theme='light_blue.xml')
     #mainWin.ui_init()
     mainWin.show()
     sys.exit(app.exec_())

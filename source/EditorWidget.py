@@ -42,7 +42,8 @@ class EditorBridge(BaseBridge):
     def setValue(self, value):
         self._value = value
         self.valueChanged.emit()
-
+    def setValueInit(self,value):
+        self._value = value
     def getLanguage(self):
         return self._language
 
@@ -67,7 +68,10 @@ class EditorBridge(BaseBridge):
 class EditorWidget(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super(EditorWidget, self).__init__(parent)
-
+        self.initialCode = ""
+        #self.changeHandler = self.handle_languageChanged
+        self.finishInit = 0
+        #self.changed = 0
         self._view = QtWebEngineWidgets.QWebEngineView()
 
         channel = QtWebChannel.QWebChannel(self)
@@ -82,7 +86,7 @@ class EditorWidget(QtWidgets.QMainWindow):
         self.view.load(QtCore.QUrl.fromLocalFile(filename))
 
         self.bridge.initialized.connect(self.handle_initialized)
-        self.bridge.valueChanged.connect(self.handle_valueChanged)
+        #self.bridge.valueChanged.connect(self.handle_valueChanged)
         self.bridge.languageChanged.connect(self.handle_languageChanged)
         self.bridge.themeChanged.connect(self.handle_themeChanged)
 
@@ -93,14 +97,20 @@ class EditorWidget(QtWidgets.QMainWindow):
     @property
     def bridge(self):
         return self._bridge
-
+    def add_change_handler(self,handler):
+        self.changeHandler = handler
+    def add_codes(self,code):
+        self.initialCode = code
     def handle_initialized(self):
-        print("init")
+        #print("init")
         code = "\n".join(["function x() {", '\tconsole.log("Hello world!");', "}"])
         # Do not use self.bridge.value = code or self.bridge.setValue(code)
-        #self.bridge.send_to_js("value", code)
+        self.bridge.send_to_js("value", self.initialCode)
+        #self.add_codes(code)
         self.bridge.send_to_js("language", "verilog")
         self.bridge.send_to_js("theme", "")
+        #self.bridge.valueChanged.connect(self.changeHandler)
+       # self.finishInit = 1
 
     def handle_valueChanged(self):
         print("value:", self.bridge.value)
