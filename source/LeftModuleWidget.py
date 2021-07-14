@@ -14,6 +14,7 @@ from qtpy.QtGui import QPalette,QBrush,QColor
 import qtpy
 from qtpy import QtGui
 from qtpy import QtCore
+from Simulator import Simulator
 
 import sys
 import logging
@@ -67,7 +68,7 @@ class LeftModuleWidget(QWidget,Ui_leftModuleWidget):
         # self.resize(0,10)
         self.compileWidget =  moduleCompileWidget()
         self.projectWidget = moduleProjectTree()
-        self.simulateWidget = moduleProjectTree()
+        self.simulateWidget = Simulator()
         self.moduleList = [self.projectWidget,self.compileWidget,self.simulateWidget]
         self.compileWidget.compile_pushButton.clicked.connect(self.compileWidget.do_compile)
         self.init_ui()
