@@ -17,9 +17,7 @@ from EditorWidget import EditorWidget
 from eve_module.cfgRead import cfgRead
 from ProjectManage import ProjectManage
 from SelectWorkspace import SelectWorkspace
-
-__main_cfg_path = "..\configure\cfgMainPath"
-__project_cfg_path = "../configure/cfgPorjectList.evecfg"
+ex_cfgMainDict = {"workspaceSetting":{}}
 
 
 def read_cfg(cfgPath) -> dict:
@@ -35,19 +33,37 @@ def write_cfg(cfgPath, writeDict):
 
 class MainWinUi(QMainWindow, Ui_MainWindow):
     __main_cfg_path = cfgMainPath = "..\configure\cfgMainPath"
-    __project_cfg_path = "../configure/cfgPorjectList.evecfg"
+    #__project_cfg_path = "../configure/cfgPorjectList.evecfg"
+
+    __workspace_cfg_path = "../configure/cfgWorkspace.evecfg"
+    __project_cfg_path = __workspace_cfg_path+"/cfgPorjectList.evecfg"
+
     projectTreeDictList = []
 
     def __init__(self):
         super(MainWinUi, self).__init__()
         # self.testUi()
+        self.initWorkspace()
+
+    def initWorkspace(self):
+        self.showMinimized()
+        workspaceSelector = SelectWorkspace()
+        if workspaceSelector.cfgDict.get("useAsDefault",0) == 1:
+            self.initAll()
+        else:
+
+            workspaceSelector.show()
+            workspaceSelector.closeSignal.connect(self.initAll)
+
+    def initAll(self):
+        self.showNormal()
         self.initUi()
         self.initLogic()
         self.untitledNum = 1
-
     def initLogic(self):
         self.treeWidget = self.leftWidget.projectWidget.projectFile_treeWidget
-        self.workspacePath = read_cfg(self.__main_cfg_path)["workspaceNow"]
+
+        self.workspacePath = read_cfg(self.__workspace_cfg_path)["workspaceNow"]
         logging.debug("workspace now is:" + self.workspacePath)
         self.set_workspace_tree()
         # 刷新树状列表
@@ -62,11 +78,17 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.actionsave.triggered.connect(self.saveFile)
         self.actionModules.toggled.connect(functools.partial(self.view_handler, "Modules"))
         self.actionOutputs.toggled.connect(functools.partial(self.view_handler, "Outputs"))
-        self.action
+        self.actionNewCompile.triggered.connect(lambda : self.new_project_widget("compile"))
         self.treeWidget.itemDoubleClicked.connect(self.open_project_file)
         self.mdi.subWindowActivated.connect(self.current_editor_changed)
         # .parent
         # setItem
+    def new_project_widget(self,type):
+        if type == "compile":
+            pass
+        elif type == "simulate":
+            pass
+
 
     def view_handler(self, which, state):
         # print(state)
@@ -99,14 +121,14 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         print(valueNow)
 
     @property
-    def check_projects(self):
+    def check_compile_projects(self):
         cfgPath = self.workspacePath + "./cfgPorjectList.evecfg"
 
         if os.path.exists(cfgPath):
             cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
             cfgDict = cfg.get_dict()
             #cfgDict = read_cfg(self.__project_cfg_path)
-            projectList = cfgDict["projectPathList"]
+            projectList = cfgDict["compile_projectPathList"].get("name","")
             for eachProject in projectList:
                 if not os.path.exists(eachProject):
                     logging.debug("project :" + eachProject + " is not exist")
@@ -176,7 +198,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
     def set_workspace_tree(self):
         self.treeWidget.clear()
-        self.projectList = self.check_projects
+        self.projectList = self.check_compile_projects
         for eachProject in self.projectList:
             projectManager = ProjectManage(eachProject)
             projectTreeDict = projectManager.porject_dict

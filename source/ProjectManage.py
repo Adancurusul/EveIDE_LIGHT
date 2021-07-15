@@ -134,17 +134,18 @@ def get_filelist(dir):
 
     #return Filelist,dirList
 
-def get_suffix(dir):
+def get_suffix():
     d = "C:\\Users\\User\\Documents\\GitHub\\EveIDE_Plus\\source\\t_exCpro"
-    a = os.path.splitext(d)
+    a = os.path.split(d)
     b = os.path.basename(d)
     c = b.split(".")
-    c = os.listdir(d)
+    #c = os.listdir(d)
 
     print(a)
 if __name__ == "__main__":
     #Filelist = get_suffix(dir)
-    classT()
+    #classT()
+    get_suffix()
     #print(Filelist)
 '''    print(len(Filelist))
 

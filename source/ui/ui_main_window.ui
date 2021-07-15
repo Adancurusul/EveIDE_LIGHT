@@ -61,9 +61,17 @@
      </property>
      <addaction name="actiontest_2"/>
     </widget>
-    <addaction name="actionNewProject"/>
+    <widget class="QMenu" name="menuNewProject">
+     <property name="title">
+      <string>NewProject</string>
+     </property>
+     <addaction name="actionNewCompile"/>
+     <addaction name="actionNewSimulate"/>
+    </widget>
+    <addaction name="menuNewProject"/>
     <addaction name="actionOpenProject"/>
     <addaction name="menuOpenRecentProject"/>
+    <addaction name="actionSelectWorkspace"/>
    </widget>
    <widget class="QMenu" name="menuModules">
     <property name="title">
@@ -116,11 +124,6 @@
     <string>SaveAs</string>
    </property>
   </action>
-  <action name="actionNewProject">
-   <property name="text">
-    <string>NewProject</string>
-   </property>
-  </action>
   <action name="actionOpenProject">
    <property name="text">
     <string>OpenProject</string>
@@ -156,6 +159,26 @@
    </property>
    <property name="text">
     <string>Outputs</string>
+   </property>
+  </action>
+  <action name="actionAssembly">
+   <property name="text">
+    <string>Assembly</string>
+   </property>
+  </action>
+  <action name="actionNewCompile">
+   <property name="text">
+    <string>Compile</string>
+   </property>
+  </action>
+  <action name="actionNewSimulate">
+   <property name="text">
+    <string>Simulate</string>
+   </property>
+  </action>
+  <action name="actionSelectWorkspace">
+   <property name="text">
+    <string>SelectWorkspace</string>
    </property>
   </action>
  </widget>
