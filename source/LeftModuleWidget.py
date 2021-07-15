@@ -79,21 +79,26 @@ class LeftModuleWidget(QWidget,Ui_leftModuleWidget):
         self.add_module_compile_widget()
         self.add_module_simulate_widget()
         self.leftModuleWidgetIn.currentChanged.connect(self.change_tab_module)
+        #self.currentWidget = ""
+        self.currentModule = self.project_tab.moduleWidget
 
         #self.leftModuleWidgetIn.setTabPosition(QTabWidget.South)
     def change_tab_module(self):
         for eachModule in self.moduleList :
             eachModule.setHidden(1)
         currentTab= self.leftModuleWidgetIn.currentWidget()
-        currentWidget = currentTab.moduleWidget
-        logging.debug("currentLeftTab: "+currentTab.moduleWidget.name)
-        currentWidget.setHidden(0)
+        self.currentModule = currentTab.moduleWidget
+        #self.currentModule = self.currentWidget.moduleWidget
+
+        self.currentModule.setHidden(0)
 
     def add_module_simulate_widget(self):
         layout = QFormLayout()
         layout.addWidget(self.simulateWidget)
         self.simulate_tab.setLayout(layout)
         self.simulate_tab.moduleWidget = self.simulateWidget
+
+
         self.simulateWidget.setHidden(1)
 
     def add_module_compile_widget(self):
@@ -112,6 +117,7 @@ class LeftModuleWidget(QWidget,Ui_leftModuleWidget):
         self.project_tab.setLayout(layout)
         self.project_tab.moduleWidget = self.projectWidget
         self.projectWidget.setHidden(0)
+        self.currentModule = self.projectWidget
         #self.project_tab.setHidden(0)
 
 

@@ -239,6 +239,9 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
     def current_editor_changed(self, win):
         # print(win)
+        moduleNow = self.leftWidget.currentModule
+        moduleName = moduleNow.name
+        print(moduleName)
 
         activeWindow = self.mdi.activeSubWindow()
         if activeWindow:

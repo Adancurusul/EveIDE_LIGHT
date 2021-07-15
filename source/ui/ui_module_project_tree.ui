@@ -145,7 +145,13 @@
     </layout>
    </item>
    <item>
-    <widget class="QTreeWidget" name="projectFile_treeWidget"/>
+    <widget class="QTreeWidget" name="projectFile_treeWidget">
+     <column>
+      <property name="text">
+       <string notr="true">1</string>
+      </property>
+     </column>
+    </widget>
    </item>
   </layout>
  </widget>
