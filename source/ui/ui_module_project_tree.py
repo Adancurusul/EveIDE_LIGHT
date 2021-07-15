@@ -75,6 +75,9 @@ class Ui_ProjectTree(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.projectFile_treeWidget = QTreeWidget(ProjectTree)
+        __qtreewidgetitem = QTreeWidgetItem()
+        __qtreewidgetitem.setText(0, u"1");
+        self.projectFile_treeWidget.setHeaderItem(__qtreewidgetitem)
         self.projectFile_treeWidget.setObjectName(u"projectFile_treeWidget")
 
         self.verticalLayout.addWidget(self.projectFile_treeWidget)

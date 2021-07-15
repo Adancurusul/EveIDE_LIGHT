@@ -86,6 +86,7 @@ class ProjectManage():
                 fileDictNow["type"] = "file"
                 fileDictNow["fileSuffix"] = self.file_suffix(eachFile)
                 treeDict["files"].append(fileDictNow)
+
                 # fileDictNow["fatherName"] = os.path.basename(home)
                 # fileDictNow["homePath"] = self.relative_path(home)
             rootTreeList.append(treeDict)

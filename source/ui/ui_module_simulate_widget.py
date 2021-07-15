@@ -18,27 +18,26 @@ class Ui_module_simulat_widget(object):
     def setupUi(self, module_simulat_widget):
         if not module_simulat_widget.objectName():
             module_simulat_widget.setObjectName(u"module_simulat_widget")
-        module_simulat_widget.resize(394, 586)
+        module_simulat_widget.resize(437, 449)
         module_simulat_widget.setMaximumSize(QSize(17666, 16777215))
-        self.verticalLayout_3 = QVBoxLayout(module_simulat_widget)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_2 = QVBoxLayout(module_simulat_widget)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.groupBox_2 = QGroupBox(module_simulat_widget)
         self.groupBox_2.setObjectName(u"groupBox_2")
-        self.verticalLayout_2 = QVBoxLayout(self.groupBox_2)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout = QVBoxLayout(self.groupBox_2)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.label = QLabel(self.groupBox_2)
         self.label.setObjectName(u"label")
+        self.label.setMaximumSize(QSize(70, 16777215))
 
         self.horizontalLayout_2.addWidget(self.label)
 
-        self.projectPath_lineEdit = QLineEdit(self.groupBox_2)
-        self.projectPath_lineEdit.setObjectName(u"projectPath_lineEdit")
+        self.project_comboBox = QComboBox(self.groupBox_2)
+        self.project_comboBox.setObjectName(u"project_comboBox")
 
-        self.horizontalLayout_2.addWidget(self.projectPath_lineEdit)
+        self.horizontalLayout_2.addWidget(self.project_comboBox)
 
         self.selectProjectPath_pushButton = QPushButton(self.groupBox_2)
         self.selectProjectPath_pushButton.setObjectName(u"selectProjectPath_pushButton")
@@ -77,15 +76,12 @@ class Ui_module_simulat_widget(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
 
 
-        self.verticalLayout_2.addLayout(self.verticalLayout)
-
-
-        self.verticalLayout_3.addWidget(self.groupBox_2)
+        self.verticalLayout_2.addWidget(self.groupBox_2)
 
         self.projectTree_groupBox = QGroupBox(module_simulat_widget)
         self.projectTree_groupBox.setObjectName(u"projectTree_groupBox")
 
-        self.verticalLayout_3.addWidget(self.projectTree_groupBox)
+        self.verticalLayout_2.addWidget(self.projectTree_groupBox)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
@@ -106,7 +102,7 @@ class Ui_module_simulat_widget(object):
         self.horizontalLayout_3.addItem(self.horizontalSpacer_2)
 
 
-        self.verticalLayout_3.addLayout(self.horizontalLayout_3)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
 
 
         self.retranslateUi(module_simulat_widget)

@@ -1,5 +1,13 @@
-import logging
+'''
+加 ：
+检查文件是否改动
 
+
+'''
+
+
+import logging
+import time
 from qtpy.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QFormLayout, QLineEdit, QTabWidget, \
     QMdiArea, QTextEdit, QDockWidget, QSplitter, QMdiSubWindow, QTreeWidgetItem, QMessageBox
 from qtpy.QtCore import Qt, Signal, QTimer
@@ -17,8 +25,12 @@ from EditorWidget import EditorWidget
 from eve_module.cfgRead import cfgRead
 from ProjectManage import ProjectManage
 from SelectWorkspace import SelectWorkspace
+from NewProjectWidget import NewProjectWidget
 ex_cfgMainDict = {"workspaceSetting":{}}
-
+logging.getLogger().setLevel(logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+                    datefmt='%a, %d %b %Y %H:%M:%S',)
 
 def read_cfg(cfgPath) -> dict:
     cfgReader = cfgRead(cfgPath)
@@ -59,15 +71,17 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.showNormal()
         self.initUi()
         self.initLogic()
+        self.init_simulator()
         self.untitledNum = 1
     def initLogic(self):
         self.treeWidget = self.leftWidget.projectWidget.projectFile_treeWidget
-
+        self.simulateTreeWidget = self.leftWidget.simulateWidget.ProjectTreeWidget.projectFile_treeWidget
+        logging.debug("nowSim"+str(self.simulateTreeWidget ))
+        self.treeWidget.setHeaderLabel("")
         self.workspacePath = read_cfg(self.__workspace_cfg_path)["workspaceNow"]
         logging.debug("workspace now is:" + self.workspacePath)
         self.set_workspace_tree()
         # 刷新树状列表
-
         self.view_dock_closeEvent()
         self.connect_signal()
 
@@ -79,15 +93,87 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.actionModules.toggled.connect(functools.partial(self.view_handler, "Modules"))
         self.actionOutputs.toggled.connect(functools.partial(self.view_handler, "Outputs"))
         self.actionNewCompile.triggered.connect(lambda : self.new_project_widget("compile"))
+        self.actionNewSimulate.triggered.connect(lambda : self.new_project_widget("simulate"))
         self.treeWidget.itemDoubleClicked.connect(self.open_project_file)
         self.mdi.subWindowActivated.connect(self.current_editor_changed)
         # .parent
         # setItem
+    def init_simulator(self):
+        cfgDict = read_cfg(self.workspacePath + "./cfgPorjectList.evecfg")
+        #cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
+        #cfgDict = cfg.get_dict()
+        self.simulateProjectList= cfgDict.get("simulate_projectPathList",[])
+        self.simulateProjectList.reverse()
+        simList = []
+        for each in self.simulateProjectList:
+            simList.append(os.path.abspath(each))
+
+        self.leftWidget.simulateWidget.project_comboBox.addItems(simList)
+        self.leftWidget.simulateWidget.project_comboBox.setToolTip(self.leftWidget.simulateWidget.project_comboBox.currentText())
+        #self.leftWidget.projectWidget.projectFile_treeWidget
+        #self.leftWidget.simulateWidget.selectProjectPath_pushButton.connect(lambda : self.simulator_project_path("project"))
+        #self.leftWidget.simulateWidget.selectIverilogPath_pushButton.connect(lambda : self.simulator_project_path("iverilog"))
+        self.leftWidget.simulateWidget.project_comboBox.currentIndexChanged.connect(self.update_sim_tree)
+        self.simulateTreeWidget.itemDoubleClicked.connect(self.open_project_file)
+
+
+
+
+        self.currentProjectPath = self.leftWidget.simulateWidget.project_comboBox.currentText()
+        if not self.currentProjectPath == "":
+            projectManager = ProjectManage(self.currentProjectPath)
+            projectTreeDict = projectManager.porject_dict
+            self.projectTreeDictList.append(projectTreeDict)
+            print("*"*30)
+            print(str(projectTreeDict).replace("\'", "\""))
+            print("*"*30)
+            # 创建工程树
+            self.set_project_tree(projectTreeDict,self.simulateTreeWidget)
+    def open_simulate_file(self,currentTree):
+        print(currentTree)
+    def update_sim_tree(self):
+        self.leftWidget.simulateWidget.project_comboBox.setToolTip(self.leftWidget.simulateWidget.project_comboBox.currentText())
+        self.currentProjectPath = self.leftWidget.simulateWidget.project_comboBox.currentText()
+        projectManager = ProjectManage(self.currentProjectPath)
+        projectTreeDict = projectManager.porject_dict
+        self.projectTreeDictList.append(projectTreeDict)
+        print(str(projectTreeDict).replace("\'", "\""))
+        # 创建工程树
+        self.set_project_tree(projectTreeDict,self.simulateTreeWidget)
+    def simulator_project_path(self,which):
+        if which == "project":
+            pathNow = os.path.relpath(QFileDialog.getExistingDirectory(None, "Choose Simulate Path", self.workspacePath))
+            if not pathNow is None:
+                self.simulateProjectList.insert(0,os.path.relpath(pathNow))
+                self.leftWidget.simulateWidget.project_comboBox.addItems(self.simulateProjectList)
+                cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
+                cfgDict = cfg.get_dict()
+                self.simulateProjectList.reverse()
+                cfgDict["simulate_projectPathList"] =self.simulateProjectList
+                cfg.write_dict(cfgDict)
+
+        elif which == "iverilog":
+            pathNow = os.path.relpath(QFileDialog.getExistingDirectory(None, "Choose iverilog Path", self.workspacePath))
+            if not pathNow is None:
+                self.leftWidget.simulateWidget.iverlogPath_lineEdit.setText(pathNow)
+
+
+    def add_new_project(self,pathNow,type):
+        if not pathNow == "":
+            cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
+            cfgDict = cfg.get_dict()
+            if type == "compile":
+                cfgDict["compile_projectPathList"].append(os.path.relpath(pathNow))
+            elif type == "simulate":
+                cfgDict["simulate_projectPathList"].append(os.path.relpath(pathNow))
+            cfg.write_dict(cfgDict)
+            self.set_workspace_tree()
+
     def new_project_widget(self,type):
-        if type == "compile":
-            pass
-        elif type == "simulate":
-            pass
+        newProjectWidget = NewProjectWidget(self.workspacePath,type)
+        newProjectWidget.show()
+        newProjectWidget.closeSignal.connect(self.add_new_project)
+        #newProjectWidget.setWindowFlags(Qt.FramelessWindowHint)
 
 
     def view_handler(self, which, state):
@@ -109,8 +195,9 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         # self.timerUpdateUi.start(100)
 
     def open_project_file(self, currentTree):
+        #print("currentTree :"+str(currentTree))
         currentTreeDict = currentTree.dictNow
-        print(currentTreeDict)
+        #print("currentTree :"+str(currentTreeDict))
         if currentTreeDict.get("type", "") == "file":
             self.addEditorWidget(currentTreeDict)
 
@@ -119,20 +206,40 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         valueNow = ""
         # editorNow.get_value(valueNow)
         print(valueNow)
-
     @property
-    def check_compile_projects(self):
+    def check_simulate_projcet(self):
         cfgPath = self.workspacePath + "./cfgPorjectList.evecfg"
-
         if os.path.exists(cfgPath):
             cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
             cfgDict = cfg.get_dict()
             #cfgDict = read_cfg(self.__project_cfg_path)
-            projectList = cfgDict["compile_projectPathList"].get("name","")
+            projectList = cfgDict.get("simulate_projectPathList","")
             for eachProject in projectList:
                 if not os.path.exists(eachProject):
                     logging.debug("project :" + eachProject + " is not exist")
-                    cfgDict["projectPathList"].remove(eachProject)
+                    cfgDict["simulate_projectPathList"].remove(eachProject)
+                else:
+                    logging.debug("find project :" + eachProject)
+            # cfg.write_dict(cfgDict)
+            write_cfg(cfgPath, cfgDict)
+            return projectList
+        else:
+            logging.debug("without workspacecfg , create new one")
+            with open(cfgPath, "w+"):
+                pass
+            return []
+    @property
+    def check_compile_projects(self):
+        cfgPath = self.workspacePath + "./cfgPorjectList.evecfg"
+        if os.path.exists(cfgPath):
+            cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
+            cfgDict = cfg.get_dict()
+            #cfgDict = read_cfg(self.__project_cfg_path)
+            projectList = cfgDict.get("compile_projectPathList","")
+            for eachProject in projectList:
+                if not os.path.exists(eachProject):
+                    logging.debug("project :" + eachProject + " is not exist")
+                    cfgDict["compile_projectPathList"].remove(eachProject)
                 else:
                     logging.debug("find project :" + eachProject)
             # cfg.write_dict(cfgDict)
@@ -150,7 +257,8 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             editor = activeWindow.widget()
             editorDict = editor.dictNow
             savePath = editorDict.get("fullPath", None)
-            #print(editorDict)
+            editor.dictNow["openTime"] = int(time.time())
+            #print(editorDict)fileDict["openTime"] = int(time.time())
             if not (savePath == None):
                 strToSave = editor.bridge.value
                 try:
@@ -199,22 +307,26 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
     def set_workspace_tree(self):
         self.treeWidget.clear()
         self.projectList = self.check_compile_projects
+        self.simulateList = self.check_simulate_projcet
         for eachProject in self.projectList:
             projectManager = ProjectManage(eachProject)
             projectTreeDict = projectManager.porject_dict
             self.projectTreeDictList.append(projectTreeDict)
             print(str(projectTreeDict).replace("\'", "\""))
             # 创建工程树
-            self.set_project_tree(projectTreeDict)
+            self.set_project_tree(projectTreeDict,self.treeWidget)
 
-    def set_project_tree(self, projectTreeDict):
-        self.treeWidget.setHeaderLabel("Workspace now :" + os.path.basename(self.workspacePath))
-        self.treeWidget.setColumnCount(1)
+
+    #def set_simulate_tree(self,projectTreeDict):
+
+    def set_project_tree(self, projectTreeDict,treeNow):
+        treeNow.setHeaderLabel("Workspace now :" + os.path.basename(self.workspacePath))
+        treeNow.setColumnCount(1)
         # print("now tree:"+str(projectTreeDict))
         nodeName = projectTreeDict.get("node", "")
         nodeDirs = projectTreeDict.get("dirs", "")
         filesNow = projectTreeDict.get("files", "")
-        rootNode = QTreeWidgetItem(self.treeWidget)
+        rootNode = QTreeWidgetItem(treeNow)
         rootNode.setText(0, nodeName)
         rootNode.dictNow = projectTreeDict
         # rootNode.setIcon()
@@ -225,6 +337,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             childNode.setText(0, eachFile.get("name", ""))
             childNode.dictNow["currentNode"] = childNode
             rootNode.addChild(childNode)
+            print("childNode:"+str(childNode))
             # childNode.setIcon()
         for eachDir in nodeDirs:
             childNode = QTreeWidgetItem()
@@ -237,6 +350,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             self.set_child_tree(childNode, dirDict)
 
         # for eachChild in
+
 
     def set_child_tree(self, rootNode, childDict):
         nodeName = childDict.get("node", "")
@@ -346,7 +460,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             fileDict = {'fullPath': None, 'name': fileNameNow, 'type': 'file', 'fileSuffix': None}
         else:
             fileNameNow = fileDict.get("name", "")
-
+        fileDict["openTime"] = int(time.time())
         subWindowList = self.mdi.subWindowList()
         fileOpened = 0
         # 检查是否已经打开

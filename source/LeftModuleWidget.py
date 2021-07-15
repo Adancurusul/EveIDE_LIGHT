@@ -24,10 +24,7 @@ from ui.ui_left_module_widget import  Ui_leftModuleWidget
 from ui.ui_module_compile_widget import Ui_CompileWidget
 from SelectWorkspace import SelectWorkspace
 import os
-logging.getLogger().setLevel(logging.DEBUG)
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                    datefmt='%a, %d %b %Y %H:%M:%S',)
+
 
 
 currentDir = os.getcwd()
@@ -83,6 +80,7 @@ class LeftModuleWidget(QWidget,Ui_leftModuleWidget):
         self.currentModule = self.project_tab.moduleWidget
 
         #self.leftModuleWidgetIn.setTabPosition(QTabWidget.South)
+
     def change_tab_module(self):
         for eachModule in self.moduleList :
             eachModule.setHidden(1)
@@ -290,6 +288,7 @@ class moduleProjectTree(Ui_ProjectTree,QWidget):
         self.name = "moduleProjectTree"
         self.expand_pushButton.clicked.connect(self.expand_tree)
         self.collapse_pushButton.clicked.connect(self.collapse_tree)
+        self.comboBox.addItem("Project View")
         #self.setMinimumSize(0,0)
         #self.resize(0,0)
         #self.setWindowFlags(Qt.FramelessWindowHint)

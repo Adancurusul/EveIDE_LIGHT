@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>394</width>
-    <height>586</height>
+    <width>437</width>
+    <height>449</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -19,88 +19,90 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Settings </string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>project:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="projectPath_lineEdit"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="selectProjectPath_pushButton">
-            <property name="minimumSize">
-             <size>
-              <width>20</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>21</width>
-              <height>21</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="../icons/icons.qrc">
-              <normaloff>:/pic/select.png</normaloff>:/pic/select.png</iconset>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <widget class="QLabel" name="label">
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>project:</string>
+          </property>
+         </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>iverilog:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="iverlogPath_lineEdit"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="selectIverilogPath_pushButton">
-            <property name="minimumSize">
-             <size>
-              <width>20</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>21</width>
-              <height>21</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="../icons/icons.qrc">
-              <normaloff>:/pic/select.png</normaloff>:/pic/select.png</iconset>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <widget class="QComboBox" name="project_comboBox"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="selectProjectPath_pushButton">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>21</width>
+            <height>21</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="../icons/icons.qrc">
+            <normaloff>:/pic/select.png</normaloff>:/pic/select.png</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>iverilog:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="iverlogPath_lineEdit"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="selectIverilogPath_pushButton">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>21</width>
+            <height>21</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="../icons/icons.qrc">
+            <normaloff>:/pic/select.png</normaloff>:/pic/select.png</iconset>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

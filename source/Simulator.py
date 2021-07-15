@@ -13,6 +13,8 @@ class moduleProjectTree(Ui_ProjectTree,QWidget):
         self.name = "moduleProjectTree"
         self.expand_pushButton.clicked.connect(self.expand_tree)
         self.collapse_pushButton.clicked.connect(self.collapse_tree)
+        self.comboBox.addItem("Project View")
+        self.projectFile_treeWidget.setHeaderLabel("")
         #self.setMinimumSize(0,0)
         #self.resize(0,0)
         #self.setWindowFlags(Qt.FramelessWindowHint)

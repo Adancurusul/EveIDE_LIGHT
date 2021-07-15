@@ -21,6 +21,7 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
         self.currentPath = None #path which the editor need to open
         self.cfgReader = cfgRead(cfgMainPath)
         if self.cfgReader.check_path():
+
             self.cfgDict = self.cfgReader.get_dict()
             self.init()
         else :
