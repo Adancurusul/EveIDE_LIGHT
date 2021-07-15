@@ -16,6 +16,7 @@ from OutputWidget import OutputWidget
 from EditorWidget import EditorWidget
 from eve_module.cfgRead import cfgRead
 from ProjectManage import ProjectManage
+from SelectWorkspace import SelectWorkspace
 
 __main_cfg_path = "..\configure\cfgMainPath"
 __project_cfg_path = "../configure/cfgPorjectList.evecfg"
@@ -61,6 +62,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.actionsave.triggered.connect(self.saveFile)
         self.actionModules.toggled.connect(functools.partial(self.view_handler, "Modules"))
         self.actionOutputs.toggled.connect(functools.partial(self.view_handler, "Outputs"))
+        self.action
         self.treeWidget.itemDoubleClicked.connect(self.open_project_file)
         self.mdi.subWindowActivated.connect(self.current_editor_changed)
         # .parent
