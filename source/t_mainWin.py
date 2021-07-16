@@ -63,6 +63,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         workspaceSelector = SelectWorkspace()
         if workspaceSelector.cfgDict.get("useAsDefault",0) == 1:
             self.initAll()
+            #self.showMaximized()
         else:
 
             workspaceSelector.show()
@@ -92,11 +93,11 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.connect_signal()
     def check_file(self):
         subWindowList = self.mdi.subWindowList()
-        print(subWindowList)
+        #print(subWindowList)
         for eachWindow in subWindowList:
             widgetNow = eachWindow.widget()
             dictNow = widgetNow.dictNow
-            print(dictNow)
+            #print(dictNow)
 
             fullPath = dictNow.get("fullPath",None)
             if not fullPath is None:
@@ -140,13 +141,14 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         simList = []
         for each in self.simulateProjectList:
             simList.append(os.path.abspath(each))
-
+        self.simulateTreeWidget.clear()
+        self.leftWidget.simulateWidget.project_comboBox.clear()
         self.leftWidget.simulateWidget.project_comboBox.addItems(simList)
         #self.leftWidget.simulateWidget.project_comboBox.setItemText(0,"")
         self.leftWidget.simulateWidget.project_comboBox.setToolTip(self.leftWidget.simulateWidget.project_comboBox.currentText())
         #self.leftWidget.projectWidget.projectFile_treeWidget
-        #self.leftWidget.simulateWidget.selectProjectPath_pushButton.connect(lambda : self.simulator_project_path("project"))
-        #self.leftWidget.simulateWidget.selectIverilogPath_pushButton.connect(lambda : self.simulator_project_path("iverilog"))
+        self.leftWidget.simulateWidget.selectProjectPath_pushButton.clicked.connect(lambda : self.simulator_project_path("project"))
+        self.leftWidget.simulateWidget.selectIverilogPath_pushButton.clicked.connect(lambda : self.simulator_project_path("iverilog"))
         self.leftWidget.simulateWidget.project_comboBox.currentIndexChanged.connect(self.update_sim_tree)
         self.simulateTreeWidget.itemDoubleClicked.connect(self.open_project_file)
         self.currentProjectPath = self.leftWidget.simulateWidget.project_comboBox.currentText()
@@ -192,9 +194,12 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             cfgDict = cfg.get_dict()
             if type == "compile":
                 cfgDict["compile_projectPathList"].append(os.path.relpath(pathNow))
+                cfg.write_dict(cfgDict)
             elif type == "simulate":
                 cfgDict["simulate_projectPathList"].append(os.path.relpath(pathNow))
-            cfg.write_dict(cfgDict)
+                cfg.write_dict(cfgDict)
+                self.init_simulator()
+
             self.set_workspace_tree()
 
     def new_project_widget(self,type):
@@ -242,6 +247,12 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             cfgDict = cfg.get_dict()
             #cfgDict = read_cfg(self.__project_cfg_path)
             projectList = cfgDict.get("simulate_projectPathList","")
+            formatList = []
+            for pro in projectList:
+                if pro not in formatList:
+                    formatList.append(pro)
+            projectList = formatList
+            cfgDict["simulate_projectPathList"] = projectList
             for eachProject in projectList:
                 if not os.path.exists(eachProject):
                     logging.debug("project :" + eachProject + " is not exist")
@@ -264,6 +275,12 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             cfgDict = cfg.get_dict()
             #cfgDict = read_cfg(self.__project_cfg_path)
             projectList = cfgDict.get("compile_projectPathList","")
+            formatList = []
+            for pro in projectList:
+                if pro not in formatList:
+                    formatList.append(pro)
+            projectList = formatList
+            cfgDict["compile_projectPathList"] = projectList
             for eachProject in projectList:
                 if not os.path.exists(eachProject):
                     logging.debug("project :" + eachProject + " is not exist")
@@ -573,6 +590,8 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
                 QMessageBox.warning(self, "EveIDE_LIGHT -- OPEN Error",
                                     "Failed to open {0}".format(fileDict.get("fullPath", "")))
+
+
 
     def editor_value_change_handler(self, editorNow):
         if editorNow.finishInit == 1:

@@ -65,6 +65,20 @@ class ProjectManage():
     def file_suffix(self,fileName):
         return fileName.split(".")[-1]
     @property
+    def file_list(self):
+        fileList = []
+        for home,dirs,files in os.walk(self.projectPath):
+            for eachFile in files:
+                fileDictNow = {}
+                fileDictNow["fullPath"] = self.relative_path(os.path.join(home, eachFile))
+                fileDictNow["name"] = eachFile
+                fileDictNow["type"] = "file"
+                fileDictNow["fileSuffix"] = self.file_suffix(eachFile)
+                #treeDict["files"].append(fileDictNow)
+                fileList.append(fileDictNow)
+
+        return fileList
+    @property
     def porject_dict(self) :
         rootName = os.path.basename(self.projectPath)
 
