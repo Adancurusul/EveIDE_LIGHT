@@ -101,7 +101,15 @@ class ProjectManage():
                     if nodeNow == childName:
                         searchNode["child"] = eachDict
                         del rootTreeList[-1]
-        return rootTreeList[0]
+        print("*"*30)
+        print(self.projectPath)
+        print(rootTreeList)
+        print("*"*30)
+        if not len(rootTreeList)  == 0:
+
+             return rootTreeList[0]
+        else:
+            return {}
 
 
 def classT():

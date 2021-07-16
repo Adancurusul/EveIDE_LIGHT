@@ -71,6 +71,7 @@ class EditorWidget(QtWidgets.QMainWindow):
         self.initialCode = ""
         #self.changeHandler = self.handle_languageChanged
         self.finishInit = 0
+        self.language = ""
         #self.changed = 0
         self._view = QtWebEngineWidgets.QWebEngineView()
 
@@ -101,13 +102,15 @@ class EditorWidget(QtWidgets.QMainWindow):
         self.changeHandler = handler
     def add_codes(self,code):
         self.initialCode = code
+    def set_language(self,language):
+        self.language = language
     def handle_initialized(self):
         #print("init")
         code = "\n".join(["function x() {", '\tconsole.log("Hello world!");', "}"])
         # Do not use self.bridge.value = code or self.bridge.setValue(code)
         self.bridge.send_to_js("value", self.initialCode)
         #self.add_codes(code)
-        self.bridge.send_to_js("language", "verilog")
+        self.bridge.send_to_js("language", self.language)
         self.bridge.send_to_js("theme", "")
         #self.bridge.valueChanged.connect(self.changeHandler)
        # self.finishInit = 1

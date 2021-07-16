@@ -10,8 +10,8 @@ import logging
 import time
 from qtpy.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QFormLayout, QLineEdit, QTabWidget, \
     QMdiArea, QTextEdit, QDockWidget, QSplitter, QMdiSubWindow, QTreeWidgetItem, QMessageBox
-from qtpy.QtCore import Qt, Signal, QTimer
-from qtpy.QtGui import QPalette, QBrush, QColor
+from qtpy.QtCore import Qt, Signal, QTimer,QSize
+from qtpy.QtGui import QPalette, QBrush, QColor,QIcon
 import qtpy
 from qtpy import QtGui
 from qtpy import QtCore
@@ -51,6 +51,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
     __project_cfg_path = __workspace_cfg_path+"/cfgPorjectList.evecfg"
 
     projectTreeDictList = []
+    #_surpprot_file_suffix_list[]
 
     def __init__(self):
         super(MainWinUi, self).__init__()
@@ -72,7 +73,12 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.initUi()
         self.initLogic()
         self.init_simulator()
+        self.init_timer()
         self.untitledNum = 1
+    def init_timer(self):
+        self.timerCheckFile = QTimer()
+        self.timerCheckFile.timeout.connect(self.check_file)
+        self.timerCheckFile.start(10000)
     def initLogic(self):
         self.treeWidget = self.leftWidget.projectWidget.projectFile_treeWidget
         self.simulateTreeWidget = self.leftWidget.simulateWidget.ProjectTreeWidget.projectFile_treeWidget
@@ -84,6 +90,33 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         # 刷新树状列表
         self.view_dock_closeEvent()
         self.connect_signal()
+    def check_file(self):
+        subWindowList = self.mdi.subWindowList()
+        print(subWindowList)
+        for eachWindow in subWindowList:
+            widgetNow = eachWindow.widget()
+            dictNow = widgetNow.dictNow
+            print(dictNow)
+
+            fullPath = dictNow.get("fullPath",None)
+            if not fullPath is None:
+                if os.path.exists(fullPath):
+                    lastSaveTime = int(os.stat(fullPath).st_mtime)
+                    openTime = dictNow.get("openTime",None)
+                    if openTime is not None:
+                        if  openTime < lastSaveTime:
+                            self.timerCheckFile.stop()
+                            self.ask_if_reload(os.path.relpath(fullPath),eachWindow,dictNow)
+
+    def ask_if_reload(self,fileName,windowNow,fileDict):
+        choose = QMessageBox.warning(self, "EveIDE_LIGHT -- FILE warning",
+                                     "{0} has been changed outside ,reload?".format(fileName),QMessageBox.Yes|QMessageBox.No,QMessageBox.Yes)
+        if choose == QMessageBox.Yes:
+            windowNow.close()
+            self.addEditorWidget(fileDict)
+            
+
+
 
     def connect_signal(self):
         self.leftWidget.projectWidget.pushButton.clicked.connect(self.set_workspace_tree)
@@ -109,24 +142,18 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             simList.append(os.path.abspath(each))
 
         self.leftWidget.simulateWidget.project_comboBox.addItems(simList)
+        #self.leftWidget.simulateWidget.project_comboBox.setItemText(0,"")
         self.leftWidget.simulateWidget.project_comboBox.setToolTip(self.leftWidget.simulateWidget.project_comboBox.currentText())
         #self.leftWidget.projectWidget.projectFile_treeWidget
         #self.leftWidget.simulateWidget.selectProjectPath_pushButton.connect(lambda : self.simulator_project_path("project"))
         #self.leftWidget.simulateWidget.selectIverilogPath_pushButton.connect(lambda : self.simulator_project_path("iverilog"))
         self.leftWidget.simulateWidget.project_comboBox.currentIndexChanged.connect(self.update_sim_tree)
         self.simulateTreeWidget.itemDoubleClicked.connect(self.open_project_file)
-
-
-
-
         self.currentProjectPath = self.leftWidget.simulateWidget.project_comboBox.currentText()
         if not self.currentProjectPath == "":
             projectManager = ProjectManage(self.currentProjectPath)
             projectTreeDict = projectManager.porject_dict
             self.projectTreeDictList.append(projectTreeDict)
-            print("*"*30)
-            print(str(projectTreeDict).replace("\'", "\""))
-            print("*"*30)
             # 创建工程树
             self.set_project_tree(projectTreeDict,self.simulateTreeWidget)
     def open_simulate_file(self,currentTree):
@@ -139,6 +166,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.projectTreeDictList.append(projectTreeDict)
         print(str(projectTreeDict).replace("\'", "\""))
         # 创建工程树
+        self.simulateTreeWidget.clear()
         self.set_project_tree(projectTreeDict,self.simulateTreeWidget)
     def simulator_project_path(self,which):
         if which == "project":
@@ -262,7 +290,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             if not (savePath == None):
                 strToSave = editor.bridge.value
                 try:
-                    with open(savePath, "w+") as saveFile:
+                    with open(savePath, "w+",encoding="utf-8") as saveFile:
                         saveFile.write(strToSave)
                         editor.setWindowTitle(activeWindow.windowTitle().replace("*",""))
                         editor.finishInit = 1
@@ -329,6 +357,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         rootNode = QTreeWidgetItem(treeNow)
         rootNode.setText(0, nodeName)
         rootNode.dictNow = projectTreeDict
+        rootNode.setIcon(0,self.dirIcon)
         # rootNode.setIcon()
         for eachFile in filesNow:
             # print("rootFiles:"+str(eachFile))
@@ -338,6 +367,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             childNode.dictNow["currentNode"] = childNode
             rootNode.addChild(childNode)
             print("childNode:"+str(childNode))
+            self.set_file_icon(childNode,childNode.dictNow)
             # childNode.setIcon()
         for eachDir in nodeDirs:
             childNode = QTreeWidgetItem()
@@ -348,9 +378,24 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             childNode.dictNow = eachDir
             childNode.dictNow["currentNode"] = childNode
             self.set_child_tree(childNode, dirDict)
+            childNode.setIcon(0,self.dirIcon)
+
 
         # for eachChild in
 
+    def set_file_icon(self,nodeNow,nodeDict):
+        fileSuffix = nodeDict.get("fileSuffix","")
+        #print(fileSuffix)
+        if fileSuffix=="c" or fileSuffix == "cpp":
+            nodeNow.setIcon(0,self.cLanguageIcon)
+        elif fileSuffix == "h":
+            nodeNow.setIcon(0,self.headerIcon)
+        elif fileSuffix == "v" or fileSuffix == "sv":
+            nodeNow.setIcon(0,self.verilogIcon)
+        elif fileSuffix == "bin" or fileSuffix == "coe" or fileSuffix == "mif" or fileSuffix == "o":
+            nodeNow.setIcon(0,self.binIcon)
+        elif fileSuffix == "mk" :
+            nodeNow.setIcon(0,self.makefileIcon)
 
     def set_child_tree(self, rootNode, childDict):
         nodeName = childDict.get("node", "")
@@ -363,6 +408,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             childNode.dictNow["currentNode"] = childNode
             childNode.setText(0, eachFile.get("name", ""))
             rootNode.addChild(childNode)
+            self.set_file_icon(childNode,childNode.dictNow)
         for eachDir in dirsDict:
             childNode = QTreeWidgetItem()
             dirDict = eachDir.get("child", "")
@@ -372,6 +418,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             childNode.dictNow = eachDir
             childNode.dictNow["currentNode"] = childNode
             self.set_child_tree(childNode, dirDict)
+            childNode.setIcon(0,self.dirIcon)
 
         pass
 
@@ -392,9 +439,24 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                 print(e)
 
             # print(activeWindow.titleNow)
+    def initIcon(self):
+        self.dirIcon = QIcon()
+        self.dirIcon.addFile(u":/pic/dir.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.headerIcon = QIcon()
+        self.headerIcon.addFile(u":/pic/header.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.cLanguageIcon = QIcon()
+        self.cLanguageIcon.addFile(u":/pic/cLanguage.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.makefileIcon = QIcon()
+        self.makefileIcon.addFile(u":/pic/makefile.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.verilogIcon = QIcon()
+        self.verilogIcon.addFile(u":/pic/verilog.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.binIcon = QIcon()
+        self.binIcon.addFile(u":/pic/bin.png", QSize(), QIcon.Normal, QIcon.Off)
+
 
     def initUi(self):
         self.setupUi(self)
+        self.initIcon()
         self.leftWidget = LeftModuleWidget()
         self.leftWidget.setMinimumSize(180, 600)
         self.mdi = QMdiArea()
@@ -475,22 +537,36 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
                 editorNow = EditorWidget()
                 editorNow.dictNow = fileDict
+                logging.debug("editor open file dict :"+str(fileDict))
                 # self.midEditorTabWidget.addTab(editorNow,fileNameNow)
                 self.mdi.addSubWindow(editorNow)
                 editorNow.titleNow = fileNameNow
                 editorNow.bridge.valueChanged.connect(lambda: self.editor_value_change_handler(editorNow))
                 editorNow.setWindowTitle(fileNameNow)
                 # print(self.mdi.activeSubWindow())
-                editorNow.show()
-
-                # editorNow.add_change_handler(lambda :editorNow.setWindowTitle(fileNameNow+" *"))
                 fullPath = fileDict.get("fullPath", None)
                 code = ""
                 if not fullPath is None:
-                    with open(fullPath, "r") as openFile:
+                    with open(fullPath, "r",encoding="utf-8") as openFile:
                         code = openFile.read()
                         # print("\""+code+"\"")
                 editorNow.add_codes(code)
+                suffixNow = fileDict.get("fileSuffix","")
+                if suffixNow== "c" or suffixNow == "cpp" :
+                    editorNow.set_language("c")
+
+                elif suffixNow== "v" or suffixNow == "sv" :
+                    editorNow.set_language("verilog")
+                elif suffixNow== "py" :
+                    editorNow.set_language("python")
+                elif suffixNow == "asm" or suffixNow == "S":
+                    editorNow.set_language("mips")
+
+
+                editorNow.show()
+
+                # editorNow.add_change_handler(lambda :editorNow.setWindowTitle(fileNameNow+" *"))
+
 
             except Exception as e:
                 logging.debug(e)

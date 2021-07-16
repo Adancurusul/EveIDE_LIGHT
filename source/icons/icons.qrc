@@ -1,5 +1,12 @@
 <RCC>
   <qresource prefix="pic">
+    <file>verilog.png</file>
+    <file>header.png</file>
+    <file>asm.png</file>
+    <file>bin.png</file>
+    <file>cLanguage.png</file>
+    <file>dir.png</file>
+    <file>makefile.png</file>
     <file>save.png</file>
     <file>new.png</file>
     <file>open.png</file>

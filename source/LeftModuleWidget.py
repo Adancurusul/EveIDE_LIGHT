@@ -304,10 +304,6 @@ class moduleProjectTree(Ui_ProjectTree,QWidget):
 
 
 
-
-
-
-
 def i():
     r = cfgRead(cfgPath)
     dictn= {"able":1}
