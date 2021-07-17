@@ -90,4 +90,3 @@ class Ui_NewProject(object):
         self.groupBox.setTitle(QCoreApplication.translate("NewProject", u"ProjectPath", None))
         self.select_pushButton.setText("")
     # retranslateUi
-

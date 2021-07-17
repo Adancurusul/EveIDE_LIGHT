@@ -71,13 +71,13 @@ class SimulatorFileManager():
         for index in range(len(verilogList)):
             eachFileDict = verilogList[index]
             # for eachFileDict in verilogList:
-            verilogList[index] = self.get_submodule(eachFileDict)
+            verilogList[index] = self.get_submodule(eachFileDict,verilogList)
             logging.debug(eachFile.get("submodule", None))
             # print(eachFile.get("submodule",None))
             # verilogList.append(eachFileDict)
         #print(verilogList)
         return verilogList
-    def get_submodule(self, fileDict):
+    def get_submodule(self, fileDict,verilogList):
         fullPath = fileDict.get("fullPath", None)
         # print(fullPath)
         # fileDict["module"] = []
@@ -88,9 +88,6 @@ class SimulatorFileManager():
                 fileText = self.rmComments(rFile.read())
                 # splitStr = ""
                 fileList = re.split(r"module\s+\w+", fileText)
-                # print(fullPath)
-
-                # print(fileList)
                 for index in range(1, len(fileList)):  # 例化一定是在module里面
                     # print(index)
                     # print(len(fileList))
@@ -108,7 +105,17 @@ class SimulatorFileManager():
                         if match:
                             #print(match)
                             if not fileDict["module"][index - 1]["moduleName"] == each:
-                                fileDict["module"][index - 1]["submoduleName"].append(each)
+                                #得到例化模块名
+                                #逆推到该module文件
+                                d = {}
+                                for eachDict in verilogList:
+                                    moduleD = eachDict.get("module",[])
+                                    for e in moduleD:
+                                        if e.get("moduleName","") == each:
+                                            d = eachDict
+
+                                moduleDict = {"name":each,"submoduleFileDict":d}
+                                fileDict["module"][index - 1]["submoduleName"].append(moduleDict)
                                 fileDict["submodule"].append(each)
 
                 # print(self.modules)

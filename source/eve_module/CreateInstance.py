@@ -148,19 +148,18 @@ def genHdlInst(text):
     instTempl = portDeclare + moduleName + paraInst + ' inst_' + moduleName + portInst
     #instTempl = "protDeclare::::"+portDeclare + "moduleName:::"+moduleName +"pataInst:::"+ paraInst + ' inst_' + "moduleName:::"+moduleName + "protInst:::"+portInst
     return instTempl
+class CreateInsance():
 
-if __name__=='__main__':
-    import sys
-    import os
-    sourcefile = "C:\\Users\\User\\Documents\\Tencent Files\\1016867898\\FileRecv\\LPCE20210501\\LPCE\\RTL\\LPCE_rx.v"
-    infile = open(sourcefile, encoding='UTF-8')
-    fileCont = infile.read()
-    instTempl = genHdlInst(fileCont)
-    #print(instTempl)
-    outfilename = "C:\\Users\\User\\Documents\\Tencent Files\\1016867898\\FileRecv\\LPCE20210501\\LPCE\\RTL\\t_LPCE_rx.v"
-    outfile = open(outfilename, 'w+', encoding='UTF-8')
-    outfile.write(instTempl)
-    infile.close()
-    outfile.close()
-
-
+    def CreateInsance(self,inFile,outFile):#os.path.dirname(path)
+        import sys
+        import os
+        #inFile = "C:\\Users\\User\\Documents\\Tencent Files\\1016867898\\FileRecv\\LPCE20210501\\LPCE\\RTL\\LPCE_rx.v"
+        infile = open(inFile, encoding='UTF-8')
+        fileCont = infile.read()
+        instTempl = genHdlInst(fileCont)
+        # print(instTempl)
+        #outFile = "C:\\Users\\User\\Documents\\Tencent Files\\1016867898\\FileRecv\\LPCE20210501\\LPCE\\RTL\\t_LPCE_rx.v"
+        outfile = open(outFile, 'w+', encoding='UTF-8')
+        outfile.write(instTempl)
+        infile.close()
+        outfile.close()

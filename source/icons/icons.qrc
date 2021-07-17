@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="pic">
+    <file>submodule.png</file>
+    <file>module.png</file>
     <file>verilog.png</file>
     <file>header.png</file>
     <file>asm.png</file>
