@@ -77,7 +77,7 @@ class Simulator(QWidget,Ui_module_simulat_widget):
         compileStr = self.iverilogPath +" -o "+ self.outputFile+self.testbenchFile+self.toplevelFile+self.moduleStr
         vvpStr = ""
         gtlWaveStr = ""
-class SimFile():
+class DoBeforeSimulate():
     def __init__(self,projectPath,testBenchPath):
         self.projectPath = projectPath
         self.testBenchPath = testBenchPath
@@ -92,6 +92,7 @@ class SimFile():
         if fullPath is not None:
             lineList = []
             #print(fullPath)
+
             with open(fullPath,"r") as rFile:
                 fileText = rmComments(rFile.read()).replace("\n"," ")
                 #fileText = rmComments(rFile.read()).replace("\t", " ")
@@ -100,13 +101,14 @@ class SimFile():
                     eachStr = each.lstrip()
                     #print(eachStr)
                     tp = r"(module)(\s+)(\w+)"
-                    patternStr = r"(\w+|_.+)(\s+|\t)(\w+|_.+)(\s+|\t|\s?)\("
+                    #patternStr = r"(\w+|_.+)(\s+|\t)(\w+|_.+)(\s+|\t|\s?)\("
                     pattern = re.compile(tp)
                     match = pattern.search(eachStr)
                     if match:
                         ms = match.group(3)
+                        mdict = {"moduleName":ms,"submoduleName":[]}
                         #print(ms)
-                        fileDict["module"].append(ms)
+                        fileDict["module"].append(mdict)
                         self.modules.append(ms)
 
             #print(fileDict.get("submodule",""))
@@ -132,36 +134,57 @@ class SimFile():
         """
         for eachFile in self.fileList:
             if eachFile.get("fileSuffix","") == "v" :
-                eachFile["moduleName"] = eachFile.get("name","").split(".")[0]
+                #eachFile["moduleName"] = eachFile.get("name","").split(".")[0]
                 eachFile = self.get_module_name(eachFile)
                 #eachFile = self.get_submodule(eachFile)
                 #verilogList.append(eachFile)
                 verilogList.append(eachFile)
-        for eachFileDict in verilogList:
-            eachFile = self.get_submodule(eachFileDict)
+        for index in range(len(verilogList)):
+            eachFileDict = verilogList[index]
+            #for eachFileDict in verilogList:
+            verilogList[index] = self.get_submodule(eachFileDict)
             logging.debug(eachFile.get("submodule",None))
-            print(eachFile.get("submodule",None))
+            #print(eachFile.get("submodule",None))
             #verilogList.append(eachFileDict)
         print(verilogList)
     def get_submodule(self,fileDict):
         fullPath = fileDict.get("fullPath", None)
         #print(fullPath)
-        fileDict["module"] = []
+        #fileDict["module"] = []
         fileDict["submodule"] = []
         if fullPath is not None:
+        #if fullPath == "..\\..\\..\\Tencent Files\\1016867898\\FileRecv\\LPCE20210501\\LPCE\\RTL\\LPCE_tx.v":
             with open(fullPath, "r") as rFile:
                 fileText = rmComments(rFile.read())
-                #print(self.modules)
-                print(fullPath)
-                for each in self.modules:
+                #splitStr = ""
+                fileList = re.split(r"module\s+\w+",fileText)
+                #print(fullPath)
 
-                    tp = r"(" + each + ")"
-                    pattern = re.compile(tp)
-                    match = pattern.search(fileText)
-                    #print(match)
- 
-                    if match:
-                        fileDict["submodule"].append(each)
+                #print(fileList)
+                for index in range(1,len(fileList)):#例化一定是在module里面
+                    #print(index)
+                    #print(len(fileList))
+                    #print(fileList[index])
+                    print(fullPath)
+                    eachStr = fileList[index]
+                    #print(eachStr)
+                    for each in self.modules:
+                        #tp = r"(" + each + ")([ \t\v\r\f]+|\()?"
+                        tp = r"(" + each + ")(?!\w)"
+                        #tt = r"(" + each + ")\s+\w+"
+                        pattern = re.compile(tp)
+                        match = pattern.search(eachStr)
+                        # print(match)
+                        if match:
+                            print(match)
+                            if not fileDict["module"][index-1]["moduleName"] == each :
+                                fileDict["module"][index-1]["submoduleName"].append(each)
+                                fileDict["submodule"].append(each)
+
+
+                #print(self.modules)
+
+        print(fileDict)
         return fileDict
     def get_file_of_module(self,moduleName):
         moduleFileList = []
@@ -176,7 +199,7 @@ class SimFile():
 if __name__ == '__main__':
     # initDark()
 
-    c = SimFile("C:\\Users\\User\\Documents\\Tencent Files\\1016867898\\FileRecv\\LPCE20210501\\LPCE","C:\\Users\\User\\Documents\\Tencent Files\\1016867898\\FileRecv\\LPCE20210501\\LPCE\\SimRTL\\LPCE_PHY_tb.v")
+    c = DoBeforeSimulate("C:\\Users\\User\\Documents\\Tencent Files\\1016867898\\FileRecv\\LPCE20210501\\LPCE","C:\\Users\\User\\Documents\\Tencent Files\\1016867898\\FileRecv\\LPCE20210501\\LPCE\\SimRTL\\LPCE_PHY_tb.v")
 
 
     '''app = QApplication(sys.argv)

@@ -26,6 +26,7 @@ from eve_module.cfgRead import cfgRead
 from ProjectManage import ProjectManage
 from SelectWorkspace import SelectWorkspace
 from NewProjectWidget import NewProjectWidget
+from SimulatorFileManager import SimulatorFileManager
 ex_cfgMainDict = {"workspaceSetting":{}}
 logging.getLogger().setLevel(logging.DEBUG)
 logging.basicConfig(level=logging.DEBUG,
@@ -98,7 +99,6 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             widgetNow = eachWindow.widget()
             dictNow = widgetNow.dictNow
             #print(dictNow)
-
             fullPath = dictNow.get("fullPath",None)
             if not fullPath is None:
                 if os.path.exists(fullPath):
@@ -108,6 +108,8 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                         if  openTime < lastSaveTime:
                             self.timerCheckFile.stop()
                             self.ask_if_reload(os.path.relpath(fullPath),eachWindow,dictNow)
+                else:
+                    eachWindow.close()
 
     def ask_if_reload(self,fileName,windowNow,fileDict):
         choose = QMessageBox.warning(self, "EveIDE_LIGHT -- FILE warning",
@@ -155,9 +157,11 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         if not self.currentProjectPath == "":
             projectManager = ProjectManage(self.currentProjectPath)
             projectTreeDict = projectManager.porject_dict
+            simulatorFileManager = SimulatorFileManager(self.currentProjectPath)
+            simulatorFileDict = simulatorFileManager.simulateFileDict
             self.projectTreeDictList.append(projectTreeDict)
             # 创建工程树
-            self.set_project_tree(projectTreeDict,self.simulateTreeWidget)
+            self.set_sim_project_tree(projectTreeDict,self.simulateTreeWidget,simulatorFileDict)
     def open_simulate_file(self,currentTree):
         print(currentTree)
     def update_sim_tree(self):
@@ -165,11 +169,14 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.currentProjectPath = self.leftWidget.simulateWidget.project_comboBox.currentText()
         projectManager = ProjectManage(self.currentProjectPath)
         projectTreeDict = projectManager.porject_dict
+        simulatorFileManager = SimulatorFileManager(self.currentProjectPath)
+        simulatorFileDict = simulatorFileManager.simulateFileDict
+
         self.projectTreeDictList.append(projectTreeDict)
-        print(str(projectTreeDict).replace("\'", "\""))
+        #print(str(projectTreeDict).replace("\'", "\""))
         # 创建工程树
         self.simulateTreeWidget.clear()
-        self.set_project_tree(projectTreeDict,self.simulateTreeWidget)
+        self.set_sim_project_tree(projectTreeDict,self.simulateTreeWidget,simulatorFileDict)
     def simulator_project_path(self,which):
         if which == "project":
             pathNow = os.path.relpath(QFileDialog.getExistingDirectory(None, "Choose Simulate Path", self.workspacePath))
@@ -362,8 +369,92 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             self.set_project_tree(projectTreeDict,self.treeWidget)
 
 
-    #def set_simulate_tree(self,projectTreeDict):
+    def set_sim_project_tree(self,projectTreeDict,treeNow,moduleDict):
+        treeNow.setHeaderLabel("Workspace now :" + os.path.basename(self.workspacePath))
+        treeNow.setColumnCount(1)
+        # print("now tree:"+str(projectTreeDict))
+        nodeName = projectTreeDict.get("node", "")
+        nodeDirs = projectTreeDict.get("dirs", "")
+        filesNow = projectTreeDict.get("files", "")
+        rootNode = QTreeWidgetItem(treeNow)
+        rootNode.setText(0, nodeName)
+        rootNode.dictNow = projectTreeDict
+        rootNode.setIcon(0, self.dirIcon)
+        # rootNode.setIcon()
+        for eachFile in filesNow:
+            currentName =eachFile.get("name", "")
+            # print("rootFiles:"+str(eachFile))
+            childNode = QTreeWidgetItem()
+            childNode.dictNow = eachFile
+            childNode.setText(0, currentName)
+            childNode.dictNow["currentNode"] = childNode
+            rootNode.addChild(childNode)
+            #print("childNode:" + str(childNode))
+            self.set_file_icon(childNode, childNode.dictNow)
+            for eachDict in moduleDict :
+                if eachDict.get("name","") == currentName :
+                    if not eachDict.get("module",[]) == [] :
+                        for eachModuleDict in eachDict.get("module",[]) :
+                            childModuleNode = QTreeWidgetItem()
+                            childModuleNode.dictNow = eachFile
+                            childModuleNode.setText(0,eachModuleDict.get("moduleName",""))
+                            childNode.addChild(childModuleNode)
+                            if not eachModuleDict.get("submoduleName",[]) == [] :
+                                for eachSubmoduleName in eachDict.get("submoduleName", []):
+                                    childSubmoduelNode = QTreeWidgetItem()
+                                    childSubmoduelNode.dictNow = eachFile
+                                    childSubmoduelNode.setText(0,eachSubmoduleName)
+                                    childModuleNode.addChild(childSubmoduelNode)
 
+
+            # childNode.setIcon()
+        for eachDir in nodeDirs:
+            childNode = QTreeWidgetItem()
+            dirDict = eachDir.get("child", "")
+            # print("dirDict"+str(dirDict).replace("\'","\""))
+            childNode.setText(0, eachDir.get("name", ""))
+            rootNode.addChild(childNode)
+            childNode.dictNow = eachDir
+            childNode.dictNow["currentNode"] = childNode
+            self.set_sim_child_tree(childNode, dirDict,moduleDict)
+            childNode.setIcon(0, self.dirIcon)
+    def set_sim_child_tree(self, rootNode, childDict,moduleDict):
+        nodeName = childDict.get("node", "")
+        dirsDict = childDict.get("dirs", "")
+        filesNow = childDict.get("files", "")
+        for eachFile in filesNow:
+            currentName = eachFile.get("name", "")
+            # print("rootFiles:"+str(eachFile))
+            childNode = QTreeWidgetItem()
+            childNode.dictNow = eachFile
+            childNode.dictNow["currentNode"] = childNode
+            childNode.setText(0, currentName)
+            rootNode.addChild(childNode)
+            self.set_file_icon(childNode,childNode.dictNow)
+            for eachDict in moduleDict :
+                if eachDict.get("name","") == currentName :
+                    if not eachDict.get("module",[]) == [] :
+                        for eachModuleDict in eachDict.get("module",[]) :
+                            childModuleNode = QTreeWidgetItem()
+                            childModuleNode.dictNow = eachFile
+                            childModuleNode.setText(0,eachModuleDict.get("moduleName",""))
+                            childNode.addChild(childModuleNode)
+                            if not eachModuleDict.get("submoduleName",[]) == [] :
+                                for eachSubmoduleName in eachModuleDict.get("submoduleName", []):
+                                    childSubmoduelNode = QTreeWidgetItem()
+                                    childSubmoduelNode.dictNow = eachFile
+                                    childSubmoduelNode.setText(0,eachSubmoduleName)
+                                    childModuleNode.addChild(childSubmoduelNode)
+        for eachDir in dirsDict:
+            childNode = QTreeWidgetItem()
+            dirDict = eachDir.get("child", "")
+            # print("dirDict"+str(dirDict).replace("\'","\""))
+            childNode.setText(0, eachDir.get("name", ""))
+            rootNode.addChild(childNode)
+            childNode.dictNow = eachDir
+            childNode.dictNow["currentNode"] = childNode
+            self.set_sim_child_tree(childNode, dirDict,moduleDict)
+            childNode.setIcon(0,self.dirIcon)
     def set_project_tree(self, projectTreeDict,treeNow):
         treeNow.setHeaderLabel("Workspace now :" + os.path.basename(self.workspacePath))
         treeNow.setColumnCount(1)
