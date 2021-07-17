@@ -1,0 +1,104 @@
+D:/project/FPGA/LPCE/RTL/LPCEconfig.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/RTL/LPCEconfig.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+
+} {} {}} D:/project/FPGA/LPCE/RTL/LPCE_PHY.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/RTL/LPCE_PHY.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module LPCE_PHY
+
+Top level modules:
+	LPCE_PHY
+
+} {} {}} D:/project/FPGA/LPCE/RTL/LPCE_rx.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/RTL/LPCE_rx.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module LPCE_rx
+-- Compiling module LPCE_rx_front
+
+Top level modules:
+	LPCE_rx
+
+} {} {}} D:/project/FPGA/LPCE/RTL/FIFO/async_bidir_fifo.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/RTL/FIFO/async_bidir_fifo.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module async_bidir_fifo
+
+Top level modules:
+	async_bidir_fifo
+
+} {} {}} D:/project/FPGA/LPCE/RTL/FIFO/sync_ptr.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/RTL/FIFO/sync_ptr.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module sync_ptr
+
+Top level modules:
+	sync_ptr
+
+} {} {}} D:/project/FPGA/LPCE/RTL/LPCE_tx.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/RTL/LPCE_tx.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module LPCE_tx
+-- Compiling module LPCE_tx_front
+
+Top level modules:
+	LPCE_tx
+
+} {} {}} D:/project/FPGA/LPCE/RTL/FIFO/fifo_2mem.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/RTL/FIFO/fifo_2mem.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module fifomem
+
+Top level modules:
+	fifomem
+
+} {} {}} D:/project/FPGA/LPCE/RTL/FIFO/fifomem_dp.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/RTL/FIFO/fifomem_dp.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module fifomem_dp
+
+Top level modules:
+	fifomem_dp
+
+} {} {}} D:/project/FPGA/LPCE/RTL/FIFO/rptr_empty.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/RTL/FIFO/rptr_empty.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module rptr_empty
+
+Top level modules:
+	rptr_empty
+
+} {} {}} D:/project/FPGA/LPCE/RTL/FIFO/wptr_full.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/RTL/FIFO/wptr_full.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module wptr_full
+
+Top level modules:
+	wptr_full
+
+} {} {}} D:/project/FPGA/LPCE/RTL/FIFO/sync_w2r.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/RTL/FIFO/sync_w2r.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module sync_w2r
+
+Top level modules:
+	sync_w2r
+
+} {} {}} D:/project/FPGA/LPCE/SimRTL/LPCE_PHY_tb.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/SimRTL/LPCE_PHY_tb.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module LPCE_PHY_tb
+
+Top level modules:
+	LPCE_PHY_tb
+
+} {} {}} D:/project/FPGA/LPCE/RTL/FIFO/sync_r2w.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/RTL/FIFO/sync_r2w.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module sync_r2w
+
+Top level modules:
+	sync_r2w
+
+} {} {}} D:/project/FPGA/LPCE/RTL/FIFO/async_bidir_ramif_fifo.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/RTL/FIFO/async_bidir_ramif_fifo.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module async_bidir_ramif_fifo
+
+Top level modules:
+	async_bidir_ramif_fifo
+
+} {} {}} D:/project/FPGA/LPCE/RTL/FIFO/async_fifo.v {1 {vlog -work work -stats=none D:/project/FPGA/LPCE/RTL/FIFO/async_fifo.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module async_fifo
+
+Top level modules:
+	async_fifo
+
+} {} {}}

@@ -72,11 +72,103 @@ class Simulator(QWidget,Ui_module_simulat_widget):
 
 
     #def start_simulate(self,settingDict):
+    def search_supoort_files(self,fileDict):
+        moduleList = fileDict.get("module", [])
+        for eachModule in moduleList:
+            #print("eachModule")
+            #print(eachModule)
+            submoduleList = eachModule.get("submoduleName", [])
+            for eachSub in submoduleList:
+                #print("eachSub")
+                #print(eachSub)
+                subModule = eachSub.get("submoduleFileDict")
+                pathNow = subModule.get("fullPath", "")
+                if not pathNow in self.supportList:
+                    self.supportList.append(pathNow)
+                    #print("addSub" + pathNow)
+                    self.search_supoort_files(subModule)
+        pass
+    def simulate(self,simulateDict)->dict:
+        #{"projectDict":self.leftWidget.simulateWidget.project_comboBox.currentText(),"topLevel":self.topLevelDict,"iverilogPath":iverilogPath,"dumpFile":dumpFile}
+        simDict = {}
+        projectPath = simulateDict.get("projectDict","")
+        topLevelName = simulateDict.get("topLevel",{}).get("fullPath",None)
+        iverilogPath = simulateDict.get("iverilogPath","")
+        __includePath = projectPath
+        __supportPath = projectPath
+        __dumpFile = simulateDict.get("dumpFile", "")
+        __iverilog = iverilogPath + r"\bin\iverilog "
+        __vvp = iverilogPath + r"\bin\vvp "
+        __gtkwave = iverilogPath + r"\bin\gtkwave "
+        __gtkwave = __gtkwave.replace("/", "\\")
+        __iverilog = __iverilog.replace("/", "\\")
+        __vpp = __vvp.replace("/", "\\")
+        return {}
 
-    def do_simulate(self):
-        compileStr = self.iverilogPath +" -o "+ self.outputFile+self.testbenchFile+self.toplevelFile+self.moduleStr
-        vvpStr = ""
-        gtlWaveStr = ""
+    def do_simulate(self,simulateDict)->dict:
+
+        '''#{"projectDict": dictToSim, "topLevel": self.topLevelDict, "iverilogPath": iverilogPath}
+                compileStr = self.iverilogPath +" -o "+ self.outputFile+self.testbenchFile+self.toplevelFile+self.moduleStr
+                vvpStr = ""
+                gtlWaveStr = ""'''
+        simDict = {}
+        fileList = simulateDict.get("projectDict",[])
+        topLevelName = simulateDict.get("topLevel",{}).get("fullPath",None)
+        iverilogPath = simulateDict.get("iverilogPath","")
+        __dumpFile = simulateDict.get("dumpFile","")
+        __includePath = simulateDict.get("projectPath","")
+
+        #t =
+        __outputName =  os.path.dirname(topLevelName)+"\\"+os.path.basename(topLevelName).split(".")[0]+ "_evesim"
+        #__outputName = os.path.dirname(topLevelName)+"\\a.out"
+
+        __iverilog =iverilogPath+r"\bin\iverilog "
+        __vvp = iverilogPath+r"\bin\vvp "
+        __gtkwave = iverilogPath+r"\gtkwave\bin\gtkwave "
+        __gtkwave = __gtkwave.replace("/", "\\")
+        __iverilog = __iverilog.replace("/", "\\")
+        __vpp = __vvp.replace("/", "\\")
+
+        simCompileStr = iverilogPath+" "
+        self.supportList = []
+
+        topFileDict = None
+        #print(topLevelDict)
+        if topLevelName :
+            for eachFileDict in fileList :
+                if topLevelName == eachFileDict.get("fullPath","") :
+                    topFileDict = eachFileDict
+                    #print(topFileDict)
+                    break
+        if topFileDict :
+            moduleList = topFileDict.get("module",[])
+            for eachModule in moduleList :
+                #print("eachModule")
+                #print(eachModule)
+                submoduleList = eachModule.get("submoduleName",[])
+                for eachSub in submoduleList:
+                    #print("eachSub")
+                    #print(eachSub)
+                    subModule  = eachSub.get("submoduleFileDict")
+                    pathNow = subModule.get("fullPath","")
+                    if not pathNow in self.supportList :
+                        self.supportList.append(pathNow)
+                        #print("addSub"+pathNow)
+                        self.search_supoort_files(subModule)
+
+        #print(self.supportList)
+        __supportStr = ""
+        for eachStr in self.supportList:
+            __supportStr +=" "+eachStr
+        simDict["iverilog"] = __iverilog+" -I " + __includePath+" -o "+__outputName+" "+topLevelName+" "+__supportStr
+        #simDict["iverilog"] = __iverilog + " -I " + __includePath  + " -y " + __includePath+ " -o  " + __outputName +" "+topLevelName
+        simDict["vvp"] = __vvp + " -n " + __outputName + " -lxt2"
+        simDict["gtkwave"] = __gtkwave + __dumpFile
+        print(simDict.get("gtkwave"))
+        print(simDict.get("iverilog"))
+        print(simDict.get("vvp"))
+        return {}
+
 class DoBeforeSimulate():
     def __init__(self,projectPath,testBenchPath):
         self.projectPath = projectPath

@@ -1,0 +1,79 @@
+`include "LPCEconfig.v"
+/************************************************************************************
+    Low Pin Connection Express (LPCE) transmitter
+Detail  :|<-------------------------Sync Head----------------------->|
+LPC_DATo:<  1     0     1     0     1     0     1     0     1     0  ><b153><b152><b125><b124> // <b000>
+LPC_CLKo:\__/--\__/--\__/--\__/--\__/--\__/--\__/--\__/--\__/--\__/--\__/--\__/--\__/--\__/--\ //\__/--\
+    Every 8bit convert to 9bit
+************************************************************************************/
+module LPCE_tx(
+    input  wire         GCLKi,              //Global clock input
+    input  wire         GRSTi,              //Global reset input
+    output wire         LPC_DATo,           //Serial Data output
+    output wire         LPC_CLKo,           //Serial Data output
+    input  wire [127:0] Slave_DATAi,        //
+    input  wire         Slave_SENDi,
+    output wire         Slave_DONEo
+);
+    reg                         StateReg;               //state contral
+    reg [`FRAME_LENGTH-1 : 0]   Counter;                //bit counter
+    reg [153:0]                 SeqReg;                 //Sequence data register
+
+    always@(negedge GCLKi)begin:StateMachine
+        if(GRSTi)begin
+            StateReg <= 1'b0;
+        end
+        else begin
+            case(StateReg)
+                1'b0    :   StateReg <= Slave_SENDi ? 1'b1 : StateReg;
+                1'b1    :   if(Counter == (`FRAME_LENGTH-1))begin
+                                StateReg <= 1'b0;
+                            end
+				endcase
+        end
+    end
+//---------Send bit sequence generate----------
+    always@(negedge GCLKi)begin:SeqRegister
+        if(Slave_SENDi)begin
+            SeqReg[153:144]     <= `SYNC_HEAD;
+            SeqReg[143:134]     <=  {Slave_DATAi,Slave_DATAi[120]};
+            SeqReg[133:125]     <=  {Slave_DATAi,Slave_DATAi[112]};
+            SeqReg[124:116]     <=  {Slave_DATAi,Slave_DATAi[104]};
+            SeqReg[115:108]     <=  {Slave_DATAi,Slave_DATAi[96]};
+            SeqReg[107:99]      <=  {Slave_DATAi,Slave_DATAi[88]};
+            SeqReg[98:90]       <=  {Slave_DATAi,Slave_DATAi[80]};
+            SeqReg[89:81]       <=  {Slave_DATAi,Slave_DATAi[72]};
+            SeqReg[80:72]       <=  {Slave_DATAi,Slave_DATAi[64]};
+            SeqReg[71:63]       <=  {Slave_DATAi,Slave_DATAi[56]};
+            SeqReg[62:54]       <=  {Slave_DATAi,Slave_DATAi[48]};
+            SeqReg[53:45]       <=  {Slave_DATAi,Slave_DATAi[40]};
+            SeqReg[44:36]       <=  {Slave_DATAi,Slave_DATAi[32]};
+            SeqReg[35:27]       <=  {Slave_DATAi,Slave_DATAi[24]};
+            SeqReg[26:18]       <=  {Slave_DATAi,Slave_DATAi[16]};
+            SeqReg[17:9]        <=  {Slave_DATAi,Slave_DATAi[8]};
+            SeqReg[8:0]         <=  {Slave_DATAi,Slave_DATAi[0]};
+        end
+        else begin
+            SeqReg <= (SeqReg << 1);        //MSB first
+        end
+    end
+//-----------Send bit counter-------------
+    always@(negedge GCLKi)begin
+        if(Slave_SENDi)begin
+            Counter <= (`FRAME_LENGTH-1);   //When send is enable, counter load the frame length
+        end
+        else begin
+            Counter <= Counter - 1;
+        end
+    end
+//----------Done output-------------------
+    assign Slave_DONEo = StateReg & (Counter == 0);
+//-----------LPCE Interface----------------
+    assign LPC_DATo = SeqReg[153];          //MSB shift out first
+    assign LPC_CLKo = GCLKi;                //GCLK is use as refclock
+
+endmodule
+
+
+
+

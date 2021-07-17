@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Sat May 01 20:33:16 2021
+Quartus Prime Version : 18.0.0 Build 614 04/24/2018 SJ Standard Edition
+Revision Name : LPCE_Tx
+Top-level Entity Name : LPCE_PHY
+Family : Cyclone IV E
+Total logic elements : 838
+    Total combinational functions : 537
+    Dedicated logic registers : 661
+Total registers : 661
+Total pins : 270
+Total virtual pins : 0
+Total memory bits : 4,096
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0

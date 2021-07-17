@@ -1,0 +1,101 @@
+------------------------------------------------------------
+Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1200mV 85C Model Setup 'Tx_CLKi'
+Slack : -5.300
+TNS   : -715.083
+
+Type  : Slow 1200mV 85C Model Setup 'WR_CLK'
+Slack : -2.936
+TNS   : -385.919
+
+Type  : Slow 1200mV 85C Model Hold 'WR_CLK'
+Slack : 0.452
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'Tx_CLKi'
+Slack : 0.453
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Recovery 'Tx_CLKi'
+Slack : -1.255
+TNS   : -17.109
+
+Type  : Slow 1200mV 85C Model Removal 'Tx_CLKi'
+Slack : 0.652
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'Tx_CLKi'
+Slack : -3.201
+TNS   : -292.386
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'WR_CLK'
+Slack : -3.201
+TNS   : -261.488
+
+Type  : Slow 1200mV 0C Model Setup 'Tx_CLKi'
+Slack : -4.813
+TNS   : -644.932
+
+Type  : Slow 1200mV 0C Model Setup 'WR_CLK'
+Slack : -2.681
+TNS   : -348.969
+
+Type  : Slow 1200mV 0C Model Hold 'Tx_CLKi'
+Slack : 0.401
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'WR_CLK'
+Slack : 0.401
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Recovery 'Tx_CLKi'
+Slack : -1.092
+TNS   : -13.600
+
+Type  : Slow 1200mV 0C Model Removal 'Tx_CLKi'
+Slack : 0.577
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'Tx_CLKi'
+Slack : -3.201
+TNS   : -292.386
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'WR_CLK'
+Slack : -3.201
+TNS   : -261.488
+
+Type  : Fast 1200mV 0C Model Setup 'Tx_CLKi'
+Slack : -1.621
+TNS   : -180.851
+
+Type  : Fast 1200mV 0C Model Setup 'WR_CLK'
+Slack : -0.697
+TNS   : -77.572
+
+Type  : Fast 1200mV 0C Model Hold 'WR_CLK'
+Slack : 0.169
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'Tx_CLKi'
+Slack : 0.186
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Recovery 'Tx_CLKi'
+Slack : -0.037
+TNS   : -0.084
+
+Type  : Fast 1200mV 0C Model Removal 'Tx_CLKi'
+Slack : 0.303
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'Tx_CLKi'
+Slack : -3.000
+TNS   : -205.727
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'WR_CLK'
+Slack : -3.000
+TNS   : -174.205
+
+------------------------------------------------------------

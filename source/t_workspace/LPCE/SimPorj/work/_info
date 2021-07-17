@@ -1,0 +1,352 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dD:/project/FPGA/Test/SIM
+vasync_bidir_fifo
+Z0 !s110 1619864258
+!i10b 1
+!s100 UjchE=KmRL_2QAd8b4>hU3
+I5U7=^DcJe5R4P@DDciGgR1
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+Z2 dD:/project/FPGA/LPCE/SimPorj
+Z3 w1618600202
+8D:/project/FPGA/LPCE/RTL/FIFO/async_bidir_fifo.v
+FD:/project/FPGA/LPCE/RTL/FIFO/async_bidir_fifo.v
+Z4 L0 21
+Z5 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z6 !s108 1619864258.000000
+!s107 D:/project/FPGA/LPCE/RTL/FIFO/async_bidir_fifo.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/project/FPGA/LPCE/RTL/FIFO/async_bidir_fifo.v|
+!i113 1
+Z7 o-work work
+Z8 tCvgOpt 0
+vasync_bidir_ramif_fifo
+R0
+!i10b 1
+!s100 VXY:<W3^zED>eQ8@NkEeC1
+I2;e1230LM2>FNDU1OzEUm2
+R1
+R2
+R3
+8D:/project/FPGA/LPCE/RTL/FIFO/async_bidir_ramif_fifo.v
+FD:/project/FPGA/LPCE/RTL/FIFO/async_bidir_ramif_fifo.v
+R4
+R5
+r1
+!s85 0
+31
+R6
+!s107 D:/project/FPGA/LPCE/RTL/FIFO/async_bidir_ramif_fifo.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/project/FPGA/LPCE/RTL/FIFO/async_bidir_ramif_fifo.v|
+!i113 1
+R7
+R8
+vasync_fifo
+R0
+!i10b 1
+!s100 gN^z<d?>Iim_6EjJ=5EBg1
+IYDK?Rd05:;ITU;g;MWFZK1
+R1
+R2
+w1619837022
+8D:/project/FPGA/LPCE/RTL/FIFO/async_fifo.v
+FD:/project/FPGA/LPCE/RTL/FIFO/async_fifo.v
+Z9 L0 20
+R5
+r1
+!s85 0
+31
+R6
+!s107 D:/project/FPGA/LPCE/RTL/FIFO/async_fifo.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/project/FPGA/LPCE/RTL/FIFO/async_fifo.v|
+!i113 1
+R7
+R8
+vfifomem
+R0
+!i10b 1
+!s100 I2VEIXdcakM@Nj]WWOa>?0
+Ifa5>_1=KVmdbMUL`RRC2G1
+R1
+R2
+R3
+8D:/project/FPGA/LPCE/RTL/FIFO/fifo_2mem.v
+FD:/project/FPGA/LPCE/RTL/FIFO/fifo_2mem.v
+R9
+R5
+r1
+!s85 0
+31
+R6
+!s107 D:/project/FPGA/LPCE/RTL/FIFO/fifo_2mem.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/project/FPGA/LPCE/RTL/FIFO/fifo_2mem.v|
+!i113 1
+R7
+R8
+vfifomem_dp
+R0
+!i10b 1
+!s100 UM4:0BfR_6o8QjN7hk7iO0
+Ija9M_gB1ck:W^E@JXZOOX2
+R1
+R2
+R3
+8D:/project/FPGA/LPCE/RTL/FIFO/fifomem_dp.v
+FD:/project/FPGA/LPCE/RTL/FIFO/fifomem_dp.v
+R4
+R5
+r1
+!s85 0
+31
+R6
+!s107 D:/project/FPGA/LPCE/RTL/FIFO/fifomem_dp.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/project/FPGA/LPCE/RTL/FIFO/fifomem_dp.v|
+!i113 1
+R7
+R8
+vLPCE_PHY
+R0
+!i10b 1
+!s100 >VY60Y6AZLYO:WV>BiHjX3
+I>Z[9@g9z>d4m8kZoJKd0>0
+R1
+R2
+w1619849571
+8D:/project/FPGA/LPCE/RTL/LPCE_PHY.v
+FD:/project/FPGA/LPCE/RTL/LPCE_PHY.v
+L0 4
+R5
+r1
+!s85 0
+31
+R6
+!s107 D:/project/FPGA/LPCE/RTL/LPCE_PHY.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/project/FPGA/LPCE/RTL/LPCE_PHY.v|
+!i113 1
+R7
+R8
+n@l@p@c@e_@p@h@y
+vLPCE_PHY_tb
+Z10 !s110 1619864259
+!i10b 1
+!s100 02h6jC<B:hFDm7:7@@G?H3
+I<@hBQQG7KUGI8H^26AVDP3
+R1
+R2
+w1619864207
+8D:/project/FPGA/LPCE/SimRTL/LPCE_PHY_tb.v
+FD:/project/FPGA/LPCE/SimRTL/LPCE_PHY_tb.v
+L0 28
+R5
+r1
+!s85 0
+31
+!s108 1619864259.000000
+!s107 D:/project/FPGA/LPCE/SimRTL/LPCE_PHY_tb.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/project/FPGA/LPCE/SimRTL/LPCE_PHY_tb.v|
+!i113 1
+R7
+R8
+n@l@p@c@e_@p@h@y_tb
+vLPCE_rx
+R0
+!i10b 1
+!s100 KCOA<2i:NhaCB3lMao@oE0
+ImnA<<;FUo8]m<MUd]WH3R3
+R1
+R2
+Z11 w1619863598
+Z12 8D:/project/FPGA/LPCE/RTL/LPCE_rx.v
+Z13 FD:/project/FPGA/LPCE/RTL/LPCE_rx.v
+L0 8
+R5
+r1
+!s85 0
+31
+R6
+Z14 !s107 D:\project\FPGA\LPCE\RTL\LPCEconfig.v|D:/project/FPGA/LPCE/RTL/LPCE_rx.v|
+Z15 !s90 -reportprogress|300|-work|work|-stats=none|D:/project/FPGA/LPCE/RTL/LPCE_rx.v|
+!i113 1
+R7
+R8
+n@l@p@c@e_rx
+vLPCE_rx_front
+R0
+!i10b 1
+!s100 lg]JUPW][WG[VJmgSkc?91
+ID]b>ad==z8RjY>XhQMkDa3
+R1
+R2
+R11
+R12
+R13
+L0 68
+R5
+r1
+!s85 0
+31
+R6
+R14
+R15
+!i113 1
+R7
+R8
+n@l@p@c@e_rx_front
+vLPCE_tx
+R0
+!i10b 1
+!s100 el29FGBkLE8[4__86gjKA2
+I0bhiPX6L53Vf^?J?QlfV21
+R1
+R2
+Z16 w1619863422
+Z17 8D:/project/FPGA/LPCE/RTL/LPCE_tx.v
+Z18 FD:/project/FPGA/LPCE/RTL/LPCE_tx.v
+L0 15
+R5
+r1
+!s85 0
+31
+R6
+Z19 !s107 D:\project\FPGA\LPCE\RTL\LPCEconfig.v|D:/project/FPGA/LPCE/RTL/LPCE_tx.v|
+Z20 !s90 -reportprogress|300|-work|work|-stats=none|D:/project/FPGA/LPCE/RTL/LPCE_tx.v|
+!i113 1
+R7
+R8
+n@l@p@c@e_tx
+vLPCE_tx_front
+R0
+!i10b 1
+!s100 5f7MHH_<^m6FQEPG98?[n3
+I:@`bEH8boV[mJLBU_3>HX2
+R1
+R2
+R16
+R17
+R18
+L0 69
+R5
+r1
+!s85 0
+31
+R6
+R19
+R20
+!i113 1
+R7
+R8
+n@l@p@c@e_tx_front
+vrptr_empty
+R0
+!i10b 1
+!s100 QoW3k;HjJXG_;7Mkn^Kg61
+IOfLYWkXa2][8kcj>7CC`C2
+R1
+R2
+R3
+8D:/project/FPGA/LPCE/RTL/FIFO/rptr_empty.v
+FD:/project/FPGA/LPCE/RTL/FIFO/rptr_empty.v
+R9
+R5
+r1
+!s85 0
+31
+R6
+!s107 D:/project/FPGA/LPCE/RTL/FIFO/rptr_empty.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/project/FPGA/LPCE/RTL/FIFO/rptr_empty.v|
+!i113 1
+R7
+R8
+vsync_ptr
+R0
+!i10b 1
+!s100 >oBVZ9DSeLi3<ho[]e=YC1
+IN@<]IkAkW^8G>DKN_elV?0
+R1
+R2
+R3
+8D:/project/FPGA/LPCE/RTL/FIFO/sync_ptr.v
+FD:/project/FPGA/LPCE/RTL/FIFO/sync_ptr.v
+R9
+R5
+r1
+!s85 0
+31
+R6
+!s107 D:/project/FPGA/LPCE/RTL/FIFO/sync_ptr.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/project/FPGA/LPCE/RTL/FIFO/sync_ptr.v|
+!i113 1
+R7
+R8
+vsync_r2w
+R0
+!i10b 1
+!s100 H<0V^lBiK88ONO;n@b5I13
+I?Uad5i@^;Oo_>NN^JiY]i1
+R1
+R2
+R3
+8D:/project/FPGA/LPCE/RTL/FIFO/sync_r2w.v
+FD:/project/FPGA/LPCE/RTL/FIFO/sync_r2w.v
+R9
+R5
+r1
+!s85 0
+31
+R6
+!s107 D:/project/FPGA/LPCE/RTL/FIFO/sync_r2w.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/project/FPGA/LPCE/RTL/FIFO/sync_r2w.v|
+!i113 1
+R7
+R8
+vsync_w2r
+R10
+!i10b 1
+!s100 :8GcB@a:Y8eA;cibQ7fg=1
+I;>eOKF^;`4NEZ90d;CM>M3
+R1
+R2
+R3
+8D:/project/FPGA/LPCE/RTL/FIFO/sync_w2r.v
+FD:/project/FPGA/LPCE/RTL/FIFO/sync_w2r.v
+R9
+R5
+r1
+!s85 0
+31
+R6
+!s107 D:/project/FPGA/LPCE/RTL/FIFO/sync_w2r.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/project/FPGA/LPCE/RTL/FIFO/sync_w2r.v|
+!i113 1
+R7
+R8
+vwptr_full
+R0
+!i10b 1
+!s100 EeFHAjXa_4dQ[ii`TmDmP0
+Igg5_Q:5Ih1fZaD0G0d`[T3
+R1
+R2
+R3
+8D:/project/FPGA/LPCE/RTL/FIFO/wptr_full.v
+FD:/project/FPGA/LPCE/RTL/FIFO/wptr_full.v
+R9
+R5
+r1
+!s85 0
+31
+R6
+!s107 D:/project/FPGA/LPCE/RTL/FIFO/wptr_full.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/project/FPGA/LPCE/RTL/FIFO/wptr_full.v|
+!i113 1
+R7
+R8

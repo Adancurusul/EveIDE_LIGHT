@@ -9,6 +9,7 @@ class SimulatorFileManager():
         self.simFiles = []
         self.modules = []
         self.simulateFileDict = self.scan_files()
+        self.includeFileList = []
         print(self.simulateFileDict)
     def rmComments(self,text):
         singLineComments = re.compile(r'//(.*)', re.MULTILINE)
@@ -16,7 +17,6 @@ class SimulatorFileManager():
         text = singLineComments.sub('', text)
         text = multiLineComments.sub('', text)
         return text
-
     def get_module_name(self, fileDict):
         fullPath = fileDict.get("fullPath", None)
         fileDict["module"] = []

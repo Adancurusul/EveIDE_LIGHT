@@ -1,0 +1,16 @@
+Fitter Status : Failed - Sat May 01 20:32:38 2021
+Quartus Prime Version : 18.0.0 Build 614 04/24/2018 SJ Standard Edition
+Revision Name : LPCE_Tx
+Top-level Entity Name : LPCE_PHY
+Family : Cyclone IV E
+Device : EP4CE6F17C8
+Timing Models : Final
+Total logic elements : 838 / 6,272 ( 13 % )
+    Total combinational functions : 537 / 6,272 ( 9 % )
+    Dedicated logic registers : 661 / 6,272 ( 11 % )
+Total registers : 661
+Total pins : 270 / 180 ( 150 % )
+Total virtual pins : 0
+Total memory bits : 4,096 / 276,480 ( 1 % )
+Embedded Multiplier 9-bit elements : 0 / 30 ( 0 % )
+Total PLLs : 0 / 2 ( 0 % )

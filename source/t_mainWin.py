@@ -24,6 +24,7 @@ from OutputWidget import OutputWidget
 from EditorWidget import EditorWidget
 from eve_module.cfgRead import cfgRead
 from eve_module.CreateInstance import CreateInsance
+from eve_module.GetSimDumpFile import GetSimDumpFile
 from ProjectManage import ProjectManage
 from SelectWorkspace import SelectWorkspace
 from NewProjectWidget import NewProjectWidget
@@ -51,6 +52,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
     __workspace_cfg_path = "../configure/cfgWorkspace.evecfg"
     __project_cfg_path = __workspace_cfg_path+"/cfgPorjectList.evecfg"
+    __simulator_cfg_path = "../configure/cfgSimulater.evecfg"
 
     projectTreeDictList = []
     #_surpprot_file_suffix_list[]
@@ -140,6 +142,8 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         #cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
         #cfgDict = cfg.get_dict()
         self.simulateProjectList= cfgDict.get("simulate_projectPathList",[])
+        self.iverilogPathDict = read_cfg(self.__simulator_cfg_path)
+        self.iverilogPath = self.iverilogPathDict.get("iverilogPath","")
         self.simulateProjectList.reverse()
         simList = []
         self.topLevelDict = {}
@@ -150,6 +154,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.leftWidget.simulateWidget.project_comboBox.addItems(simList)
         #self.leftWidget.simulateWidget.project_comboBox.setItemText(0,"")
         self.leftWidget.simulateWidget.project_comboBox.setToolTip(self.leftWidget.simulateWidget.project_comboBox.currentText())
+        self.leftWidget.simulateWidget.iverlogPath_lineEdit.setText(self.iverilogPath)
         #self.leftWidget.projectWidget.projectFile_treeWidget
         self.leftWidget.simulateWidget.selectProjectPath_pushButton.clicked.connect(lambda : self.simulator_project_path("project"))
         self.leftWidget.simulateWidget.selectIverilogPath_pushButton.clicked.connect(lambda : self.simulator_project_path("iverilog"))
@@ -173,6 +178,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             self.simFileDict = simulatorFileDict
     def sim_tree_right_click(self,pos):
         #item = self.simulateTreeWidget.currentItem()
+
         nodeNow = self.simulateTreeWidget.itemAt(pos)
         currentDict = nodeNow.dictNow
         if not (currentDict.get("ifSubmodule",0)):
@@ -198,7 +204,15 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             c = CreateInsance()
             c.CreateInsance(currentDict.get("fullPath",""),newPath)
             if os.path.exists(newPath) :
-                self.init_simulator()
+
+                projectManager = ProjectManage(self.currentProjectPath)
+                projectTreeDict = projectManager.porject_dict
+                simulatorFileManager = SimulatorFileManager(self.currentProjectPath)
+                simulatorFileDict = simulatorFileManager.simulateFileDict
+                self.projectTreeDictList.append(projectTreeDict)
+                # 创建工程树
+                self.set_sim_project_tree(projectTreeDict, self.simulateTreeWidget, simulatorFileDict)
+                self.simFileDict = simulatorFileDict
                 #self.addEditorWidget()
             pass #print("a")
         elif "as the top level" in textNow:
@@ -206,7 +220,10 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             if topNode:
                 if not self.topLevelDict == {}:
                     lastTop = self.topLevelDict.get("currentNode",None)
-                    lastTop.setBackgroundColor(0, QtGui.QColor('white'))
+                    try:
+                        lastTop.setBackgroundColor(0, QtGui.QColor('white'))
+                    except:
+                        pass
                 topNode.setBackgroundColor(0, QtGui.QColor('blue'))
                 self.topLevelDict = currentDict
             else :
@@ -218,6 +235,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
     def open_simulate_file(self,currentTree):
         print(currentTree)
     def update_sim_tree(self):
+
         self.leftWidget.simulateWidget.project_comboBox.setToolTip(self.leftWidget.simulateWidget.project_comboBox.currentText())
         self.currentProjectPath = self.leftWidget.simulateWidget.project_comboBox.currentText()
         projectManager = ProjectManage(self.currentProjectPath)
@@ -249,7 +267,9 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                 self.leftWidget.simulateWidget.iverlogPath_lineEdit.setText(pathNow)
 
     def do_simulate(self):
-
+        pathNow = self.leftWidget.simulateWidget.iverlogPath_lineEdit.text()
+        self.iverilogPathDict["iverilogPath"] = pathNow
+        write_cfg(self.__simulator_cfg_path,self.iverilogPathDict)
         dictToSim = self.simFileDict
         if  self.topLevelDict =={}:
             QMessageBox.warning(self, "EveIDE_LIGHT -- SIMULATE Error",
@@ -257,13 +277,26 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         else:
             print("simulate")
             iverilogPath = self.leftWidget.simulateWidget.iverlogPath_lineEdit.text()
-            if os.path.exists(iverilogPath+"/iverilog.exe"):
-                simulateSettingDict = {"projectDict":dictToSim,"topLevel":self.topLevelDict,"iverilogPath":iverilogPath}
 
-                #simulateStrDict =
+            if os.path.exists(iverilogPath+"/gtkwave"):
+                g = GetSimDumpFile()
+                #print(self.topLevelDict.get("fullPath"))
+                dumpFile = g.getDumpFile(self.topLevelDict.get("fullPath"))
+                if not dumpFile == "":
+                    '''第一种方式自动找依赖'''
+
+                    simulateSettingDict = {"projectDict":dictToSim,"topLevel":self.topLevelDict,"iverilogPath":iverilogPath,"dumpFile":dumpFile,"projectPath":self.leftWidget.simulateWidget.project_comboBox.currentText()}
+                    simulateStrDict = self.leftWidget.simulateWidget.do_simulate(simulateSettingDict)
+                    '''第二种利用文件下的依赖'''
+                    #simulateSettingDict = {"projectDict":self.leftWidget.simulateWidget.project_comboBox.currentText(),"topLevel":self.topLevelDict,"iverilogPath":iverilogPath,"dumpFile":dumpFile}
+                    #simulateStrDict = self.leftWidget.simulateWidget.simulate(simulateSettingDict)
+                else :
+                    QMessageBox.warning(self, "EveIDE_LIGHT -- SIMULATE Error",
+                                        "top level file error , make sure you have add \ninitial\nbegin\n$dumpfile(\"xx.vcd\");\n$dumpvars(0, led_demo_tb);\nend")
+
             else :
                 QMessageBox.warning(self, "EveIDE_LIGHT -- SIMULATE Error",
-                                    "Incorrect iverilog path!\n (iverilog.exe should be in the path)")
+                                    "Incorrect iverilog path!\n (gtkwave should be in the path)")
     def add_new_project(self,pathNow,type):
         if not pathNow == "":
             cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
@@ -440,7 +473,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
     def set_sim_project_tree(self,projectTreeDict,treeNow,moduleDict):
         self.simTreeNodeFileList = []
-
+        treeNow.clear()
         treeNow.setHeaderLabel("Workspace now :" + os.path.basename(self.workspacePath))
         treeNow.setColumnCount(1)
         # print("now tree:"+str(projectTreeDict))
@@ -510,8 +543,9 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             if not fullPath is None:
                 for eachFile in self.simTreeNodeFileList :
                     if eachFile.get("fullPath","") == fullPath :
-                        print("::::...getSame",fullPath)
+                        #print("::::...getSame",fullPath)
                         widgetNow.dictNow["currentNode"] = eachFile.get("currentNode")
+                        treeNow.setCurrentItem(eachFile.get("currentNode"))
 
 
 
@@ -566,6 +600,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             childNode.setIcon(0,self.dirIcon)
     def set_project_tree(self, projectTreeDict,treeNow):
         self.comTreeNodeFileList = []
+        treeNow.clear()
         treeNow.setHeaderLabel("Workspace now :" + os.path.basename(self.workspacePath))
         treeNow.setColumnCount(1)
         # print("now tree:"+str(projectTreeDict))
@@ -611,6 +646,8 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                     if eachFile.get("fullPath","") == fullPath :
                         print("::::...change",fullPath)
                         widgetNow.dictNow["currentNode"] = eachFile.get("currentNode")
+                        treeNow.setCurrentItem(eachFile.get("currentNode"))
+
 
         # for eachChild in
 
