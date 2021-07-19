@@ -1,40 +1,61 @@
-import re
-import os
+from qtpy.QtCore import *
+from qtpy.QtWidgets import *
+from qtpy.QtGui import *
 
-def rmComments(text):
-    singLineComments = re.compile(r'//(.*)', re.MULTILINE)
-    multiLineComments = re.compile(r'/\*(.*)\*/', re.DOTALL)
-    text = singLineComments.sub('', text)
-    text = multiLineComments.sub('', text)
-    return text
-with open('..\\..\\..\\Tencent Files\\1016867898\\FileRecv\\LPCE20210501\\LPCE\\SimRTL\\LPCE_PHY_tb.v', "r", encoding="utf-8") as rFile:
-    fileText = rmComments(rFile.read())
-    #print(fileText)
-    tp = r"(\$dumpfile)(.+)[\;]"
-    # patternStr = r"(\w+|_.+)(\s+|\t)(\w+|_.+)(\s+|\t|\s?)\("
-    pattern = re.compile(tp)
-    match = pattern.search(fileText)
-    if(match):
-        st = match.group(2).replace(" ","").replace("(","").replace(")","").replace("\"","")
-        print(st)
+import sys, os
+import subprocess
 
 
+class QTProcessThread(QThread):
+    updateSig = Signal(str)
 
-def rmComments(self,text):
-    singLineComments = re.compile(r'//(.*)', re.MULTILINE)
-    multiLineComments = re.compile(r'/\*(.*)\*/', re.DOTALL)
-    text = singLineComments.sub('', text)
-    text = multiLineComments.sub('', text)
-    return text
-def getDumpFile(self,fileName)->str:
-    stPath = ""
-    with open(fileName, "r", encoding="utf-8") as rFile:
-        fileText = self.rmComments(rFile.read())
-        tp = r"(\$dumpfile)(.+)[\;]"
-        # patternStr = r"(\w+|_.+)(\s+|\t)(\w+|_.+)(\s+|\t|\s?)\("
-        pattern = re.compile(tp)
-        match = pattern.search(fileText)
-        if (match):
-            st = match.group(2).replace(" ", "").replace("(", "").replace(")", "").replace("\"", "")
-            stPath = os.path.dirname(fileName)+"/"+st
-    return stPath
+    def __init__(self, parent=None):
+        super(QTProcessThread, self).__init__(parent)
+        self.cmd = ""
+    def run(self):
+
+        #print(cmd)
+        mytask = subprocess.Popen(self.cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                  stderr=subprocess.STDOUT)
+        while True:
+            line = mytask.stdout.readline()
+            if not line:
+                break
+            x = line.decode('gb2312')
+            print("x=%s" % x)
+            self.updateSig.emit(x)
+
+
+class MainFrame(QDialog):
+    def __init__(self):
+        super(MainFrame, self).__init__()
+
+        self.textEdit = QTextEdit(self)
+
+        self.myButton = QPushButton(self)
+        self.myButton.setObjectName("myButton")
+        self.myButton.setText("Test")
+        self.myButton.clicked.connect(self.startThread)
+
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+        layout.addWidget(self.myButton)
+        layout.addWidget(self.textEdit)
+
+        self.cmdThread = QTProcessThread()
+        self.cmdThread.updateSig.connect(self.upDateMessage)
+
+    def startThread(self):
+        print("start Thread")
+        self.cmdThread.cmd = "ping baidu.com"
+        self.cmdThread.start()
+
+    def upDateMessage(self, message):
+        self.textEdit.append(message)
+
+
+if __name__ == "__main__":
+    qApp = QApplication(sys.argv)
+    main = MainFrame()
+    main.show()
+    sys.exit(qApp.exec_())

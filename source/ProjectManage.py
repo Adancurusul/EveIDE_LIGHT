@@ -1,6 +1,6 @@
 import os
 import sys
-
+import logging
 #t_dir = "C:\Users\User\Documents\GitHub\EveIDE_Plus\source\\t_exCpro"
 languageFileSuportList = [".c",".v",".sv",".S"]
 outputFileSupportList = [".bin",".mif",".coe",".out"]
@@ -41,7 +41,7 @@ class ProjectManage():
                 #fileDictNow["fatherName"] = os.path.basename(home)
                 #fileDictNow["homePath"] = self.relative_path(home)
             rootTreeList.append(treeDict)
-            #print(treeDict)
+            #logging.debug(treeDict)
 
 
         for eachDict in reversed(rootTreeList):
@@ -54,9 +54,9 @@ class ProjectManage():
                         searchNode["child"].append(eachDict)
                         del rootTreeList[-1]
                         #break
-        print(rootTreeList)
-        print(rootTreeList[0])
-        print(len(rootTreeList))
+        logging.debug(rootTreeList)
+        logging.debug(rootTreeList[0])
+        logging.debug(len(rootTreeList))
     #@property
     def relative_path(self,pathNow):
         return os.path.relpath(pathNow)
@@ -104,7 +104,7 @@ class ProjectManage():
                 # fileDictNow["fatherName"] = os.path.basename(home)
                 # fileDictNow["homePath"] = self.relative_path(home)
             rootTreeList.append(treeDict)
-            # print(treeDict)
+            # logging.debug(treeDict)
 
         for eachDict in reversed(rootTreeList):
             nodeNow = eachDict.get("node", "")
@@ -115,10 +115,10 @@ class ProjectManage():
                     if nodeNow == childName:
                         searchNode["child"] = eachDict
                         del rootTreeList[-1]
-        print("*"*30)
-        print(self.projectPath)
-        print(rootTreeList)
-        print("*"*30)
+        logging.debug("*"*30)
+        logging.debug(self.projectPath)
+        logging.debug(rootTreeList)
+        logging.debug("*"*30)
         if not len(rootTreeList)  == 0:
 
              return rootTreeList[0]
@@ -129,18 +129,18 @@ class ProjectManage():
 def classT():
     c = ProjectManage(path)
     d = c.porject_dict
-    print(d)
+    logging.debug(d)
 
 def get_filelist(dir):
     Filelist = []
     dirList = []
     a = os.walk(path)
-    print(a)
-    print("*"*20)
+    logging.debug(a)
+    logging.debug("*"*20)
     for home, dirs, files in os.walk(path):
-        print("home"+home)
-        print("dirs" + str(dirs))
-        print("files" + str(files))
+        logging.debug("home"+home)
+        logging.debug("dirs" + str(dirs))
+        logging.debug("files" + str(files))
 
         '''for filename in files:
             # 文件名列表，包含完整路径
@@ -151,7 +151,7 @@ def get_filelist(dir):
 
             # Filelist.append( filename)
         for dirs in files:
-            print(dirs)
+            logging.debug(dirs)
             dirList.append(os.path.join(home, dirs))'''
 
 
@@ -164,13 +164,13 @@ def get_suffix():
     c = b.split(".")
     #c = os.listdir(d)
 
-    print(a)
+    logging.debug(a)
 if __name__ == "__main__":
     #Filelist = get_suffix(dir)
     #classT()
     get_suffix()
-    #print(Filelist)
-'''    print(len(Filelist))
+    #logging.debug(Filelist)
+'''    logging.debug(len(Filelist))
 
     for file in Filelist:
-        print(file)'''
+        logging.debug(file)'''

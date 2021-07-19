@@ -14,7 +14,7 @@ cfgMainPath = "..\configure\cfgWorkspace.evecfg"
 
 
 class SelectWorkspace(QWidget,Ui_SelectWorkspace):
-    closeSignal = Signal()
+    closeSignal = Signal(int)
     def __init__(self):
         super(SelectWorkspace,self).__init__()
         self.cfgDict = {}
@@ -59,16 +59,23 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
             currentWorkspacePath = self.workspace_lineEdit.text()
             currentWorkspacePath = currentWorkspacePath.replace('\\','/')
             currentWorkspacePath = os.path.relpath(currentWorkspacePath)
-            print(currentWorkspacePath)
+            logging.debug(currentWorkspacePath)
             if os.path.exists(currentWorkspacePath) :
 
                 self.cfgDict["workspaceNow"] = currentWorkspacePath
 
                 self.currentPath = currentWorkspacePath
+                if self.cfgReader.check_path():
+                    self.cfgReader.write_dict(self.cfgDict)
+                    if not os.path.exists("./cfgPorjectList.evecfg"):
+                        with open("/cfgPorjectList.evecfg", "w+"):
+                            pass
+                self.closeState = 0
                 self.close()
             else :
                 QMessageBox.critical(self, "ERROR", "The path is not valid", QMessageBox.Ok)
         elif buttonName == "cancel":
+            self.closeState = 1
             self.close()
 
     def update_lineEdit(self,which):
@@ -81,15 +88,12 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
 
     def select_from_file_system(self):
         pathNow = QFileDialog.getExistingDirectory(None, "Choose Dict Path", "../")
-        #print(pathNow)
+        #logging.debug(pathNow)
 
     def closeEvent(self, event ) :
-        self.closeSignal.emit()
-        if self.cfgReader.check_path():
-            self.cfgReader.write_dict(self.cfgDict)
-            if not os.path.exists("./cfgPorjectList.evecfg"):
-                with open("/cfgPorjectList.evecfg","w+"):
-                    pass
+
+        self.closeSignal.emit(self.closeState)
+
 
         logging.debug("close choosing workspace ui")
 

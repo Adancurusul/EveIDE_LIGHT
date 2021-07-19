@@ -1,6 +1,7 @@
 import re
 import os
 import sys
+import logging
 from qtpy.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QFormLayout, QLineEdit, QTabWidget, \
     QMdiArea, QTextEdit, QDockWidget, QSplitter, QMdiSubWindow, QTreeWidgetItem, QMessageBox,QVBoxLayout
 from ui.ui_module_simulate_widget import Ui_module_simulat_widget
@@ -75,17 +76,17 @@ class Simulator(QWidget,Ui_module_simulat_widget):
     def search_supoort_files(self,fileDict):
         moduleList = fileDict.get("module", [])
         for eachModule in moduleList:
-            #print("eachModule")
-            #print(eachModule)
+            #logging.debug("eachModule")
+            #logging.debug(eachModule)
             submoduleList = eachModule.get("submoduleName", [])
             for eachSub in submoduleList:
-                #print("eachSub")
-                #print(eachSub)
+                #logging.debug("eachSub")
+                #logging.debug(eachSub)
                 subModule = eachSub.get("submoduleFileDict")
                 pathNow = subModule.get("fullPath", "")
                 if not pathNow in self.supportList:
                     self.supportList.append(pathNow)
-                    #print("addSub" + pathNow)
+                    #logging.debug("addSub" + pathNow)
                     self.search_supoort_files(subModule)
         pass
     def simulate(self,simulateDict)->dict:
@@ -112,16 +113,20 @@ class Simulator(QWidget,Ui_module_simulat_widget):
                 vvpStr = ""
                 gtlWaveStr = ""'''
         simDict = {}
+        includeList = simulateDict.get("includeList",[])
         fileList = simulateDict.get("projectDict",[])
         topLevelName = simulateDict.get("topLevel",{}).get("fullPath",None)
         iverilogPath = simulateDict.get("iverilogPath","")
         __dumpFile = simulateDict.get("dumpFile","")
-        __includePath = simulateDict.get("projectPath","")
+        ipath=''
+        for eachIncludePath in includeList :
+            ipath+=" -I "+eachIncludePath
+        __includePath = ipath
 
         #t =
         __outputName =  os.path.dirname(topLevelName)+"\\"+os.path.basename(topLevelName).split(".")[0]+ "_evesim"
         #__outputName = os.path.dirname(topLevelName)+"\\a.out"
-
+        iverilogPath = iverilogPath.replace("/","\\")
         __iverilog =iverilogPath+r"\bin\iverilog "
         __vvp = iverilogPath+r"\bin\vvp "
         __gtkwave = iverilogPath+r"\gtkwave\bin\gtkwave "
@@ -133,41 +138,41 @@ class Simulator(QWidget,Ui_module_simulat_widget):
         self.supportList = []
 
         topFileDict = None
-        #print(topLevelDict)
+        #logging.debug(topLevelDict)
         if topLevelName :
             for eachFileDict in fileList :
                 if topLevelName == eachFileDict.get("fullPath","") :
                     topFileDict = eachFileDict
-                    #print(topFileDict)
+                    #logging.debug(topFileDict)
                     break
         if topFileDict :
             moduleList = topFileDict.get("module",[])
             for eachModule in moduleList :
-                #print("eachModule")
-                #print(eachModule)
+                #logging.debug("eachModule")
+                #logging.debug(eachModule)
                 submoduleList = eachModule.get("submoduleName",[])
                 for eachSub in submoduleList:
-                    #print("eachSub")
-                    #print(eachSub)
+                    #logging.debug("eachSub")
+                    #logging.debug(eachSub)
                     subModule  = eachSub.get("submoduleFileDict")
                     pathNow = subModule.get("fullPath","")
                     if not pathNow in self.supportList :
                         self.supportList.append(pathNow)
-                        #print("addSub"+pathNow)
+                        #logging.debug("addSub"+pathNow)
                         self.search_supoort_files(subModule)
 
-        #print(self.supportList)
+        #logging.debug(self.supportList)
         __supportStr = ""
         for eachStr in self.supportList:
             __supportStr +=" "+eachStr
-        simDict["iverilog"] = __iverilog+" -I " + __includePath+" -o "+__outputName+" "+topLevelName+" "+__supportStr
+        simDict["iverilog"] = __iverilog + __includePath+" -o "+__outputName+" "+topLevelName+" "+__supportStr
         #simDict["iverilog"] = __iverilog + " -I " + __includePath  + " -y " + __includePath+ " -o  " + __outputName +" "+topLevelName
-        simDict["vvp"] = __vvp + " -n " + __outputName + " -lxt2"
+        simDict["vvp"] = __vvp + " -n " + os.path.abspath(__outputName) + " -lxt2"
         simDict["gtkwave"] = __gtkwave + __dumpFile
-        print(simDict.get("gtkwave"))
-        print(simDict.get("iverilog"))
-        print(simDict.get("vvp"))
-        return {}
+        logging.debug(simDict.get("gtkwave"))
+        logging.debug(simDict.get("iverilog"))
+        logging.debug(simDict.get("vvp"))
+        return simDict
 
 class DoBeforeSimulate():
     def __init__(self,projectPath,testBenchPath):
@@ -183,7 +188,7 @@ class DoBeforeSimulate():
         fileDict["submodule"] = []
         if fullPath is not None:
             lineList = []
-            #print(fullPath)
+            #logging.debug(fullPath)
 
             with open(fullPath,"r") as rFile:
                 fileText = rmComments(rFile.read()).replace("\n"," ")
@@ -191,7 +196,7 @@ class DoBeforeSimulate():
                 fileList = re.split(";|endmodule|end",fileText)
                 for each in fileList:
                     eachStr = each.lstrip()
-                    #print(eachStr)
+                    #logging.debug(eachStr)
                     tp = r"(module)(\s+)(\w+)"
                     #patternStr = r"(\w+|_.+)(\s+|\t)(\w+|_.+)(\s+|\t|\s?)\("
                     pattern = re.compile(tp)
@@ -199,11 +204,11 @@ class DoBeforeSimulate():
                     if match:
                         ms = match.group(3)
                         mdict = {"moduleName":ms,"submoduleName":[]}
-                        #print(ms)
+                        #logging.debug(ms)
                         fileDict["module"].append(mdict)
                         self.modules.append(ms)
 
-            #print(fileDict.get("submodule",""))
+            #logging.debug(fileDict.get("submodule",""))
         return fileDict
 
 
@@ -236,12 +241,12 @@ class DoBeforeSimulate():
             #for eachFileDict in verilogList:
             verilogList[index] = self.get_submodule(eachFileDict)
             logging.debug(eachFile.get("submodule",None))
-            #print(eachFile.get("submodule",None))
+            #logging.debug(eachFile.get("submodule",None))
             #verilogList.append(eachFileDict)
-        print(verilogList)
+        logging.debug(verilogList)
     def get_submodule(self,fileDict):
         fullPath = fileDict.get("fullPath", None)
-        #print(fullPath)
+        #logging.debug(fullPath)
         #fileDict["module"] = []
         fileDict["submodule"] = []
         if fullPath is not None:
@@ -250,33 +255,33 @@ class DoBeforeSimulate():
                 fileText = rmComments(rFile.read())
                 #splitStr = ""
                 fileList = re.split(r"module\s+\w+",fileText)
-                #print(fullPath)
+                #logging.debug(fullPath)
 
-                #print(fileList)
+                #logging.debug(fileList)
                 for index in range(1,len(fileList)):#例化一定是在module里面
-                    #print(index)
-                    #print(len(fileList))
-                    #print(fileList[index])
-                    print(fullPath)
+                    #logging.debug(index)
+                    #logging.debug(len(fileList))
+                    #logging.debug(fileList[index])
+                    logging.debug(fullPath)
                     eachStr = fileList[index]
-                    #print(eachStr)
+                    #logging.debug(eachStr)
                     for each in self.modules:
                         #tp = r"(" + each + ")([ \t\v\r\f]+|\()?"
                         tp = r"(" + each + ")(?!\w)"
                         #tt = r"(" + each + ")\s+\w+"
                         pattern = re.compile(tp)
                         match = pattern.search(eachStr)
-                        # print(match)
+                        # logging.debug(match)
                         if match:
-                            print(match)
+                            logging.debug(match)
                             if not fileDict["module"][index-1]["moduleName"] == each :
                                 fileDict["module"][index-1]["submoduleName"].append(each)
                                 fileDict["submodule"].append(each)
 
 
-                #print(self.modules)
+                #logging.debug(self.modules)
 
-        print(fileDict)
+        logging.debug(fileDict)
         return fileDict
     def get_file_of_module(self,moduleName):
         moduleFileList = []
@@ -287,7 +292,7 @@ class DoBeforeSimulate():
             if eachModule not in self.simFiles:
                 self.simFiles.append(eachModule)
         return moduleFileList
-        #print(fileList)
+        #logging.debug(fileList)
 if __name__ == '__main__':
     # initDark()
 

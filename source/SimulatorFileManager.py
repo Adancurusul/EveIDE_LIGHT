@@ -1,5 +1,6 @@
 import os
 import re
+import logging
 from ProjectManage import ProjectManage
 class SimulatorFileManager():
     def __init__(self, projectPath):
@@ -9,8 +10,18 @@ class SimulatorFileManager():
         self.simFiles = []
         self.modules = []
         self.simulateFileDict = self.scan_files()
-        self.includeFileList = []
-        print(self.simulateFileDict)
+        #print(self.simulateFileDict)
+        self.includeFileList = self.get_includes()
+        #print(self.includeFileList)
+        logging.debug(self.simulateFileDict)
+    def get_includes(self):
+        incList = []
+        for each in self.simulateFileDict:
+            pathnameNow = os.path.dirname(each.get("fullPath",""))
+            #print(pathnameNow)
+            if not pathnameNow  in incList:
+                incList.append(pathnameNow)
+        return incList
     def rmComments(self,text):
         singLineComments = re.compile(r'//(.*)', re.MULTILINE)
         multiLineComments = re.compile(r'/\*(.*)\*/', re.DOTALL)
@@ -23,7 +34,7 @@ class SimulatorFileManager():
         fileDict["submodule"] = []
         if fullPath is not None:
             lineList = []
-            # print(fullPath)
+            # logging.debug(fullPath)
 
             with open(fullPath, "r",encoding="utf-8") as rFile:
                 fileText = self.rmComments(rFile.read()).replace("\n", " ")
@@ -31,7 +42,7 @@ class SimulatorFileManager():
                 fileList = re.split(";|endmodule|end", fileText)
                 for each in fileList:
                     eachStr = each.lstrip()
-                    # print(eachStr)
+                    # logging.debug(eachStr)
                     tp = r"(module)(\s+)(\w+)"
                     # patternStr = r"(\w+|_.+)(\s+|\t)(\w+|_.+)(\s+|\t|\s?)\("
                     pattern = re.compile(tp)
@@ -39,11 +50,11 @@ class SimulatorFileManager():
                     if match:
                         ms = match.group(3)
                         mdict = {"moduleName": ms, "submoduleName": []}
-                        # print(ms)
+                        # logging.debug(ms)
                         fileDict["module"].append(mdict)
                         self.modules.append(ms)
 
-            # print(fileDict.get("submodule",""))
+            # logging.debug(fileDict.get("submodule",""))
         return fileDict
 
 
@@ -73,13 +84,13 @@ class SimulatorFileManager():
             # for eachFileDict in verilogList:
             verilogList[index] = self.get_submodule(eachFileDict,verilogList)
             logging.debug(eachFile.get("submodule", None))
-            # print(eachFile.get("submodule",None))
+            # logging.debug(eachFile.get("submodule",None))
             # verilogList.append(eachFileDict)
-        #print(verilogList)
+        #logging.debug(verilogList)
         return verilogList
     def get_submodule(self, fileDict,verilogList):
         fullPath = fileDict.get("fullPath", None)
-        # print(fullPath)
+        # logging.debug(fullPath)
         # fileDict["module"] = []
         fileDict["submodule"] = []
         if fullPath is not None:
@@ -89,21 +100,21 @@ class SimulatorFileManager():
                 # splitStr = ""
                 fileList = re.split(r"module\s+\w+", fileText)
                 for index in range(1, len(fileList)):  # 例化一定是在module里面
-                    # print(index)
-                    # print(len(fileList))
-                    # print(fileList[index])
-                    #print(fullPath)
+                    # logging.debug(index)
+                    # logging.debug(len(fileList))
+                    # logging.debug(fileList[index])
+                    #logging.debug(fullPath)
                     eachStr = fileList[index]
-                    # print(eachStr)
+                    # logging.debug(eachStr)
                     for each in self.modules:
                         # tp = r"(" + each + ")([ \t\v\r\f]+|\()?"
                         tp = r"(" + each + ")(?!\w)"
                         # tt = r"(" + each + ")\s+\w+"
                         pattern = re.compile(tp)
                         match = pattern.search(eachStr)
-                        # print(match)
+                        # logging.debug(match)
                         if match:
-                            #print(match)
+                            #logging.debug(match)
                             if not fileDict["module"][index - 1]["moduleName"] == each:
                                 #得到例化模块名
                                 #逆推到该module文件
@@ -118,9 +129,9 @@ class SimulatorFileManager():
                                 fileDict["module"][index - 1]["submoduleName"].append(moduleDict)
                                 fileDict["submodule"].append(each)
 
-                # print(self.modules)
+                # logging.debug(self.modules)
 
-        #print(fileDict)
+        #logging.debug(fileDict)
         return fileDict
 
     def get_file_of_module(self, moduleName):
@@ -132,7 +143,7 @@ class SimulatorFileManager():
             if eachModule not in self.simFiles:
                 self.simFiles.append(eachModule)
         return moduleFileList
-        # print(fileList)
+        # logging.debug(fileList)
 
 
 if __name__ == '__main__':

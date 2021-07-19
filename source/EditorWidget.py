@@ -1,6 +1,6 @@
 import json
 import os
-
+import logging
 from PySide2 import QtCore, QtWidgets, QtWebEngineWidgets, QtWebChannel
 
 
@@ -87,9 +87,9 @@ class EditorWidget(QtWidgets.QMainWindow):
         self.view.load(QtCore.QUrl.fromLocalFile(filename))
 
         self.bridge.initialized.connect(self.handle_initialized)
-        #self.bridge.valueChanged.connect(self.handle_valueChanged)
+        self.bridge.valueChanged.connect(self.handle_valueChanged)
         self.bridge.languageChanged.connect(self.handle_languageChanged)
-        self.bridge.themeChanged.connect(self.handle_themeChanged)
+        #self.bridge.themeChanged.connect(self.handle_themeChanged)
 
     @property
     def view(self):
@@ -105,7 +105,7 @@ class EditorWidget(QtWidgets.QMainWindow):
     def set_language(self,language):
         self.language = language
     def handle_initialized(self):
-        #print("init")
+        #logging.debug("init")
         code = "\n".join(["function x() {", '\tconsole.log("Hello world!");', "}"])
         # Do not use self.bridge.value = code or self.bridge.setValue(code)
         self.bridge.send_to_js("value", self.initialCode)
@@ -116,13 +116,16 @@ class EditorWidget(QtWidgets.QMainWindow):
        # self.finishInit = 1
 
     def handle_valueChanged(self):
-        print("value:", self.bridge.value)
+        pass
+        #logging.debug("value:", self.bridge.value)
 
     def handle_languageChanged(self):
-        print("language:", self.bridge.language)
+        pass
+        #logging.debug("language:", self.bridge.language)
 
     def handle_themeChanged(self):
-        print("theme", self.bridge.theme)
+        pass
+        #logging.debug("theme", self.bridge.theme)
 
 
 if __name__ == "__main__":

@@ -150,7 +150,7 @@ class moduleCompileWidget(Ui_CompileWidget,QWidget):
     def change_into_default_settings(self):
         currentProjectName = self.project_comboBox.currentText()
         for indexNow in range(len(self.compileSettingDictList)):
-            print(indexNow)
+            logging.debug(indexNow)
             if currentProjectName == self.compileSettingDictList[indexNow].get("projectName","nothing") :
                 self.compileSettingDictList[indexNow] = self.compileSettingDictDefault
                 logging.debug("change into default settings")
@@ -206,11 +206,11 @@ class moduleCompileWidget(Ui_CompileWidget,QWidget):
     def set_tool_tips(self,moduleNow,tipStr):
 
         pathNow = tipStr.replace("\\","/")
-        print(tipStr)
-        print(pathNow)
+        logging.debug(tipStr)
+        logging.debug(pathNow)
         moduleNow.setToolTip(pathNow)
 
-        #print("'"+pathNow+"'")
+        #logging.debug("'"+pathNow+"'")
         '''       if  not os.path.exists(pathNow):
 
             logging.debug("fail to find path :"+pathNow)
@@ -249,7 +249,7 @@ class moduleCompileWidget(Ui_CompileWidget,QWidget):
             self.bit64_checkBox.setChecked(1)
 
     def change_project(self,projectNameNow):
-        #print(projectName)
+        #logging.debug(projectName)
         for eachDict in self.compileSettingDictList :
             if eachDict.get("projectName","nothing") == projectNameNow :
                 self.currentProjectDict = eachDict

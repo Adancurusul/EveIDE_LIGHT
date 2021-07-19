@@ -13,8 +13,10 @@ class cfgRead():
             return 0
 
     def get_dict(self):
-        with open(self.cfgPath,"r") as readFile:
-            dictNow = json.load(readFile)
+        with open(self.cfgPath,"r",encoding="utf-8") as readFile:
+            strNow = readFile.read()
+            logging.debug("loading json:"+strNow+"from file :"+self.cfgPath)
+            dictNow = json.loads(strNow)
             logging.debug("Successfully read Dict: "+str(dictNow)+"from :"+ self.cfgPath)
             return dictNow
     def write_dict(self,dictNow):
