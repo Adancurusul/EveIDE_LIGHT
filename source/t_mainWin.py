@@ -25,6 +25,7 @@ from EditorWidget import EditorWidget
 from eve_module.cfgRead import cfgRead
 from eve_module.CreateInstance import CreateInsance
 from eve_module.GetSimDumpFile import GetSimDumpFile
+from eve_module.ChangeEncoding import ChangeEncoding
 from eve_module.SimulateThread import SimulateThread
 from eve_module.EmittingStr import EmittingStr
 from ProjectManage import ProjectManage
@@ -98,6 +99,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.timerCheckFile.timeout.connect(self.check_file)
         self.timerCheckFile.start(10000)
     def initLogic(self):
+        self.ChangeEncoding = ChangeEncoding()
         self.firstInit = 1
         self.treeWidget = self.leftWidget.projectWidget.projectFile_treeWidget
         self.simulateTreeWidget = self.leftWidget.simulateWidget.ProjectTreeWidget.projectFile_treeWidget
@@ -222,6 +224,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         if not self.currentProjectPath == "":
             projectManager = ProjectManage(self.currentProjectPath)
             projectTreeDict = projectManager.porject_dict
+            #print(projectTreeDict)
             simulatorFileManager = SimulatorFileManager(self.currentProjectPath)
             simulatorFileDict = simulatorFileManager.simulateFileDict
             self.projectTreeDictList.append(projectTreeDict)
@@ -236,7 +239,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         nodeNow = self.simulateTreeWidget.itemAt(pos)
         currentDict = nodeNow.dictNow
         if not (currentDict.get("ifSubmodule",0)):
-            if currentDict.get("fileSuffix","") == "v":
+            if (currentDict.get("fileSuffix","") == "v")or (currentDict.get("fileSuffix","") == "sv"):
                 popMenu = QMenu()
                 popMenu.addAction(QAction(u'set '+currentDict.get("name","")+' as the top level ', self))
                 popMenu.addAction(QAction(u'create instance file : inst_'+currentDict.get("name",""), self))
@@ -616,6 +619,8 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         treeNow.setHeaderLabel("Workspace now :" + os.path.basename(self.workspacePath))
         treeNow.setColumnCount(1)
         # logging.debug("now tree:"+str(projectTreeDict))
+        #
+        #print(projectTreeDict)
         nodeName = projectTreeDict.get("node", "")
         nodeDirs = projectTreeDict.get("dirs", "")
         filesNow = projectTreeDict.get("files", "")
@@ -663,6 +668,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
             # childNode.setIcon()
         for eachDir in nodeDirs:
+            #print(eachDir)
             childNode = QTreeWidgetItem()
             dirDict = eachDir.get("child", "")
             # logging.debug("dirDict"+str(dirDict).replace("\'","\""))
@@ -670,6 +676,9 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             rootNode.addChild(childNode)
             childNode.dictNow = eachDir
             childNode.dictNow["currentNode"] = childNode
+            #print(childNode)
+            #print(dirDict)
+            #(moduleDict)
             self.set_sim_child_tree(childNode, dirDict,moduleDict)
             childNode.setIcon(0, self.dirIcon)
         checkPathList = []
@@ -689,6 +698,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
 
     def set_sim_child_tree(self, rootNode, childDict,moduleDict):
+        print(childDict)
         nodeName = childDict.get("node", "")
         dirsDict = childDict.get("dirs", "")
         filesNow = childDict.get("files", "")

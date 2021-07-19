@@ -5,6 +5,7 @@ import logging
 from qtpy.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QFormLayout, QLineEdit, QTabWidget, \
     QMdiArea, QTextEdit, QDockWidget, QSplitter, QMdiSubWindow, QTreeWidgetItem, QMessageBox,QVBoxLayout
 from ui.ui_module_simulate_widget import Ui_module_simulat_widget
+from eve_module.ChangeEncoding import ChangeEncoding
 from ui.ui_module_project_tree import Ui_ProjectTree
 exSettingDict = {"projectPath":None,"testbenchFile":None,"toplevelFile":None,"iverilogPath":None,"gtkwavePath":None,"vvpPath":None,"simulatorPath":None}
 def rmComments(text):
@@ -23,6 +24,7 @@ class moduleProjectTree(Ui_ProjectTree,QWidget):
         self.collapse_pushButton.clicked.connect(self.collapse_tree)
         self.comboBox.addItem("Project View")
         self.projectFile_treeWidget.setHeaderLabel("")
+        self.ChangeEncoding = ChangeEncoding()
         #self.setMinimumSize(0,0)
         #self.resize(0,0)
         #self.setWindowFlags(Qt.FramelessWindowHint)
@@ -39,6 +41,7 @@ class Simulator(QWidget,Ui_module_simulat_widget):
         super(Simulator, self).__init__()
         self.initUi()
         self.name = "simulator"
+        self.ChangeEncoding = ChangeEncoding()
     def initUi(self):
         self.setupUi(self)
         self.ProjectTreeWidget = moduleProjectTree()
@@ -181,6 +184,7 @@ class DoBeforeSimulate():
         self.fileList = []
         self.simFiles = []
         self.modules = []
+        self.ChangeEncoding = ChangeEncoding()
         self.scan_files()
     def get_module_name(self,fileDict):
         fullPath = fileDict.get("fullPath",None)
@@ -190,7 +194,7 @@ class DoBeforeSimulate():
             lineList = []
             #logging.debug(fullPath)
 
-            with open(fullPath,"r") as rFile:
+            with open(fullPath,"r",self.ChangeEncoding.getEncoding(fullPath)) as rFile:
                 fileText = rmComments(rFile.read()).replace("\n"," ")
                 #fileText = rmComments(rFile.read()).replace("\t", " ")
                 fileList = re.split(";|endmodule|end",fileText)

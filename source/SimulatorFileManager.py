@@ -2,6 +2,7 @@ import os
 import re
 import logging
 from ProjectManage import ProjectManage
+from eve_module.ChangeEncoding import ChangeEncoding
 class SimulatorFileManager():
     def __init__(self, projectPath):
         self.projectPath = projectPath
@@ -9,7 +10,9 @@ class SimulatorFileManager():
         self.fileList = []
         self.simFiles = []
         self.modules = []
+        self.ChangeEncoding = ChangeEncoding()
         self.simulateFileDict = self.scan_files()
+
         #print(self.simulateFileDict)
         self.includeFileList = self.get_includes()
         #print(self.includeFileList)
@@ -37,6 +40,7 @@ class SimulatorFileManager():
             # logging.debug(fullPath)
 
             with open(fullPath, "r",encoding="utf-8") as rFile:
+                print(fullPath)
                 fileText = self.rmComments(rFile.read()).replace("\n", " ")
                 # fileText = rmComments(rFile.read()).replace("\t", " ")
                 fileList = re.split(";|endmodule|end", fileText)
@@ -72,13 +76,20 @@ class SimulatorFileManager():
         先睡觉
 
         """
+        befVerilogList = []
         for eachFile in self.fileList:
-            if eachFile.get("fileSuffix", "") == "v":
+            if (eachFile.get("fileSuffix", "") == "v") or (eachFile.get("fileSuffix", "") == "sv"):
+                befVerilogList.append(eachFile)
+        for eachFile in befVerilogList:
+            self.ChangeEncoding.convert(filePath=eachFile.get("fullPath"))
+        for eachFile in self.fileList:
+            if (eachFile.get("fileSuffix", "") == "v") or (eachFile.get("fileSuffix", "") == "sv"):
                 # eachFile["moduleName"] = eachFile.get("name","").split(".")[0]
                 eachFile = self.get_module_name(eachFile)
                 # eachFile = self.get_submodule(eachFile)
                 # verilogList.append(eachFile)
                 verilogList.append(eachFile)
+
         for index in range(len(verilogList)):
             eachFileDict = verilogList[index]
             # for eachFileDict in verilogList:
@@ -88,6 +99,7 @@ class SimulatorFileManager():
             # verilogList.append(eachFileDict)
         #logging.debug(verilogList)
         return verilogList
+
     def get_submodule(self, fileDict,verilogList):
         fullPath = fileDict.get("fullPath", None)
         # logging.debug(fullPath)

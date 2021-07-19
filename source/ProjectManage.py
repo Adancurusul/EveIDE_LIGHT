@@ -84,6 +84,7 @@ class ProjectManage():
 
         rootTreeList = []
         for home, dirs, files in os.walk(self.projectPath):
+
             treeDict = {"node": os.path.basename(home), "dirs": [], "files": [], "ifOpen": 0}
             for eachDir in dirs:
                 dirDictNow = {}
@@ -104,24 +105,46 @@ class ProjectManage():
                 # fileDictNow["fatherName"] = os.path.basename(home)
                 # fileDictNow["homePath"] = self.relative_path(home)
             rootTreeList.append(treeDict)
-            # logging.debug(treeDict)
 
+            # logging.debug(treeDict)
+        #rootTreeList.reverse()
+        print(rootTreeList)
         for eachDict in reversed(rootTreeList):
+            nodeNow = eachDict.get("node", "")
+            for searchDictIndex in range(len(rootTreeList)):
+                searchNodeList = rootTreeList[searchDictIndex].get("dirs", None)
+                #print(searchNodeList)
+                if searchNodeList:
+                    for searchNodeIndex in range(len(rootTreeList[searchDictIndex]["dirs"])):
+                        #print(rootTreeList[searchDictIndex]["dirs"][searchNodeIndex])
+                        print(searchNodeIndex)
+                        childName = rootTreeList[searchDictIndex]["dirs"][searchNodeIndex].get("name", None)
+                        if childName:
+                            if childName == nodeNow:
+                                rootTreeList[searchDictIndex]["dirs"][searchNodeIndex]["child"] = eachDict
+
+                                #del rootTreeList[-1]
+
+
+
+
+        '''for eachDict in reversed(rootTreeList):
             nodeNow = eachDict.get("node", "")
             for searchDict in rootTreeList:
                 searchNodeList = searchDict.get("dirs", [])
                 for searchNode in searchNodeList:
                     childName = searchNode.get("name", "")
                     if nodeNow == childName:
+                        print(eachDict)
                         searchNode["child"] = eachDict
-                        del rootTreeList[-1]
+                        del rootTreeList[-1]'''
         logging.debug("*"*30)
         logging.debug(self.projectPath)
         logging.debug(rootTreeList)
         logging.debug("*"*30)
         if not len(rootTreeList)  == 0:
-
-             return rootTreeList[0]
+            logging.debug("*" * 80)
+            return rootTreeList[0]
         else:
             return {}
 
@@ -159,6 +182,7 @@ def get_filelist(dir):
 
 def get_suffix():
     d = "C:\\Users\\User\\Documents\\GitHub\\EveIDE_Plus\\source\\t_exCpro"
+    #"C:\\Users\\User\\Documents\\GitHub\\EveIDE_Plus\\source\\t_workspace\\UR408_Core-master"
     a = os.path.split(d)
     b = os.path.basename(d)
     c = b.split(".")
@@ -168,7 +192,14 @@ def get_suffix():
 if __name__ == "__main__":
     #Filelist = get_suffix(dir)
     #classT()
-    get_suffix()
+    logging.getLogger().setLevel(logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+                        datefmt='%a, %d %b %Y %H:%M:%S', )
+    q = "C:\\Users\\User\\Documents\\GitHub\\EveIDE_Plus\\source\\t_workspace\\UR408_Core-master"
+    a ="C:\\Users\\User\\Documents\\GitHub\\KC_LS1u_SoC"
+    k = ProjectManage(a)
+    print(k.porject_dict)
     #logging.debug(Filelist)
 '''    logging.debug(len(Filelist))
 
