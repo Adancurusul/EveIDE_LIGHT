@@ -375,7 +375,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
                     simulateSettingDict = {"includeList":self.simIncludeDict,"projectDict":dictToSim,"topLevel":self.topLevelDict,"iverilogPath":iverilogPath,"dumpFile":dumpFile,"projectPath":self.leftWidget.simulateWidget.project_comboBox.currentText()}
                     simulateStrDict = self.leftWidget.simulateWidget.do_simulate(simulateSettingDict)#得到iverilog的三个命令
-                    print(simulateStrDict)
+                    #print(simulateStrDict)
                     iverilogList = [simulateStrDict.get("iverilog"),simulateStrDict.get("vvp"),simulateStrDict.get("gtkwave")]#
                     self.simulateThread.init_thread(iverilogList,dumpFileInitPath,dumpFilePath)
                     self.TextOutput.clear()
@@ -698,7 +698,6 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
 
     def set_sim_child_tree(self, rootNode, childDict,moduleDict):
-        print(childDict)
         nodeName = childDict.get("node", "")
         dirsDict = childDict.get("dirs", "")
         filesNow = childDict.get("files", "")

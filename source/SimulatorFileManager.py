@@ -12,7 +12,7 @@ class SimulatorFileManager():
         self.modules = []
         self.ChangeEncoding = ChangeEncoding()
         self.simulateFileDict = self.scan_files()
-
+        print(self.simulateFileDict)
         #print(self.simulateFileDict)
         self.includeFileList = self.get_includes()
         #print(self.includeFileList)
@@ -41,9 +41,22 @@ class SimulatorFileManager():
 
             with open(fullPath, "r",encoding="utf-8") as rFile:
                 print(fullPath)
-                fileText = self.rmComments(rFile.read()).replace("\n", " ")
+                fileText = rFile.read()
+                #fileText = self.rmComments(rFile.read())#.replace("\n", " ")
+                #print(fileText)
+                # logging.debug(eachStr)
+                tp = r"(module)(\s+)(\w+)"
+                # patternStr = r"(\w+|_.+)(\s+|\t)(\w+|_.+)(\s+|\t|\s?)\("
+                pattern = re.compile(tp)
+                match = pattern.search(fileText)
+                if match:
+                    ms = match.group(3)
+                    mdict = {"moduleName": ms, "submoduleName": []}
+                    print("searchModule:",ms)
+                    fileDict["module"].append(mdict)
+                    self.modules.append(ms)
                 # fileText = rmComments(rFile.read()).replace("\t", " ")
-                fileList = re.split(";|endmodule|end", fileText)
+                '''fileList = re.split(";|endmodule|end", fileText)
                 for each in fileList:
                     eachStr = each.lstrip()
                     # logging.debug(eachStr)
@@ -54,9 +67,9 @@ class SimulatorFileManager():
                     if match:
                         ms = match.group(3)
                         mdict = {"moduleName": ms, "submoduleName": []}
-                        # logging.debug(ms)
+                        print(ms)
                         fileDict["module"].append(mdict)
-                        self.modules.append(ms)
+                        self.modules.append(ms)'''
 
             # logging.debug(fileDict.get("submodule",""))
         return fileDict
@@ -89,6 +102,7 @@ class SimulatorFileManager():
                 # eachFile = self.get_submodule(eachFile)
                 # verilogList.append(eachFile)
                 verilogList.append(eachFile)
+                print(verilogList)
 
         for index in range(len(verilogList)):
             eachFileDict = verilogList[index]
@@ -108,7 +122,8 @@ class SimulatorFileManager():
         if fullPath is not None:
             # if fullPath == "..\\..\\..\\Tencent Files\\1016867898\\FileRecv\\LPCE20210501\\LPCE\\RTL\\LPCE_tx.v":
             with open(fullPath, "r",encoding="utf-8") as rFile:
-                fileText = self.rmComments(rFile.read())
+                fileText = rFile.read()
+                #print(fileText)
                 # splitStr = ""
                 fileList = re.split(r"module\s+\w+", fileText)
                 for index in range(1, len(fileList)):  # 例化一定是在module里面
@@ -127,6 +142,14 @@ class SimulatorFileManager():
                         # logging.debug(match)
                         if match:
                             #logging.debug(match)
+                            '''
+                            
+                            有个bug
+                            
+                            
+                            
+                            '''
+                            print(fileDict["module"])
                             if not fileDict["module"][index - 1]["moduleName"] == each:
                                 #得到例化模块名
                                 #逆推到该module文件
@@ -161,5 +184,5 @@ class SimulatorFileManager():
 if __name__ == '__main__':
     # initDark()
 
-    c = SimulatorFileManager("C:\\Users\\User\\Documents\\Tencent Files\\1016867898\\FileRecv\\LPCE20210501\\LPCE")
+    c = SimulatorFileManager("C:\\Users\\User\\Documents\\GitHub\\PRV464PRO\\RTL")
 

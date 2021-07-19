@@ -108,7 +108,7 @@ class ProjectManage():
 
             # logging.debug(treeDict)
         #rootTreeList.reverse()
-        print(rootTreeList)
+        #print(rootTreeList)
         for eachDict in reversed(rootTreeList):
             nodeNow = eachDict.get("node", "")
             for searchDictIndex in range(len(rootTreeList)):
@@ -117,7 +117,7 @@ class ProjectManage():
                 if searchNodeList:
                     for searchNodeIndex in range(len(rootTreeList[searchDictIndex]["dirs"])):
                         #print(rootTreeList[searchDictIndex]["dirs"][searchNodeIndex])
-                        print(searchNodeIndex)
+                        #print(searchNodeIndex)
                         childName = rootTreeList[searchDictIndex]["dirs"][searchNodeIndex].get("name", None)
                         if childName:
                             if childName == nodeNow:
