@@ -10,7 +10,7 @@ import logging
 import time
 from qtpy.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QFormLayout, QLineEdit, QTabWidget, \
     QMdiArea, QTextEdit, QDockWidget, QSplitter, QMdiSubWindow, QTreeWidgetItem, QMessageBox,QMenu,QAction
-from qtpy.QtCore import Qt, Signal, QTimer,QSize
+from qtpy.QtCore import Qt, Signal, QTimer,QSize,QFile
 from qtpy.QtGui import QPalette, QBrush, QColor,QIcon,QCursor
 import qtpy
 from qtpy import QtGui
@@ -26,6 +26,7 @@ from eve_module.cfgRead import cfgRead
 from eve_module.CreateInstance import CreateInsance
 from eve_module.GetSimDumpFile import GetSimDumpFile
 from eve_module.ChangeEncoding import ChangeEncoding
+from eve_module.GetFunctionInC import GetFunctionInC
 from eve_module.SimulateThread import SimulateThread
 from eve_module.EmittingStr import EmittingStr
 from ProjectManage import ProjectManage
@@ -100,6 +101,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.timerCheckFile.start(10000)
     def initLogic(self):
         self.ChangeEncoding = ChangeEncoding()
+
         self.firstInit = 1
         self.treeWidget = self.leftWidget.projectWidget.projectFile_treeWidget
         self.simulateTreeWidget = self.leftWidget.simulateWidget.ProjectTreeWidget.projectFile_treeWidget
@@ -249,7 +251,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                 popMenu.exec_(QCursor.pos())
             else :
                 popMenu = QMenu()
-                popMenu.addAction(QAction(u'delete : ' + currentDict.get("name", ""), self))
+                popMenu.addAction(QAction(u'delete current item: ' + currentDict.get("name", ""), self))
                 popMenu.triggered[QAction].connect(self.simulate_right_click_handler)
                 popMenu.exec_(QCursor.pos())
 
@@ -304,7 +306,10 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                                          "Sure to delete {0} ? ".format(fullPath),
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
             if choose == QMessageBox.Yes:
-                os.remove(fullPath)
+                try:
+                    os.remove(fullPath)
+                except:
+                    os.removedirs(fullPath)
                 self.check_file()
                 self.update_sim_tree()
 
@@ -540,24 +545,45 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             return []
 
     def saveFile(self):
+        print("intoSaveFile")
         activeWindow = self.mdi.activeSubWindow()
+        editor = activeWindow.widget()
+        editorDict = editor.dictNow
+        print(editorDict)
         if activeWindow:
             editor = activeWindow.widget()
             editorDict = editor.dictNow
             savePath = editorDict.get("fullPath", None)
+            print("savePath",savePath)
             editor.dictNow["openTime"] = int(time.time())
             #logging.debug(editorDict)fileDict["openTime"] = int(time.time())
-            if not (savePath == None):
+            print("save")
+            if savePath :
                 strToSave = editor.bridge.value
                 try:
-                    with open(savePath, "w+",encoding="utf-8") as saveFile:
+                    print("intosave")
+                    '''#print(strToSave)
+                    fh = QFile(savePath)
+                    if not fh.open(QtCore.QIODevice.WriteOnly):
+                        raise IOError(str(fh.errorString()))
+                    stream = QtCore.QTextStream(fh)
+                    stream.setCodec("UTF-8")
+                    stream << strToSave'''
+
+                    with open(savePath, "w+",encoding="utf-8",newline='') as saveFile:
                         saveFile.write(strToSave)
-                        editor.setWindowTitle(activeWindow.windowTitle().replace("*",""))
+                        print(strToSave)
+                        editor.setWindowTitle(activeWindow.windowTitle().replace("*", ""))
                         editor.finishInit = 1
+
+
                 except Exception as e:
                     logging.debug(e)
                     QMessageBox.warning(self, "EveIDE_LIGHT -- SAVE Error",
                                         "Failed to save {0}".format(savePath))
+                '''finally:
+                    if fh is not None:
+                        fh.close()'''
             else:
                 self.saveAsFile(activeWindow)
 
@@ -579,13 +605,17 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             }
             editor = windowNow.widget()
             editor.dictNow = fileDict
+
             if editor.dictNow.get("newFile",None) is not None:
                 editor.dictNow["newFile"] = 0
             editor.setWindowTitle(fileDict.get("name",""))
             with open(filename,"w+"):
                 pass
+            self.mdi.setActiveSubWindow(windowNow)
             self.saveFile()
-            #logging.debug("saveAs")
+            #self.saveFile()
+            #我也不知道为什么没法调用savefile，睡觉了小命要紧
+            #bug？？？
 
     def updateUI(self):
         pass
@@ -765,6 +795,13 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             childNode = QTreeWidgetItem()
 
             childNode.dictNow = eachFile
+            fullName = eachFile.get("fullPath",None)
+            if fullName :
+                #CFunctionSelector = GetFunctionInC(fullName)
+                #functionDict = CFunctionSelector.lexer_analysis()
+                print("ababababa")
+                #print(functionDict)
+                print("ababababa")
             childNode.setText(0, eachFile.get("name", ""))
             childNode.dictNow["currentNode"] = childNode
             childNode.dictNow["compile"] = 1
@@ -792,7 +829,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             if not fullPath is None:
                 for eachFile in self.comTreeNodeFileList :
                     if eachFile.get("fullPath","") == fullPath :
-                        logging.debug("::::...change",fullPath)
+                        #logging.debug("::::...change",fullPath)
                         widgetNow.dictNow["currentNode"] = eachFile.get("currentNode")
                         treeNow.setCurrentItem(eachFile.get("currentNode"))
 
