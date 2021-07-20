@@ -298,7 +298,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             #logging.debug("b")
         elif "open file" in textNow:
             self.addEditorWidget(currentDict)
-        elif "delete file" in textNow:
+        elif "delete :" in textNow:
             fullPath = os.path.abspath(currentDict.get("fullPath",""))
             choose = QMessageBox.warning(self, "EveIDE_LIGHT -- FILE warning",
                                          "Sure to delete {0} ? ".format(fullPath),
