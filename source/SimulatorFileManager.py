@@ -25,7 +25,56 @@ class SimulatorFileManager():
             if not pathnameNow  in incList:
                 incList.append(pathnameNow)
         return incList
-    def rmComments(self,text):
+    def get1stSymPos(self,s, fromPos = 0):
+        g_DictSymbols = {'"': '"', '/*': '*/','//':'\n'}
+        listPos = [] #位置,符号
+        for b in g_DictSymbols:
+            pos = s.find(b, fromPos)
+            listPos.append((pos,b)) #插入位置以及结束符号
+        minIndex = -1 #最小位置在listPos中的索引
+        index = 0 #索引
+        while index < len(listPos):
+            pos = listPos[index][0] #位置
+            if minIndex < 0 and pos >= 0: #第一个非负位置
+                minIndex = index
+            if 0 <= pos < listPos[minIndex][0]: #后面出现的更靠前的位置
+                minIndex = index
+            index = index+1
+        if minIndex == -1: #没找到
+            return (-1,None)
+        else:
+            return (listPos[minIndex])
+
+    def rmCommentsInCFile(self,s):
+        g_DictSymbols = {'"': '"', '/*': '*/','//':'\n'}
+
+        if not isinstance(s, str):
+            raise TypeError(s)
+        fromPos = 0
+        while(fromPos < len(s)):
+            result = self.get1stSymPos(s,fromPos)
+            logging.info(result)
+            if result[0] == -1: #没有符号了
+                return s
+            else:
+                endPos = s.find(g_DictSymbols[result[1]],result[0]+len(result[1]))
+                if result[1] == '//': # 单行注释
+                    if endPos == -1: #没有换行符也可以
+                        endPos = len(s)
+                    s = s.replace(s[result[0]:endPos],' ',1)
+                    fromPos = result[0]
+                elif result[1] == '/*': #区块注释
+                    if endPos == -1: #没有结束符就报错
+                        raise ValueError("块状注释未闭合")
+                    s = s.replace(s[result[0]:endPos+2],' ',1)
+                    fromPos = result[0]
+                else: #字符串
+                    if endPos == -1: #没有结束符就报错
+                        raise ValueError("符号未闭合")
+                    fromPos = endPos + len(g_DictSymbols[result[1]])
+        return s
+
+    def rmComments0(self,text):
         singLineComments = re.compile(r'//(.*)', re.MULTILINE)
         multiLineComments = re.compile(r'/\*(.*)\*/', re.DOTALL)
         text = singLineComments.sub('', text)
@@ -41,8 +90,8 @@ class SimulatorFileManager():
 
             with open(fullPath, "r",encoding="utf-8") as rFile:
                 print(fullPath)
-                fileText = rFile.read()
-                #fileText = self.rmComments(rFile.read())#.replace("\n", " ")
+                #fileText = rFile.read()
+                fileText = self.rmCommentsInCFile(rFile.read())#.replace("\n", " ")
                 #print(fileText)
                 # logging.debug(eachStr)
                 tp = r"(module)(\s+)(\w+)"
@@ -122,7 +171,7 @@ class SimulatorFileManager():
         if fullPath is not None:
             # if fullPath == "..\\..\\..\\Tencent Files\\1016867898\\FileRecv\\LPCE20210501\\LPCE\\RTL\\LPCE_tx.v":
             with open(fullPath, "r",encoding="utf-8") as rFile:
-                fileText = rFile.read()
+                fileText = self.rmCommentsInCFile(rFile.read())
                 #print(fileText)
                 # splitStr = ""
                 fileList = re.split(r"module\s+\w+", fileText)
@@ -184,5 +233,5 @@ class SimulatorFileManager():
 if __name__ == '__main__':
     # initDark()
 
-    c = SimulatorFileManager("C:\\Users\\User\\Documents\\GitHub\\PRV464PRO\\RTL")
+    c = SimulatorFileManager("D:\codes\PRV464PRO\RTL")
 
