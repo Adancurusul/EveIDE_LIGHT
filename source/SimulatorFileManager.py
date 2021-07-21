@@ -53,7 +53,7 @@ class SimulatorFileManager():
         fromPos = 0
         while(fromPos < len(s)):
             result = self.get1stSymPos(s,fromPos)
-            logging.info(result)
+            #logging.info(result)
             if result[0] == -1: #没有符号了
                 return s
             else:
