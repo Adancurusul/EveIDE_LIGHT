@@ -7,6 +7,7 @@ from ui.ui_new_project_window import Ui_NewProject
 from qtpy.QtCore import Signal
 import logging
 
+
 class NewProjectWidget(QWidget,Ui_NewProject):
     closeSignal = Signal(str,str)
     def __init__(self,workspacePath,type):
@@ -42,8 +43,12 @@ class NewProjectWidget(QWidget,Ui_NewProject):
             else :
                 os.mkdir(self.pathNow)
                 if self.type == "compile":
-                    os.mkdir(self.pathNow+"/src")
-                    os.mkdir(self.pathNow+"/inc")
+                    try:
+                        os.mkdir(self.pathNow + "\\src")
+                        os.mkdir(self.pathNow + "\\inc")
+                    except Exception as e:
+                        logging.debug(e)
+
                     #with open(self.pathNow+"/main.c","w+")as f:
                      #   f.write("//Created by EveIDE_LIGHT ")
                 logging.debug("new projectCreated : path : "+self.pathNow+" . type : "+self.type)

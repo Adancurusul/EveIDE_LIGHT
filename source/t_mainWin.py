@@ -4,6 +4,7 @@
 
 
 '''
+__version__ = "V0.0.1"
 import datetime
 
 import logging
@@ -115,6 +116,8 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.setWindowTitle("EveIDE-LIGHT  "+ os.path.abspath(self.workspacePath))
         self.set_workspace_tree()
         # 刷新树状列表
+        self.treeWidget.setContextMenuPolicy(Qt.CustomContextMenu)  # 打开右键菜单的策略
+        self.treeWidget.customContextMenuRequested.connect(self.project_tree_right_click)  # 绑定事件
         self.init_sub_thread()
         self.view_dock_closeEvent()
         self.connect_signal()
@@ -235,6 +238,26 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             self.simFileDict = simulatorFileDict
             simulatorInculdeDict = simulatorFileManager.includeFileList
             self.simIncludeDict = simulatorInculdeDict
+    def project_tree_right_click(self,pos):
+        nodeNow = self.treeWidget.itemAt(pos)
+        #nodeNow = self.simulateTreeWidget.itemAt(pos)
+        currentDict = nodeNow.dictNow
+        if not (currentDict.get("ifSubmodule", 0)):
+            if (currentDict.get("fileSuffix", "") == "v") or (currentDict.get("fileSuffix", "") == "sv"):
+                popMenu = QMenu()
+                #popMenu.addAction(QAction(u'set ' + currentDict.get("name", "") + ' as the top level ', self))
+                #popMenu.addAction(QAction(u'create instance file : inst_' + currentDict.get("name", ""), self))
+                popMenu.addAction(QAction(u'open file : ' + currentDict.get("name", ""), self))
+                popMenu.addAction(QAction(u'delete file : ' + currentDict.get("name", ""), self))
+                popMenu.triggered[QAction].connect(self.project_right_click_handler)
+                popMenu.exec_(QCursor.pos())
+            else:
+                popMenu = QMenu()
+                popMenu.addAction(QAction(u'delete current item: ' + currentDict.get("name", ""), self))
+                popMenu.triggered[QAction].connect(self.project_right_click_handler)
+                popMenu.exec_(QCursor.pos())
+
+            logging.debug(nodeNow.dictNow)
     def sim_tree_right_click(self,pos):
         #item = self.simulateTreeWidget.currentItem()
 
@@ -257,6 +280,61 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
 
             logging.debug(nodeNow.dictNow)
+    def project_right_click_handler(self,q):
+        treeNode = self.treeWidget.currentItem()
+        currentDict = treeNode.dictNow
+
+        textNow = q.text()
+        if "create instance file" in textNow:
+            pre = os.path.dirname(currentDict.get("fullPath", ""))
+            nameNow = currentDict.get("name", "")
+            newPath = pre + "/inst_" + nameNow
+            c = CreateInsance()
+            c.CreateInsance(currentDict.get("fullPath", ""), newPath)
+            if os.path.exists(newPath):
+                projectManager = ProjectManage(self.currentProjectPath)
+                projectTreeDict = projectManager.porject_dict
+                simulatorFileManager = SimulatorFileManager(self.currentProjectPath)
+                simulatorFileDict = simulatorFileManager.simulateFileDict
+
+                self.projectTreeDictList.append(projectTreeDict)
+                # 创建工程树
+                self.set_sim_project_tree(projectTreeDict, self.simulateTreeWidget, simulatorFileDict)
+                self.simFileDict = simulatorFileDict
+                simulatorInculdeDict = simulatorFileManager.includeFileList
+                self.simIncludeDict = simulatorInculdeDict
+                # self.addEditorWidget()
+            pass  # logging.debug("a")
+        elif "as the top level" in textNow:
+            topNode = currentDict.get("currentNode", None)
+            if topNode:
+                if not self.topLevelDict == {}:
+                    lastTop = self.topLevelDict.get("currentNode", None)
+                    try:
+                        lastTop.setBackgroundColor(0, QtGui.QColor('white'))
+                    except:
+                        pass
+                topNode.setBackgroundColor(0, QtGui.QColor('blue'))
+                self.topLevelDict = currentDict
+            else:
+                QMessageBox.warning(self, "EveIDE_LIGHT -- SIMULATE Error",
+                                    "UNKNOWN")
+            # logging.debug("b")
+        elif "open file" in textNow:
+            self.addEditorWidget(currentDict)
+        elif "delete " in textNow:
+            fullPath = os.path.abspath(currentDict.get("fullPath", ""))
+            choose = QMessageBox.warning(self, "EveIDE_LIGHT -- FILE warning",
+                                         "Sure to delete {0} ? ".format(fullPath),
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+            if choose == QMessageBox.Yes:
+                try:
+                    os.remove(fullPath)
+                except:
+                    os.removedirs(fullPath)
+                self.check_file()
+                self.update_sim_tree()
+
     def simulate_right_click_handler(self,q):
         treeNode = self.simulateTreeWidget.currentItem()
         currentDict = treeNode.dictNow
@@ -300,7 +378,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             #logging.debug("b")
         elif "open file" in textNow:
             self.addEditorWidget(currentDict)
-        elif "delete :" in textNow:
+        elif "delete " in textNow:
             fullPath = os.path.abspath(currentDict.get("fullPath",""))
             choose = QMessageBox.warning(self, "EveIDE_LIGHT -- FILE warning",
                                          "Sure to delete {0} ? ".format(fullPath),
@@ -403,6 +481,12 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             if type == "compile":
                 cfgDict["compile_projectPathList"].append(os.path.relpath(pathNow))
                 cfg.write_dict(cfgDict)
+                if not os.path.exists(pathNow + "\\main.S"):
+                    with open(pathNow + "\\main.S", "w+", newline='')as r:
+                        strToWrite = "/***Generate by EveIDE_LIGHT at " + datetime.datetime.now().strftime(
+                            '%Y-%m-%d %H:%M:%S'+"***/")
+                        strToWrite += "\n/****************" + __version__ + "******************/"
+                        r.write(strToWrite)
             elif type == "simulate":
                 cfgDict["simulate_projectPathList"].append(os.path.relpath(pathNow))
                 cfg.write_dict(cfgDict)
@@ -572,7 +656,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
                     with open(savePath, "w+",encoding="utf-8",newline='') as saveFile:
                         saveFile.write(strToSave)
-                        print(strToSave)
+                        #print(strToSave)
                         editor.setWindowTitle(activeWindow.windowTitle().replace("*", ""))
                         editor.finishInit = 1
 
@@ -635,6 +719,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.projectList = self.check_compile_projects
         self.simulateList = self.check_simulate_projcet
         for eachProject in self.projectList:
+            print("creatingTree for "+str(eachProject))
             projectManager = ProjectManage(eachProject)
             projectTreeDict = projectManager.porject_dict
             self.projectTreeDictList.append(projectTreeDict)
@@ -778,7 +863,6 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             childNode.setIcon(0,self.dirIcon)
     def set_project_tree(self, projectTreeDict,treeNow):
         self.comTreeNodeFileList = []
-        treeNow.clear()
         treeNow.setHeaderLabel("Workspace now :" + os.path.basename(self.workspacePath))
         treeNow.setColumnCount(1)
         # logging.debug("now tree:"+str(projectTreeDict))
@@ -796,12 +880,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
             childNode.dictNow = eachFile
             fullName = eachFile.get("fullPath",None)
-            if fullName :
-                #CFunctionSelector = GetFunctionInC(fullName)
-                #functionDict = CFunctionSelector.lexer_analysis()
-                print("ababababa")
-                #print(functionDict)
-                print("ababababa")
+
             childNode.setText(0, eachFile.get("name", ""))
             childNode.dictNow["currentNode"] = childNode
             childNode.dictNow["compile"] = 1
@@ -809,6 +888,20 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             rootNode.addChild(childNode)
             logging.debug("childNode:"+str(childNode))
             self.set_file_icon(childNode,childNode.dictNow)
+
+            if os.path.exists(fullName) :
+                CFunctionSelector = GetFunctionInC(fullName)
+                functionList = CFunctionSelector.fuctionList
+
+            for eachFunction in functionList:
+                functionNode = QTreeWidgetItem()
+                functionNode.dictNow = eachFile
+                functionNode.setText(0,eachFunction)
+                functionNode.setIcon(0,self.functionIcon)
+                childNode.addChild(functionNode)
+
+
+
             # childNode.setIcon()
         for eachDir in nodeDirs:
             childNode = QTreeWidgetItem()
@@ -849,6 +942,9 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             nodeNow.setIcon(0,self.binIcon)
         elif fileSuffix == "mk" :
             nodeNow.setIcon(0,self.makefileIcon)
+        elif fileSuffix == "S" or fileSuffix == "s":
+            nodeNow.setIcon(0,self.assembleIcon)
+
 
     def set_child_tree(self, rootNode, childDict):
         nodeName = childDict.get("node", "")
@@ -864,6 +960,19 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             self.comTreeNodeFileList.append(eachFile)
             rootNode.addChild(childNode)
             self.set_file_icon(childNode,childNode.dictNow)
+            fullName = eachFile.get("fullPath", None)
+            if os.path.exists(fullName) :
+                CFunctionSelector = GetFunctionInC(fullName)
+                functionList = CFunctionSelector.fuctionList
+
+            for eachFunction in functionList:
+                functionNode = QTreeWidgetItem()
+                functionNode.dictNow = eachFile
+                functionNode.setText(0,eachFunction)
+                functionNode.setIcon(0,self.functionIcon)
+                childNode.addChild(functionNode)
+
+
         for eachDir in dirsDict:
             childNode = QTreeWidgetItem()
             dirDict = eachDir.get("child", "")
@@ -911,6 +1020,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.makefileIcon = QIcon()
         self.makefileIcon.addFile(u":/pic/makefile.png", QSize(), QIcon.Normal, QIcon.Off)
         self.verilogIcon = QIcon()
+
         self.verilogIcon.addFile(u":/pic/verilog.png", QSize(), QIcon.Normal, QIcon.Off)
         self.binIcon = QIcon()
         self.binIcon.addFile(u":/pic/bin.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -918,6 +1028,10 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.moduleIcon.addFile(u":/pic/module.png", QSize(), QIcon.Normal, QIcon.Off)
         self.submoduleIcon = QIcon()
         self.submoduleIcon.addFile(u":/pic/submodule.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.functionIcon = QIcon()
+        self.functionIcon.addFile(u":/pic/function.png",QSize(), QIcon.Normal, QIcon.Off)
+        self.assembleIcon = QIcon()
+        self.assembleIcon.addFile(u":/pic/asm.png",QSize(), QIcon.Normal, QIcon.Off)
 
 
     def initUi(self):

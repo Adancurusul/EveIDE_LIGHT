@@ -94,16 +94,18 @@ class SimulatorFileManager():
                 fileText = self.rmCommentsInCFile(rFile.read())#.replace("\n", " ")
                 #print(fileText)
                 # logging.debug(eachStr)
+                fileTextList = re.split("endmodule",fileText)
                 tp = r"(module)(\s+)(\w+)"
                 # patternStr = r"(\w+|_.+)(\s+|\t)(\w+|_.+)(\s+|\t|\s?)\("
-                pattern = re.compile(tp)
-                match = pattern.search(fileText)
-                if match:
-                    ms = match.group(3)
-                    mdict = {"moduleName": ms, "submoduleName": []}
-                    print("searchModule:",ms)
-                    fileDict["module"].append(mdict)
-                    self.modules.append(ms)
+                for eachModule in fileTextList:
+                    pattern = re.compile(tp)
+                    match = pattern.search(eachModule)
+                    if match:
+                        ms = match.group(3)
+                        mdict = {"moduleName": ms, "submoduleName": []}
+                        print("searchModule:",ms)
+                        fileDict["module"].append(mdict)
+                        self.modules.append(ms)
                 # fileText = rmComments(rFile.read()).replace("\t", " ")
                 '''fileList = re.split(";|endmodule|end", fileText)
                 for each in fileList:

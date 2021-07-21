@@ -23,5 +23,6 @@
     <file>minimize.png</file>
     <file>collapse.png</file>
     <file>expand.png</file>
+    <file>function.png</file>
   </qresource>
 </RCC>
