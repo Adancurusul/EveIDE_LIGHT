@@ -85,8 +85,9 @@ class GetFunctionInC:
                 code0 = rmCommentsInCFile(code0)
             self.codeNow = code0
             self.fuctionList = self.get_function(self.codeNow)
+            logging.debug("finishGettingFunction")
         except Exception as e:
-            logging.debug(e)
+            logging.debug("fail to get function in file "+str(e))
     def get_function(self,codeNow):
         functionList = []
         pat1 = re.compile(compileStrA, re.X)
@@ -235,3 +236,6 @@ class GetFunctionInCWithoutRe:
                     break
                 funcDict.setdefault(r[0], r[1])  # 查找到函数名，记录所在行号
         return (filename, funcDict)
+
+if __name__ == '__main__':
+    pass

@@ -9,7 +9,7 @@ LeftSideTab
 
 
 from qtpy.QtWidgets import QApplication, QMainWindow,QWidget,QFileDialog,QFormLayout,QLineEdit,QHBoxLayout,QTabWidget
-from qtpy.QtCore import Qt
+from qtpy.QtCore import Qt,Signal
 from qtpy.QtGui import QPalette,QBrush,QColor
 import qtpy
 from qtpy import QtGui
@@ -106,7 +106,7 @@ class LeftModuleWidget(QWidget,Ui_leftModuleWidget):
         self.compile_tab.moduleWidget = self.compileWidget
         self.compileWidget.setHidden(1)
         #下面为测试代码
-        self.compileWidget.addSettingsDictList(compileSettingDefaultListEx)
+        #self.compileWidget.addSettingsDictList(compileSettingDefaultListEx)
     # self.compile_tab.setHidden(0)
 
     def add_module_project_widget(self):
@@ -120,6 +120,7 @@ class LeftModuleWidget(QWidget,Ui_leftModuleWidget):
 
 
 class moduleCompileWidget(Ui_CompileWidget,QWidget):
+    compileSignal = Signal(list,str)
     def __init__(self):
         super(moduleCompileWidget,self).__init__()
         self.setupUi(self)
@@ -159,10 +160,10 @@ class moduleCompileWidget(Ui_CompileWidget,QWidget):
         for eachDict in self.compileSettingDictList :
             if eachDict.get("projectName","nothing") == currentProjectName :
                 self.currentProjectDict = eachDict
-                self.toolchain_lineEdit.setText(eachDict.get("gccPath","nothing"))
-                self.toolchain_lineEdit.setToolTip(eachDict.get("gccPath","nothing"))
-                self.outputDir_lineEdit.setText(eachDict.get("outputPath","nothing"))
-                self.outputDir_lineEdit.setToolTip(eachDict.get("outputPath","nothing"))
+                self.toolchain_lineEdit.setText(os.path.abspath(eachDict.get("gccPath","nothing")))
+                self.toolchain_lineEdit.setToolTip(os.path.abspath(eachDict.get("gccPath","nothing")))
+                self.outputDir_lineEdit.setText(os.path.abspath(eachDict.get("outputPath","nothing")))
+                self.outputDir_lineEdit.setToolTip(os.path.abspath(eachDict.get("outputPath","nothing")))
                 self.binaryOutput_checkBox.setChecked(eachDict.get("binaryOutput",0))
                 self.mifOutput_checkBox.setChecked(eachDict.get("mifOutput",0))
                 self.coeOutput_checkBox.setChecked(eachDict.get("coeOutput",0))
@@ -183,25 +184,28 @@ class moduleCompileWidget(Ui_CompileWidget,QWidget):
         :return:
         '''
         currentProjectName = self.project_comboBox.currentText()
-        for eachDict in self.compileSettingDictList:
+        for eachDictIndex in range(len(self.compileSettingDictList)):
+
             compileSettingDefaultEx = {"projectName":ex_proName,"projectPath":ex_projectPath,"gccPath":currentDir+"/modules/bin","outputPath":ex_projectPath+"/build","binaryOutput":1,"mifOutput":0,"coeOutput":0,"normalOutput":1,
-                                       "i":1,"m":0,"a":0,"c":0,"f":0,"autoMakefile":1,"gccPrefix":"riscv-nuclei-elf-addr2line","if64bit":1}
-            if currentProjectName == eachDict.get("projectName","nothing") :
-                eachDict["gccPath"] = self.toolchain_lineEdit.text()
-                eachDict["outputPath"] =  self.outputDir_lineEdit.text()
-                eachDict["binaryOutput"] = self.binaryOutput_checkBox.isChecked()
-                eachDict["mifOutput"] = self.mifOutput_checkBox.isChecked()
-                eachDict["coeOutput"] = self.coeOutput_checkBox.isChecked()
-                eachDict["normalOutput"] = self.normalOutput_checkBox.isChecked()
-                eachDict["i"] = self.i_checkBox.isChecked()
-                eachDict["m"] = self.m_checkBox.isChecked()
-                eachDict["a"] = self.a_checkBox.isChecked()
-                eachDict["c"] = self.c_checkBox.isChecked()
-                eachDict["f"] = self.f_checkBox.isChecked()
-                eachDict["autoMakefile"] = self.autoMakefile_checkBox.isChecked()
-                eachDict["if64bit"] = self.bit64_checkBox.isChecked()
+                                       "i":1,"m":0,"a":0,"c":0,"f":0,"autoMakefile":1,"gccPrefix":"riscv-nuclei-elf-","if64bit":1}
+            if currentProjectName == self.compileSettingDictList[eachDictIndex].get("projectName","nothing") :
+                self.compileSettingDictList[eachDictIndex]["gccPath"] = os.path.relpath(self.toolchain_lineEdit.text())
+                self.compileSettingDictList[eachDictIndex]["outputPath"] =  os.path.relpath(self.outputDir_lineEdit.text())
+                self.compileSettingDictList[eachDictIndex]["binaryOutput"] = self.binaryOutput_checkBox.isChecked()
+                self.compileSettingDictList[eachDictIndex]["mifOutput"] = self.mifOutput_checkBox.isChecked()
+                self.compileSettingDictList[eachDictIndex]["coeOutput"] = self.coeOutput_checkBox.isChecked()
+                self.compileSettingDictList[eachDictIndex]["normalOutput"] = self.normalOutput_checkBox.isChecked()
+                self.compileSettingDictList[eachDictIndex]["i"] = self.i_checkBox.isChecked()
+                self.compileSettingDictList[eachDictIndex]["m"] = self.m_checkBox.isChecked()
+                self.compileSettingDictList[eachDictIndex]["a"] = self.a_checkBox.isChecked()
+                self.compileSettingDictList[eachDictIndex]["c"] = self.c_checkBox.isChecked()
+                self.compileSettingDictList[eachDictIndex]["f"] = self.f_checkBox.isChecked()
+                self.compileSettingDictList[eachDictIndex]["autoMakefile"] = self.autoMakefile_checkBox.isChecked()
+                self.compileSettingDictList[eachDictIndex]["if64bit"] = self.bit64_checkBox.isChecked()
                 logging.debug("finish updating projectDictList")
                 break
+        self.compileSignal.emit(self.compileSettingDictList,currentProjectName)
+
 
     def set_tool_tips(self,moduleNow,tipStr):
 
@@ -253,10 +257,10 @@ class moduleCompileWidget(Ui_CompileWidget,QWidget):
         for eachDict in self.compileSettingDictList :
             if eachDict.get("projectName","nothing") == projectNameNow :
                 self.currentProjectDict = eachDict
-                self.toolchain_lineEdit.setText(eachDict.get("gccPath","nothing"))
-                self.toolchain_lineEdit.setToolTip(eachDict.get("gccPath","nothing"))
-                self.outputDir_lineEdit.setText(eachDict.get("outputPath","nothing"))
-                self.outputDir_lineEdit.setToolTip(eachDict.get("outputPath","nothing"))
+                self.toolchain_lineEdit.setText(os.path.abspath(eachDict.get("gccPath","nothing")))
+                self.toolchain_lineEdit.setToolTip(os.path.abspath(eachDict.get("gccPath","nothing")))
+                self.outputDir_lineEdit.setText(os.path.abspath(eachDict.get("outputPath","nothing")))
+                self.outputDir_lineEdit.setToolTip(os.path.abspath(eachDict.get("outputPath","nothing")))
                 self.binaryOutput_checkBox.setChecked(eachDict.get("binaryOutput",0))
                 self.mifOutput_checkBox.setChecked(eachDict.get("mifOutput",0))
                 self.coeOutput_checkBox.setChecked(eachDict.get("coeOutput",0))
@@ -273,8 +277,10 @@ class moduleCompileWidget(Ui_CompileWidget,QWidget):
 
     def addSettingsDictList(self,listNow):
         self.compileSettingDictList = listNow
+        self.project_comboBox.clear()
         for eachDict in self.compileSettingDictList :
             nameNow = eachDict.get("projectName","nothing")
+
             self.project_comboBox.addItem(nameNow)
 
     def addSettingsDict(self,dictNow):

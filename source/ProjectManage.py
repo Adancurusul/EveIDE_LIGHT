@@ -1,6 +1,7 @@
 import os
 import sys
 import logging
+from eve_module.cfgRead import cfgRead
 #t_dir = "C:\Users\User\Documents\GitHub\EveIDE_Plus\source\\t_exCpro"
 languageFileSuportList = [".c",".v",".sv",".S"]
 outputFileSupportList = [".bin",".mif",".coe",".out"]
@@ -15,6 +16,9 @@ path = "C:\\Users\\User\\Documents\\GitHub\\EveIDE_Plus\\source\\t_exCpro"
 class ProjectManage():
     def __init__(self,projectPath):
         self.projectPath = projectPath
+
+
+
     def get_project_tree_dict(self):
         files = os.listdir(path)
     def get_project_dict(self):
@@ -85,7 +89,7 @@ class ProjectManage():
         rootTreeList = []
         for home, dirs, files in os.walk(self.projectPath):
 
-            treeDict = {"node": os.path.basename(home), "dirs": [], "files": [], "ifOpen": 0}
+            treeDict = {"node": os.path.basename(home), "dirs": [], "files": [], "ifOpen": 0,"fullPath":home,"name":os.path.basename(home)}#root
             for eachDir in dirs:
                 dirDictNow = {}
                 dirDictNow["fullPath"] = self.relative_path(os.path.join(home, eachDir))

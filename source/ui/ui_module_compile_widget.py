@@ -279,7 +279,7 @@ class Ui_CompileWidget(object):
         self.binaryOutput_checkBox.setText(QCoreApplication.translate("CompileWidget", u"BinaryOutput", None))
         self.mifOutput_checkBox.setText(QCoreApplication.translate("CompileWidget", u"MifOutput", None))
         self.coeOutput_checkBox.setText(QCoreApplication.translate("CompileWidget", u"CoeOutput", None))
-        self.normalOutput_checkBox.setText(QCoreApplication.translate("CompileWidget", u"NormalOutput", None))
+        self.normalOutput_checkBox.setText(QCoreApplication.translate("CompileWidget", u"elfOutput", None))
         self.label_2.setText(QCoreApplication.translate("CompileWidget", u"output dir:", None))
 #if QT_CONFIG(tooltip)
         self.outputDir_lineEdit.setToolTip(QCoreApplication.translate("CompileWidget", u"PathNow", None))

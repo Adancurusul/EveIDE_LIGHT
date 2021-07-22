@@ -278,7 +278,7 @@
         <item>
          <widget class="QCheckBox" name="normalOutput_checkBox">
           <property name="text">
-           <string>NormalOutput</string>
+           <string>elfOutput</string>
           </property>
          </widget>
         </item>

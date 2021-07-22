@@ -111,9 +111,10 @@ def findIoPorts(text):
         if portnames[-1] == '':
             portnames.pop()
         for item in portnames:
-            portNameLst.append(item)
-            portTypeLst.append(portPair[port[1]])
-            portWidthLst.append(port[-4])
+            if "wire" not in item:
+                portNameLst.append(item)
+                portTypeLst.append(portPair[port[1]])
+                portWidthLst.append(port[-4])
     return portNameLst, portWidthLst, portTypeLst
 
 def portInstTempl(portNameLst, portWidthLst, portTypeLst):

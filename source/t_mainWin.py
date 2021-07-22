@@ -56,7 +56,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
     #__project_cfg_path = "../configure/cfgPorjectList.evecfg"
 
     __workspace_cfg_path = "../configure/cfgWorkspace.evecfg"
-    __project_cfg_path = __workspace_cfg_path+"/cfgPorjectList.evecfg"
+
     __simulator_cfg_path = "../configure/cfgSimulater.evecfg"
 
     projectTreeDictList = []
@@ -100,15 +100,30 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.timerCheckFile = QTimer()
         self.timerCheckFile.timeout.connect(self.check_file)
         self.timerCheckFile.start(10000)
+
     def initLogic(self):
         self.ChangeEncoding = ChangeEncoding()
 
         self.firstInit = 1
+
         self.treeWidget = self.leftWidget.projectWidget.projectFile_treeWidget
         self.simulateTreeWidget = self.leftWidget.simulateWidget.ProjectTreeWidget.projectFile_treeWidget
         logging.debug("nowSim"+str(self.simulateTreeWidget ))
         self.treeWidget.setHeaderLabel("")
-        self.workspacePath = read_cfg(self.__workspace_cfg_path).get("workspaceNow","")
+        cfgDict = read_cfg(self.__workspace_cfg_path)
+        self.workspacePath = cfgDict.get("workspaceNow","../")
+        write_cfg(self.__workspace_cfg_path,cfgDict)
+        self.projectList = self.check_compile_projects
+        self.simulateList = self.check_simulate_projcet
+        self.__project_cfg_path = self.workspacePath+"/cfgPorjectList.evecfg"
+        cfgDictProject = read_cfg(self.__project_cfg_path)
+        compileSettingList = self.clear_unused_compile_project(cfgDictProject.get("comlipeSetting",[]),self.projectList)
+
+        cfgDictProject["comlipeSetting"] = compileSettingList
+        write_cfg(self.__project_cfg_path,cfgDictProject)
+
+        self.leftWidget.compileWidget.addSettingsDictList(compileSettingList)
+
         logging.debug("workspace Now :" + self.workspacePath)
         if ( self.workspacePath == "") or (self.workspacePath is  None):
             self.workspacePath = "./"
@@ -122,6 +137,23 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.view_dock_closeEvent()
         self.connect_signal()
 
+    def clear_unused_compile_project(self,projectSettingList,projectList):
+        realSettingList = []
+        for eachProject in projectList:
+            findSetting = 0
+            ex_projectPath = eachProject
+            compileSettingDefaultEx = {"projectName":os.path.basename(ex_projectPath),"projectPath":ex_projectPath,"gccPath":"modules/bin","outputPath":ex_projectPath+"/build","binaryOutput":1,"mifOutput":0,"coeOutput":0,"normalOutput":1,
+                                       "i":1,"m":0,"a":0,"c":0,"f":0,"autoMakefile":1,"gccPrefix":"riscv-nuclei-elf-addr2line","if64bit":1}
+
+            for eachSetting in projectSettingList:
+                fullPath = eachSetting.get("projectPath",None)
+                if fullPath :
+                    if fullPath == eachProject :
+                        realSettingList.append(eachSetting)
+                        findSetting = 1
+            if not findSetting:
+                realSettingList.append(compileSettingDefaultEx)
+        return realSettingList
     def init_sub_thread(self):
         self.simulateThread = SimulateThread()
 
@@ -163,10 +195,98 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             self.addEditorWidget(fileDict)
     def updateTextOutput(self,color,outStr):
         self.TextOutput.append(color%outStr)
+    def do_compile_for_project(self,settingList,currentPorjectName):
+        '''
+        TODO:
+        目前只支持单文件自动编译，后期会增加多文件
+
+        :param settingList:
+        :param currentPorjectName:
+        :return:
+        '''
+        #compileSettingDefaultEx = {"projectName":os.path.basename(ex_projectPath),"projectPath":ex_projectPath,"gccPath":"modules/bin","outputPath":ex_projectPath+"/build","binaryOutput":1,"mifOutput":0,"coeOutput":0,"normalOutput":1,
+        #                           "i":1,"m":0,"a":0,"c":0,"f":0,"autoMakefile":1,"gccPrefix":"riscv-nuclei-elf-addr2line","if64bit":1}
+        self.save_compile_settings(settingList)
+        for eachDict in settingList:
+            if currentPorjectName == eachDict.get("projectName",""):
+                dictNow = eachDict
+                pathNow = dictNow.get("projectPath","")
+                if dictNow.get("autoMakefile",1)==1:
+                    gccPath = eachDict.get("gccPath","")
+                    gccPrefix = self.get_gcc_prefix(gccPath)
+                    eachDict["gccPrefix"] = gccPrefix
+                    outputPath = eachDict.get("outputPath","")
+                    if dictNow.get("if64bit",1):
+                        marchStr = " -march=rv64"
+                        if dictNow.get("i",0):
+                            marchStr+="i"
+                        if dictNow.get("m",0):
+                            marchStr+="m"
+                        if dictNow.get("a",0):
+                            marchStr+="a"
+                        if dictNow.get("c",0):
+                            marchStr+="c"
+                        if dictNow.get("f",0):
+                            marchStr+="f"
+                        mabiStr = " -mabi=lp64 "
+                    else:
+                        marchStr = "-march=rv32"
+                        if dictNow.get("i",0):
+                            marchStr+="i"
+                        if dictNow.get("m",0):
+                            marchStr+="m"
+                        if dictNow.get("a",0):
+                            marchStr+="a"
+                        if dictNow.get("c",0):
+                            marchStr+="c"
+                        if dictNow.get("f",0):
+                            marchStr+="f"
+                        mabiStr = " -mabi=ilp32 "
+                    compilePrefixStr = gccPath+gccPrefix+marchStr+mabiStr
+                    if os.path.exists(pathNow+"\\main.S") :
+                        fileStr = pathNow+"\\main.S"
+                    elif os.path.exists(pathNow+"\\main.c"):
+                        fileStr = pathNow+"\\main.c"
+                    elif os.path.exists(pathNow+"\\main.s"):
+                        fileStr = pathNow+"\\main.s"
+                    else :
+                        fileStr = pathNow+"\\main.c"
+                    compileStrList = []
+                    compileStrList.append(compilePrefixStr+" -c "+fileStr+" -o "+outputPath+"\main.bin")
+                    
+
+                    #-march=rv32i -mabi=ilp32
+                    #-march=rv64ia -mabi=lp64
+                else :
+                    self.do_make(pathNow)
 
 
+
+    def do_make(self,path):
+        pass
+
+    def get_gcc_prefix(self,gccPath):
+        #commandDict = [""]
+        usefulFileList = []
+        preFixNow = None
+        for files in os.listdir(gccPath) :
+
+            #print("get Prefix",files)
+            if "objcopy.exe" in files:
+                #print("get Prefix",files.replace("objcopy.exe",""))
+                preFixNow = files.replace("objcopy.exe","")
+                break
+        return preFixNow
+
+
+    def save_compile_settings(self,settingList):
+        cfgDict = read_cfg(self.__project_cfg_path)
+        cfgDict["comlipeSetting"] = settingList
+        write_cfg(self.__project_cfg_path,cfgDict)
+        logging.debug("workspace_cfg saved")
 
     def connect_signal(self):
+        self.leftWidget.compileWidget.compileSignal.connect(self.do_compile_for_project)
         self.leftWidget.projectWidget.pushButton.clicked.connect(self.set_workspace_tree)
         self.actionnew.triggered.connect(lambda: self.addEditorWidget(fileDict=None))
         self.actionopen.triggered.connect(self.openFile)
@@ -252,10 +372,12 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                 popMenu.triggered[QAction].connect(self.project_right_click_handler)
                 popMenu.exec_(QCursor.pos())
             else:
-                popMenu = QMenu()
-                popMenu.addAction(QAction(u'delete current item: ' + currentDict.get("name", ""), self))
-                popMenu.triggered[QAction].connect(self.project_right_click_handler)
-                popMenu.exec_(QCursor.pos())
+                nameNow = currentDict.get("name",None)
+                if nameNow:
+                    popMenu = QMenu()
+                    popMenu.addAction(QAction(u'delete current item: ' + nameNow, self))
+                    popMenu.triggered[QAction].connect(self.project_right_click_handler)
+                    popMenu.exec_(QCursor.pos())
 
             logging.debug(nodeNow.dictNow)
     def sim_tree_right_click(self,pos):
@@ -480,6 +602,8 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             cfgDict = cfg.get_dict()
             if type == "compile":
                 cfgDict["compile_projectPathList"].append(os.path.relpath(pathNow))
+                settingList = self.clear_unused_compile_project(cfgDict.get("compileSetting",[]),cfgDict.get("compile_projectPathList",[]))
+                cfgDict["compileSetting"] = settingList
                 cfg.write_dict(cfgDict)
                 if not os.path.exists(pathNow + "\\main.S"):
                     with open(pathNow + "\\main.S", "w+", newline='')as r:
@@ -487,6 +611,10 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                             '%Y-%m-%d %H:%M:%S'+"***/")
                         strToWrite += "\n/****************" + __version__ + "******************/"
                         r.write(strToWrite)
+                self.leftWidget.compileWidget.addSettingsDictList(settingList)
+                self.set_workspace_tree()
+
+
             elif type == "simulate":
                 cfgDict["simulate_projectPathList"].append(os.path.relpath(pathNow))
                 cfg.write_dict(cfgDict)
@@ -717,7 +845,6 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
     def set_workspace_tree(self):
         self.treeWidget.clear()
         self.projectList = self.check_compile_projects
-        self.simulateList = self.check_simulate_projcet
         for eachProject in self.projectList:
             print("creatingTree for "+str(eachProject))
             projectManager = ProjectManage(eachProject)
@@ -742,60 +869,64 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         rootNode = QTreeWidgetItem(treeNow)
         rootNode.setText(0, nodeName)
         rootNode.dictNow = projectTreeDict
+        print("project tree dict"+str(projectTreeDict))
         rootNode.setIcon(0, self.dirIcon)
         # rootNode.setIcon()
         for eachFile in filesNow:
-            currentName =eachFile.get("name", "")
-            # logging.debug("rootFiles:"+str(eachFile))
-            childNode = QTreeWidgetItem()
-            childNode.dictNow = eachFile
-            childNode.setText(0, currentName)
-            childNode.dictNow["currentNode"] = childNode
-            childNode.dictNow["simulate"] = 1
-            self.simTreeNodeFileList.append(eachFile)
-            rootNode.addChild(childNode)
-            #logging.debug("childNode:" + str(childNode))
-            self.set_file_icon(childNode, childNode.dictNow)
-            for eachDict in moduleDict :
-                if eachDict.get("name","") == currentName :
-                    if not eachDict.get("module",[]) == [] :
-                        for eachModuleDict in eachDict.get("module",[]) :
-                            childModuleNode = QTreeWidgetItem()
-                            di = eachFile
-                            #di["ifSubmodule"] = 1
-                            childModuleNode.dictNow = di
-                            childModuleNode.setText(0,eachModuleDict.get("moduleName",""))
-                            childNode.addChild(childModuleNode)
-                            childModuleNode.setIcon(0,self.moduleIcon)
-                            if not eachModuleDict.get("submoduleName",[]) == [] :
-                                for eachSubmoduleName in eachModuleDict.get("submoduleName", []):
-                                    nameN = eachSubmoduleName.get("name","")
-                                    di = eachSubmoduleName.get("submoduleFileDict", {})
-                                    if di == {}:
-                                        di = eachFile
-                                    childSubmoduelNode = QTreeWidgetItem()
-                                    di["ifSubmodule"] = 1
-                                    childSubmoduelNode.dictNow = di
-                                    childSubmoduelNode.setText(0,nameN)
-                                    childModuleNode.addChild(childSubmoduelNode)
-                                    childSubmoduelNode.setIcon(0,self.submoduleIcon)
+            currentName =eachFile.get("name", None)
+            if currentName:
+                # logging.debug("rootFiles:"+str(eachFile))
+                childNode = QTreeWidgetItem()
+                childNode.dictNow = eachFile
+                childNode.setText(0, currentName)
+                childNode.dictNow["currentNode"] = childNode
+                childNode.dictNow["simulate"] = 1
+                self.simTreeNodeFileList.append(eachFile)
+                rootNode.addChild(childNode)
+                #logging.debug("childNode:" + str(childNode))
+                self.set_file_icon(childNode, childNode.dictNow)
+                for eachDict in moduleDict :
+                    if eachDict.get("name","") == currentName :
+                        if not eachDict.get("module",[]) == [] :
+                            for eachModuleDict in eachDict.get("module",[]) :
+                                childModuleNode = QTreeWidgetItem()
+                                di = eachFile
+                                #di["ifSubmodule"] = 1
+                                childModuleNode.dictNow = di
+                                childModuleNode.setText(0,eachModuleDict.get("moduleName",""))
+                                childNode.addChild(childModuleNode)
+                                childModuleNode.setIcon(0,self.moduleIcon)
+                                if not eachModuleDict.get("submoduleName",[]) == [] :
+                                    for eachSubmoduleName in eachModuleDict.get("submoduleName", []):
+                                        nameN = eachSubmoduleName.get("name","")
+                                        di = eachSubmoduleName.get("submoduleFileDict", {})
+                                        if di == {}:
+                                            di = eachFile
+                                        childSubmoduelNode = QTreeWidgetItem()
+                                        di["ifSubmodule"] = 1
+                                        childSubmoduelNode.dictNow = di
+                                        childSubmoduelNode.setText(0,nameN)
+                                        childModuleNode.addChild(childSubmoduelNode)
+                                        childSubmoduelNode.setIcon(0,self.submoduleIcon)
 
 
             # childNode.setIcon()
         for eachDir in nodeDirs:
             #print(eachDir)
             childNode = QTreeWidgetItem()
-            dirDict = eachDir.get("child", "")
-            # logging.debug("dirDict"+str(dirDict).replace("\'","\""))
-            childNode.setText(0, eachDir.get("name", ""))
-            rootNode.addChild(childNode)
-            childNode.dictNow = eachDir
-            childNode.dictNow["currentNode"] = childNode
-            #print(childNode)
-            #print(dirDict)
-            #(moduleDict)
-            self.set_sim_child_tree(childNode, dirDict,moduleDict)
-            childNode.setIcon(0, self.dirIcon)
+            dirDict = eachDir.get("child", None)
+            if dirDict:
+                # logging.debug("dirDict"+str(dirDict).replace("\'","\""))
+                childNode.setText(0, eachDir.get("name", None))
+                if childNode:
+                    rootNode.addChild(childNode)
+                    childNode.dictNow = eachDir
+                    childNode.dictNow["currentNode"] = childNode
+                    #print(childNode)
+                    #print(dirDict)
+                    #(moduleDict)
+                    self.set_sim_child_tree(childNode, dirDict,moduleDict)
+                    childNode.setIcon(0, self.dirIcon)
         checkPathList = []
         subWindowList = self.mdi.subWindowList()
         for eachWindow in subWindowList:
@@ -863,10 +994,11 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             childNode.setIcon(0,self.dirIcon)
     def set_project_tree(self, projectTreeDict,treeNow):
         self.comTreeNodeFileList = []
-        treeNow.setHeaderLabel("Workspace now :" + os.path.basename(self.workspacePath))
+        #treeNow.setHeaderLabel("Workspace now :" + os.path.basename(self.workspacePath))
+        treeNow.setHeaderLabel("")
         treeNow.setColumnCount(1)
         # logging.debug("now tree:"+str(projectTreeDict))
-        nodeName = projectTreeDict.get("node", "")
+        nodeName = projectTreeDict.get("node", None)
         nodeDirs = projectTreeDict.get("dirs", "")
         filesNow = projectTreeDict.get("files", "")
         rootNode = QTreeWidgetItem(treeNow)
@@ -874,60 +1006,62 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         rootNode.dictNow = projectTreeDict
         rootNode.setIcon(0,self.dirIcon)
         # rootNode.setIcon()
-        for eachFile in filesNow:
-            # logging.debug("rootFiles:"+str(eachFile))
-            childNode = QTreeWidgetItem()
+        if  nodeName:
+            for eachFile in filesNow:
+                # logging.debug("rootFiles:"+str(eachFile))
+                childNode = QTreeWidgetItem()
 
-            childNode.dictNow = eachFile
-            fullName = eachFile.get("fullPath",None)
+                childNode.dictNow = eachFile
+                fullName = eachFile.get("fullPath",None)
 
-            childNode.setText(0, eachFile.get("name", ""))
-            childNode.dictNow["currentNode"] = childNode
-            childNode.dictNow["compile"] = 1
-            self.comTreeNodeFileList.append(eachFile)
-            rootNode.addChild(childNode)
-            logging.debug("childNode:"+str(childNode))
-            self.set_file_icon(childNode,childNode.dictNow)
+                childNode.setText(0, eachFile.get("name", ""))
+                childNode.dictNow["currentNode"] = childNode
+                childNode.dictNow["compile"] = 1
+                self.comTreeNodeFileList.append(eachFile)
+                rootNode.addChild(childNode)
+                logging.debug("childNode:"+str(childNode))
+                self.set_file_icon(childNode,childNode.dictNow)
+                functionList = []
+                if os.path.exists(fullName) :
+                    if eachFile.get("fileSuffix") == "c":
+                        CFunctionSelector = GetFunctionInC(fullName)
+                        functionList = CFunctionSelector.fuctionList
 
-            if os.path.exists(fullName) :
-                CFunctionSelector = GetFunctionInC(fullName)
-                functionList = CFunctionSelector.fuctionList
-
-            for eachFunction in functionList:
-                functionNode = QTreeWidgetItem()
-                functionNode.dictNow = eachFile
-                functionNode.setText(0,eachFunction)
-                functionNode.setIcon(0,self.functionIcon)
-                childNode.addChild(functionNode)
-
-
-
-            # childNode.setIcon()
-        for eachDir in nodeDirs:
-            childNode = QTreeWidgetItem()
-            dirDict = eachDir.get("child", "")
-            # logging.debug("dirDict"+str(dirDict).replace("\'","\""))
-            childNode.setText(0, eachDir.get("name", ""))
-            rootNode.addChild(childNode)
-            childNode.dictNow = eachDir
-            childNode.dictNow["currentNode"] = childNode
-            self.set_child_tree(childNode, dirDict)
-            childNode.setIcon(0,self.dirIcon)
-        subWindowList = self.mdi.subWindowList()#在每次tree更新后能保证window 的currentnode更新
-        for eachWindow in subWindowList:
-            widgetNow = eachWindow.widget()
-            dictNow = widgetNow.dictNow
-            # logging.debug(dictNow)
-            fullPath = dictNow.get("fullPath", None)
-            if not fullPath is None:
-                for eachFile in self.comTreeNodeFileList :
-                    if eachFile.get("fullPath","") == fullPath :
-                        #logging.debug("::::...change",fullPath)
-                        widgetNow.dictNow["currentNode"] = eachFile.get("currentNode")
-                        treeNow.setCurrentItem(eachFile.get("currentNode"))
+                for eachFunction in functionList:
+                    functionNode = QTreeWidgetItem()
+                    functionNode.dictNow = eachFile
+                    functionNode.setText(0,eachFunction)
+                    functionNode.setIcon(0,self.functionIcon)
+                    childNode.addChild(functionNode)
 
 
-        # for eachChild in
+
+                # childNode.setIcon()
+            for eachDir in nodeDirs:
+                childNode = QTreeWidgetItem()
+                dirDict = eachDir.get("child", "")
+                # logging.debug("dirDict"+str(dirDict).replace("\'","\""))
+                childNode.setText(0, eachDir.get("name", ""))
+                rootNode.addChild(childNode)
+                childNode.dictNow = eachDir
+                childNode.dictNow["currentNode"] = childNode
+                self.set_child_tree(childNode, dirDict)
+                childNode.setIcon(0,self.dirIcon)
+            subWindowList = self.mdi.subWindowList()#在每次tree更新后能保证window 的currentnode更新
+            for eachWindow in subWindowList:
+                widgetNow = eachWindow.widget()
+                dictNow = widgetNow.dictNow
+                # logging.debug(dictNow)
+                fullPath = dictNow.get("fullPath", None)
+                if not fullPath is None:
+                    for eachFile in self.comTreeNodeFileList :
+                        if eachFile.get("fullPath","") == fullPath :
+                            #logging.debug("::::...change",fullPath)
+                            widgetNow.dictNow["currentNode"] = eachFile.get("currentNode")
+                            treeNow.setCurrentItem(eachFile.get("currentNode"))
+
+
+            # for eachChild in
 
     def set_file_icon(self,nodeNow,nodeDict):
         fileSuffix = nodeDict.get("fileSuffix","")
@@ -961,10 +1095,12 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             rootNode.addChild(childNode)
             self.set_file_icon(childNode,childNode.dictNow)
             fullName = eachFile.get("fullPath", None)
+            functionList = []
             if os.path.exists(fullName) :
-                CFunctionSelector = GetFunctionInC(fullName)
-                functionList = CFunctionSelector.fuctionList
-
+                if eachFile.get("fileSuffix") == "c":
+                    CFunctionSelector = GetFunctionInC(fullName)
+                    functionList = CFunctionSelector.fuctionList
+            print("functionList:"+str(functionList))
             for eachFunction in functionList:
                 functionNode = QTreeWidgetItem()
                 functionNode.dictNow = eachFile
