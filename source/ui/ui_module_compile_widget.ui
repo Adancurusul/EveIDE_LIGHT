@@ -254,7 +254,7 @@
         <item>
          <widget class="QCheckBox" name="binaryOutput_checkBox">
           <property name="text">
-           <string>BinaryOutput</string>
+           <string>BinOutput</string>
           </property>
           <property name="checked">
            <bool>true</bool>

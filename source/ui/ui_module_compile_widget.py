@@ -276,7 +276,7 @@ class Ui_CompileWidget(object):
         self.groupBox_4.setTitle(QCoreApplication.translate("CompileWidget", u"MakeFile", None))
         self.autoMakefile_checkBox.setText(QCoreApplication.translate("CompileWidget", u"Auto generate", None))
         self.groupBox.setTitle(QCoreApplication.translate("CompileWidget", u"OutputSettings", None))
-        self.binaryOutput_checkBox.setText(QCoreApplication.translate("CompileWidget", u"BinaryOutput", None))
+        self.binaryOutput_checkBox.setText(QCoreApplication.translate("CompileWidget", u"BinOutput", None))
         self.mifOutput_checkBox.setText(QCoreApplication.translate("CompileWidget", u"MifOutput", None))
         self.coeOutput_checkBox.setText(QCoreApplication.translate("CompileWidget", u"CoeOutput", None))
         self.normalOutput_checkBox.setText(QCoreApplication.translate("CompileWidget", u"elfOutput", None))

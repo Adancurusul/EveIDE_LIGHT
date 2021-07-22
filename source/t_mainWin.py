@@ -27,8 +27,10 @@ from eve_module.cfgRead import cfgRead
 from eve_module.CreateInstance import CreateInsance
 from eve_module.GetSimDumpFile import GetSimDumpFile
 from eve_module.ChangeEncoding import ChangeEncoding
+from eve_module.CompileOutput import CompileOutput
 from eve_module.GetFunctionInC import GetFunctionInC
 from eve_module.SimulateThread import SimulateThread
+from eve_module.CompileThread import CompileThread
 from eve_module.EmittingStr import EmittingStr
 from ProjectManage import ProjectManage
 from SelectWorkspace import SelectWorkspace
@@ -156,6 +158,15 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         return realSettingList
     def init_sub_thread(self):
         self.simulateThread = SimulateThread()
+        self.compileThread = CompileThread()
+        self.compilethreadUsed = 0
+        self.simulateThread.updateTextOutput.connect(self.updateTextOutput)
+        self.compileThread.updateTextOutput.connect(self.updateTextOutput)
+        #不能在pushbutton的槽函数里面，否则会多次遍历
+        self.global_mifOutput = 1
+        self.global_coeOutput = 1
+        self.global_outputPath = "./"
+        self.compileThread.compileEndSignal.connect(lambda :self.create_coe_mif(self.global_mifOutput,self.global_coeOutput,self.global_outputPath))
 
     def outputWritten(self, text):
 
@@ -204,18 +215,26 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         :param currentPorjectName:
         :return:
         '''
-        #compileSettingDefaultEx = {"projectName":os.path.basename(ex_projectPath),"projectPath":ex_projectPath,"gccPath":"modules/bin","outputPath":ex_projectPath+"/build","binaryOutput":1,"mifOutput":0,"coeOutput":0,"normalOutput":1,
-        #                           "i":1,"m":0,"a":0,"c":0,"f":0,"autoMakefile":1,"gccPrefix":"riscv-nuclei-elf-addr2line","if64bit":1}
+
         self.save_compile_settings(settingList)
         for eachDict in settingList:
             if currentPorjectName == eachDict.get("projectName",""):
+                print("startCompile")
                 dictNow = eachDict
-                pathNow = dictNow.get("projectPath","")
+                pathNow = dictNow.get("projectPath","").replace("/","\\")
+
+                gccPath = eachDict.get("gccPath","").replace("/","\\")
                 if dictNow.get("autoMakefile",1)==1:
-                    gccPath = eachDict.get("gccPath","")
+
                     gccPrefix = self.get_gcc_prefix(gccPath)
                     eachDict["gccPrefix"] = gccPrefix
-                    outputPath = eachDict.get("outputPath","")
+                    outputPath = eachDict.get("outputPath","").replace("/","\\")
+
+                    if not os.path.exists(outputPath):
+                        os.mkdir(outputPath)
+
+
+
                     if dictNow.get("if64bit",1):
                         marchStr = " -march=rv64"
                         if dictNow.get("i",0):
@@ -230,7 +249,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                             marchStr+="f"
                         mabiStr = " -mabi=lp64 "
                     else:
-                        marchStr = "-march=rv32"
+                        marchStr = " -march=rv32 "
                         if dictNow.get("i",0):
                             marchStr+="i"
                         if dictNow.get("m",0):
@@ -242,7 +261,8 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                         if dictNow.get("f",0):
                             marchStr+="f"
                         mabiStr = " -mabi=ilp32 "
-                    compilePrefixStr = gccPath+gccPrefix+marchStr+mabiStr
+                    compilePrefixStr = gccPath+"\\"+gccPrefix+"gcc"+" -c -nostdlib "+marchStr+mabiStr
+                    objdumpPrefixStr = gccPath+"\\"+gccPrefix+"objcopy -O binary "
                     if os.path.exists(pathNow+"\\main.S") :
                         fileStr = pathNow+"\\main.S"
                     elif os.path.exists(pathNow+"\\main.c"):
@@ -252,18 +272,53 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                     else :
                         fileStr = pathNow+"\\main.c"
                     compileStrList = []
-                    compileStrList.append(compilePrefixStr+" -c "+fileStr+" -o "+outputPath+"\main.bin")
-                    
+                    #compileSettingDefaultEx = {"projectName":os.path.basename(ex_projectPath),"projectPath":ex_projectPath,"gccPath":"modules/bin","outputPath":ex_projectPath+"/build","binaryOutput":1,"mifOutput":0,"coeOutput":0,"normalOutput":1,
+                    #                           "i":1,"m":0,"a":0,"c":0,"f":0,"autoMakefile":1,"gccPrefix":"riscv-nuclei-elf-addr2line","if64bit":1}
+
+                    compileStrList.append(compilePrefixStr+  " "+fileStr+" -o "+outputPath+"\main.o")
+                    compileStrList.append(objdumpPrefixStr+outputPath+"\main.o "+outputPath+"\main.bin")
+                    if eachDict.get("normalOutput",0):
+                        compileStrList.append(compilePrefixStr+" "+fileStr+" -o "+outputPath+"\main.elf")
+                    compileStrList.append(gccPath+"\\"+gccPrefix+"objdump -S "+outputPath+"\main.o")
+                    self.compileThread.init_thread(compileStrList)
+                    self.TextOutput.clear()
+                    self.global_mifOutput = eachDict.get("mifOutput",1)
+                    self.global_coeOutput = eachDict.get("coeOutput",1)
+                    self.global_outputPath = outputPath
+
+
+                    self.compileThread.run()
 
                     #-march=rv32i -mabi=ilp32
                     #-march=rv64ia -mabi=lp64
                 else :
-                    self.do_make(pathNow)
+                    self.do_make(os.path.abspath(pathNow),os.path.abspath(gccPath))
+
+
+    def create_coe_mif(self,ifmif,ifcoe,outputPath):
+        print("into mif coe")
+        compileModule = CompileOutput()
+        inFile= outputPath+"\\main.bin"
+        hexStr = compileModule.get_hexStr_from_bin(inFile)
+        #print(hexStr)
+        byteStr = compileModule.get_byte_str(inFile)
+        mifStr = compileModule.bin2mif(byteStr)
+        coeStr = compileModule.bin2coe(byteStr)
+        if ifmif:
+            with open(outputPath+"\\main.mif","w+",newline="") as w:
+                w.write(mifStr)
+        if ifcoe :
+            with open(outputPath+"\\main.coe","w+",newline="") as w:
+                w.write(coeStr)
+        #self.compileThread.stop
+    def do_make(self,pathNow,gccPath):
+        compileStrList = []
+        strMake = gccPath+"\\make"
+        compileStrList.append(strMake)
+        self.compileThread.init_thread(compileStrList,cmdPath=pathNow)
 
 
 
-    def do_make(self,path):
-        pass
 
     def get_gcc_prefix(self,gccPath):
         #commandDict = [""]
@@ -299,7 +354,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.actionNewSimulate.triggered.connect(lambda : self.new_project_widget("simulate"))
         self.treeWidget.itemDoubleClicked.connect(self.open_project_file)
         self.mdi.subWindowActivated.connect(self.current_editor_changed)
-        self.simulateThread.updateTextOutput.connect(self.updateTextOutput)
+
         # .parent
         # setItem
     def update_workspace(self):
@@ -781,12 +836,16 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                     stream = QtCore.QTextStream(fh)
                     stream.setCodec("UTF-8")
                     stream << strToSave'''
+                    if editorDict.get("fileSuffix","") == "bin":
+                        QMessageBox.warning(self, "EveIDE_LIGHT -- SAVE Error",
+                                            "{0} is not able to edit here".format(savePath))
+                    else:
 
-                    with open(savePath, "w+",encoding="utf-8",newline='') as saveFile:
-                        saveFile.write(strToSave)
-                        #print(strToSave)
-                        editor.setWindowTitle(activeWindow.windowTitle().replace("*", ""))
-                        editor.finishInit = 1
+                        with open(savePath, "w+",encoding="utf-8",newline='') as saveFile:
+                            saveFile.write(strToSave)
+                            #print(strToSave)
+                            editor.setWindowTitle(activeWindow.windowTitle().replace("*", ""))
+                            editor.finishInit = 1
 
 
                 except Exception as e:
@@ -1251,8 +1310,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                 self.mdi.setActiveSubWindow(eachWindow)
 
         if not fileOpened:
-            try:
-
+            if fileDict.get("fileSuffix","")=="bin":
                 editorNow = EditorWidget()
                 editorNow.dictNow = fileDict
                 logging.debug("editor open file dict :"+str(fileDict))
@@ -1265,32 +1323,53 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                 fullPath = fileDict.get("fullPath", None)
                 code = ""
                 if not fullPath is None:
-                    with open(fullPath, "r",encoding="utf-8") as openFile:
-                        code = openFile.read()
-                        # logging.debug("\""+code+"\"")
+                    t = CompileOutput()
+                    code = t.get_hexStr_from_bin(fullPath)
+
                 editorNow.add_codes(code)
-                suffixNow = fileDict.get("fileSuffix","")
-                if suffixNow== "c" or suffixNow == "cpp" :
-                    editorNow.set_language("c")
-
-                elif suffixNow== "v" or suffixNow == "sv" :
-                    editorNow.set_language("verilog")
-                elif suffixNow== "py" :
-                    editorNow.set_language("python")
-                elif suffixNow == "asm" or suffixNow == "S":
-                    editorNow.set_language("mips")
-
 
                 editorNow.show()
+            else:
+                try:
 
-                # editorNow.add_change_handler(lambda :editorNow.setWindowTitle(fileNameNow+" *"))
+                    editorNow = EditorWidget()
+                    editorNow.dictNow = fileDict
+                    logging.debug("editor open file dict :"+str(fileDict))
+                    # self.midEditorTabWidget.addTab(editorNow,fileNameNow)
+                    self.mdi.addSubWindow(editorNow)
+                    editorNow.titleNow = fileNameNow
+                    editorNow.bridge.valueChanged.connect(lambda: self.editor_value_change_handler(editorNow))
+                    editorNow.setWindowTitle(fileNameNow)
+                    # logging.debug(self.mdi.activeSubWindow())
+                    fullPath = fileDict.get("fullPath", None)
+                    code = ""
+                    if not fullPath is None:
+                        with open(fullPath, "r",encoding="utf-8") as openFile:
+                            code = openFile.read()
+                            # logging.debug("\""+code+"\"")
+                    editorNow.add_codes(code)
+                    suffixNow = fileDict.get("fileSuffix","")
+                    if suffixNow== "c" or suffixNow == "cpp" :
+                        editorNow.set_language("c")
+
+                    elif suffixNow== "v" or suffixNow == "sv" :
+                        editorNow.set_language("verilog")
+                    elif suffixNow== "py" :
+                        editorNow.set_language("python")
+                    elif suffixNow == "asm" or suffixNow == "S":
+                        editorNow.set_language("mips")
 
 
-            except Exception as e:
-                logging.debug(e)
+                    editorNow.show()
 
-                QMessageBox.warning(self, "EveIDE_LIGHT -- OPEN Error",
-                                    "Failed to open {0}".format(fileDict.get("fullPath", "")))
+                    # editorNow.add_change_handler(lambda :editorNow.setWindowTitle(fileNameNow+" *"))
+
+
+                except Exception as e:
+                    logging.debug(e)
+
+                    QMessageBox.warning(self, "EveIDE_LIGHT -- OPEN Error",
+                                        "Failed to open {0}".format(fileDict.get("fullPath", "")))
 
 
 

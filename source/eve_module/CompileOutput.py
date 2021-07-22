@@ -66,11 +66,12 @@ BEGIN
             byteStr = r.read()
         return self.bin2hexStr(byteStr)
     def bin2hexStr(self,byteStr):
-        firstLineStr = "/*********Little endian, word length 64bit*********/"
+        firstLineStr = "/*********open as Little endian, word length 64bit,do not edit !*********/ \n"
         hexList = self.get_hex_list(byteStr)
         lenHex = len(hexList)
         lines = int(lenHex/4)
         codeStr = ""
+        codeStr+=firstLineStr
         for line in range(lines):
             for i in range(4):
                 indexNow = 3-i+line*4
@@ -100,12 +101,12 @@ BEGIN
         return binList
 
 if __name__ == '__main__':
-    filePathNow = "E:\\codes\\MCU\\stm23cubeide\\dryer-prototype-f030\\Debug\\dryer-prototype-f030.bin"
+    filePathNow = r"D:\codes\EveIDE_Plus\EveIDE_Plus\source\t_workspace\unname\build\main.bin"
     t = CompileOutput()
     #byteStr = t.get_byte_str(filePathNow)
     hexStr = t.get_hexStr_from_bin(filePathNow)
-    #print(hexStr)
-    byteStr = t.get_byte_str(filePathNow)
+    print(hexStr)
+    '''byteStr = t.get_byte_str(filePathNow)
     mifStr = t.bin2mif(byteStr)
     #print(mifStr)
     with open("./test.mif","w+",newline="") as w:
@@ -113,3 +114,4 @@ if __name__ == '__main__':
     coeStr = t.bin2coe(byteStr)
     with open("./test.coe","w+",newline="") as w:
         w.write(coeStr)
+'''
