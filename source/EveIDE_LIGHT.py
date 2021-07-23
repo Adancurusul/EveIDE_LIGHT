@@ -86,10 +86,54 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
             self.workspaceSelector.show()
             self.workspaceSelector.closeSignal.connect(self.initAll)
+    def updateWorkspace(self):
+        self.treeWidget = self.leftWidget.projectWidget.projectFile_treeWidget
+        self.simulateTreeWidget = self.leftWidget.simulateWidget.ProjectTreeWidget.projectFile_treeWidget
+        logging.debug("nowSim"+str(self.simulateTreeWidget ))
+        self.treeWidget.setHeaderLabel("")
+        cfgDict = read_cfg(self.__workspace_cfg_path)
+        self.workspacePath = cfgDict.get("workspaceNow","../")
+        write_cfg(self.__workspace_cfg_path,cfgDict)
+        self.projectList = self.check_compile_projects
+        self.simulateList = self.check_simulate_projcet
+        self.__project_cfg_path = self.workspacePath+"/cfgPorjectList.evecfg"
+        cfgDictProject = read_cfg(self.__project_cfg_path)
+        compileSettingList = self.clear_unused_compile_project(cfgDictProject.get("comlipeSetting",[]),self.projectList)
 
+        cfgDictProject["comlipeSetting"] = compileSettingList
+        write_cfg(self.__project_cfg_path,cfgDictProject)
+
+        self.leftWidget.compileWidget.addSettingsDictList(compileSettingList)
+
+        logging.debug("workspace Now :" + self.workspacePath)
+        if ( self.workspacePath == "") or (self.workspacePath is  None):
+            self.workspacePath = "./"
+        logging.debug("workspace now is:" + self.workspacePath)
+        self.setWindowTitle("EveIDE-LIGHT  "+ os.path.abspath(self.workspacePath))
+        self.set_workspace_tree()
+        cfgDict = read_cfg(self.workspacePath + "./cfgPorjectList.evecfg")
+        #cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
+        #cfgDict = cfg.get_dict()
+        self.simulateProjectList= cfgDict.get("simulate_projectPathList",[])
+        self.iverilogPathDict = read_cfg(self.__simulator_cfg_path)
+        self.iverilogPath = self.iverilogPathDict.get("iverilogPath","")
+        self.simulateProjectList.reverse()
+        simList = []
+        self.topLevelDict = {}
+        for each in self.simulateProjectList:
+            simList.append(os.path.abspath(each))
+        self.simulateTreeWidget.clear()
+        self.leftWidget.simulateWidget.project_comboBox.clear()
+        self.leftWidget.simulateWidget.project_comboBox.addItems(simList)
+        #self.leftWidget.simulateWidget.project_comboBox.setItemText(0,"")
+        self.leftWidget.simulateWidget.project_comboBox.setToolTip(self.leftWidget.simulateWidget.project_comboBox.currentText())
+        self.leftWidget.simulateWidget.iverlogPath_lineEdit.setText(self.iverilogPath)
+        #self.init_timer()
+        self.untitledNum = 1
     def initAll(self):
         if self.firstInit:
             self.updateWorkspace()
+
         else:
             logging.debug("initAll")
             self.showNormal()
@@ -316,6 +360,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         strMake = gccPath+"\\make"
         compileStrList.append(strMake)
         self.compileThread.init_thread(compileStrList,cmdPath=pathNow)
+        self.compileThread.run()
 
 
 
@@ -324,13 +369,17 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         #commandDict = [""]
         usefulFileList = []
         preFixNow = None
-        for files in os.listdir(gccPath) :
+        if os.path.exists(gccPath):
+            for files in os.listdir(gccPath) :
 
-            #print("get Prefix",files)
-            if "objcopy.exe" in files:
-                #print("get Prefix",files.replace("objcopy.exe",""))
-                preFixNow = files.replace("objcopy.exe","")
-                break
+                #print("get Prefix",files)
+                if "objcopy.exe" in files:
+                    #print("get Prefix",files.replace("objcopy.exe",""))
+                    preFixNow = files.replace("objcopy.exe","")
+                    break
+        else :
+            QMessageBox.warning(self, "EveIDE_LIGHT -- COMPILE Error",
+                                "UNKNOWN PATH FOR GCC")
         return preFixNow
 
 
@@ -1053,7 +1102,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
             childNode.setIcon(0,self.dirIcon)
     def set_project_tree(self, projectTreeDict,treeNow):
         self.comTreeNodeFileList = []
-        #treeNow.setHeaderLabel("Workspace now :" + os.path.basename(self.workspacePath))
+        treeNow.setHeaderLabel("Workspace now :" + os.path.basename(self.workspacePath))
         treeNow.setHeaderLabel("")
         treeNow.setColumnCount(1)
         # logging.debug("now tree:"+str(projectTreeDict))
@@ -1227,11 +1276,15 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.functionIcon.addFile(u":/pic/function.png",QSize(), QIcon.Normal, QIcon.Off)
         self.assembleIcon = QIcon()
         self.assembleIcon.addFile(u":/pic/asm.png",QSize(), QIcon.Normal, QIcon.Off)
+        self.EveIDEIcon = QIcon()
+        self.EveIDEIcon.addFile(u":/pic/RVAT.png",QSize(), QIcon.Normal, QIcon.Off)
 
 
     def initUi(self):
         self.setupUi(self)
         self.initIcon()
+        self.setWindowIcon(self.EveIDEIcon)
+        self.setWindowIconText("EveIDE_LIGHT")
         self.leftWidget = LeftModuleWidget()
         self.leftWidget.setMinimumSize(180, 600)
         self.mdi = QMdiArea()

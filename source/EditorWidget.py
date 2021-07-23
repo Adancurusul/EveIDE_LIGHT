@@ -4,7 +4,7 @@ import logging
 from PySide2 import QtCore, QtWidgets, QtWebEngineWidgets, QtWebChannel
 
 
-CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+#CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
 class BaseBridge(QtCore.QObject):
@@ -83,7 +83,7 @@ class EditorWidget(QtWidgets.QMainWindow):
 
         self.setCentralWidget(self.view)
 
-        filename = os.path.join(CURRENT_DIR, "./editor_settings/t_index.html")
+        filename =  "/editor_settings/t_index.html"
         self.view.load(QtCore.QUrl.fromLocalFile(filename))
 
         self.bridge.initialized.connect(self.handle_initialized)
