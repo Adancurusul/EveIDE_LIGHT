@@ -1,18 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
--------------------------------------------------
-   File Name：     genHdlInst
-   Description :  generate hdl instance
-   Author :       Rex
-   date：          2019/9/20
--------------------------------------------------
-   Change Activity:
-                   2019/9/20:
--------------------------------------------------
-"""
-
-
-__author__ = 'Rex'
 
 import re
 
@@ -25,11 +10,6 @@ class HdlError(Exception):
         return self.errorinfo
 
 def rmComments(text):
-    '''
-    remove comments
-    :param text: hdl content   (string)
-    :return: hdl without comments (string)
-    '''
     singLineComments = re.compile(r'//(.*)', re.MULTILINE)
     multiLineComments = re.compile(r'/\*(.*)\*/', re.DOTALL)
     text = singLineComments.sub('', text)
@@ -37,11 +17,6 @@ def rmComments(text):
     return text
 
 def findModuleName(text):
-    '''
-    find module name
-    :param text: hdl context without comments (string)
-    :return: module name
-    '''
     modulePos = text.find('module')
     if modulePos==-1:
         raise HdlError('Syntax error: Can not find module!')
@@ -51,14 +26,8 @@ def findModuleName(text):
     return modName
 
 def findParams(text):
-    '''
-    find module parameters
-    :param text: hdl context without comments and keyword 'module'
-    :return: all parameter list and value list
-    '''
     param = r'\sparameter\s[\w\W]*?[;,)]'
     paralst = re.findall(param, text)
-
     if paralst!=[]:
         paramStr = '\n'.join(paralst)
         pat = r'(\w*)\s*=\s*([\w\W]*?)\s*[;,)]'
@@ -70,12 +39,6 @@ def findParams(text):
         return [], []
 
 def paramInstTempl(paramNameLst, paramValLst):
-    '''
-    generate parameters instance template
-    :param paramNameLst: parameters Name list
-    :param paramValLst: parameters value list
-    :return: parameters instance template
-    '''
     if paramValLst==[]:
         return ''
     else:
@@ -130,11 +93,6 @@ def portInstTempl(portNameLst, portWidthLst, portTypeLst):
 
 
 def genHdlInst(text):
-    '''
-    generate hld instance
-    :param s: hdl file context
-    :return: the instance string
-    '''
     textRmComments = rmComments(text)
     moduleName = findModuleName(textRmComments)
     #if moduleName=='':

@@ -42,7 +42,7 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%a, %d %b %Y %H:%M:%S',)
 
-def read_cfg(cfgPath) -> dict:
+def read_cfg(cfgPath) -> dict:#
     cfgReader = cfgRead(cfgPath)
     return cfgReader.get_dict()
 
@@ -725,9 +725,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                 "currentNode":None,
             }
             self.addEditorWidget(fileDict)
-        valueNow = ""
-        # editorNow.get_value(valueNow)
-        #logging.debug(valueNow)
+
     @property
     def check_simulate_projcet(self):
         cfgPath = self.workspacePath + "./cfgPorjectList.evecfg"
