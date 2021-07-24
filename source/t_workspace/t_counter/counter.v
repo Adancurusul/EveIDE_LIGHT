@@ -3,7 +3,9 @@
 module counter(
     input clk,
     input rst_n,
-    output reg [4:0] ocnt
+    wire [4:0] ana
+    output reg [4:0]ocnt
+    
 );
 
 always@(posedge clk or negedge rst_n)
