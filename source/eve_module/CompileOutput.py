@@ -68,13 +68,14 @@ BEGIN
     def bin2hexStr(self,byteStr):
         firstLineStr = "/*********open as Little endian, word length 64bit,do not edit !*********/ \n"
         hexList = self.get_hex_list(byteStr)
+        wordLen = 64
         lenHex = len(hexList)
-        lines = int(lenHex/4)
+        lines = int(lenHex/(wordLen/8))
         codeStr = ""
         codeStr+=firstLineStr
         for line in range(lines):
-            for i in range(4):
-                indexNow = 3-i+line*4
+            for i in range(int(wordLen/8)):
+                indexNow = 7-i+line*int((wordLen/8))
                 codeStr += str(hexList[indexNow])
             codeStr+="\n"
         #print (codeStr)
@@ -106,7 +107,7 @@ if __name__ == '__main__':
     #byteStr = t.get_byte_str(filePathNow)
     hexStr = t.get_hexStr_from_bin(filePathNow)
     print(hexStr)
-    '''byteStr = t.get_byte_str(filePathNow)
+    byteStr = t.get_byte_str(filePathNow)
     mifStr = t.bin2mif(byteStr)
     #print(mifStr)
     with open("./test.mif","w+",newline="") as w:
@@ -114,4 +115,3 @@ if __name__ == '__main__':
     coeStr = t.bin2coe(byteStr)
     with open("./test.coe","w+",newline="") as w:
         w.write(coeStr)
-'''
