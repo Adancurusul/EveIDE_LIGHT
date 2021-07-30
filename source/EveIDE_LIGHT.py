@@ -437,7 +437,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.leftWidget.simulateWidget.project_comboBox.addItems(simList)
         #self.leftWidget.simulateWidget.project_comboBox.setItemText(0,"")
         self.leftWidget.simulateWidget.project_comboBox.setToolTip(self.leftWidget.simulateWidget.project_comboBox.currentText())
-        self.leftWidget.simulateWidget.iverlogPath_lineEdit.setText(self.iverilogPath)
+        self.leftWidget.simulateWidget.iverlogPath_lineEdit.setText(os.path.abspath(self.iverilogPath))
         #self.leftWidget.projectWidget.projectFile_treeWidget
         self.leftWidget.simulateWidget.selectProjectPath_pushButton.clicked.connect(lambda : self.simulator_project_path("project"))
         self.leftWidget.simulateWidget.selectIverilogPath_pushButton.clicked.connect(lambda : self.simulator_project_path("iverilog"))
@@ -656,9 +656,9 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                 self.leftWidget.simulateWidget.project_comboBox.addItems(simList)
 
         elif which == "iverilog":
-            pathNow = os.path.relpath(QFileDialog.getExistingDirectory(None, "Choose iverilog Path", self.workspacePath))
+            pathNow = os.path.abspath(QFileDialog.getExistingDirectory(None, "Choose iverilog Path", self.workspacePath))
             if not pathNow is None:
-                self.leftWidget.simulateWidget.iverlogPath_lineEdit.setText(pathNow)
+                self.leftWidget.simulateWidget.iverlogPath_lineEdit.setText(os.path.abspath(pathNow))
 
     def do_simulate(self):
         pathNow = self.leftWidget.simulateWidget.iverlogPath_lineEdit.text()
@@ -681,12 +681,12 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
                 dumpFilePath = dumpFile
                 if not dumpFile == "":
                     '''第一种方式自动找依赖'''
-
-                    simulateSettingDict = {"includeList":self.simIncludeDict,"projectDict":dictToSim,"topLevel":self.topLevelDict,"iverilogPath":iverilogPath,"dumpFile":dumpFile,"projectPath":self.leftWidget.simulateWidget.project_comboBox.currentText()}
+                    projectToSim = self.leftWidget.simulateWidget.project_comboBox.currentText()
+                    simulateSettingDict = {"includeList":self.simIncludeDict,"projectDict":dictToSim,"topLevel":self.topLevelDict,"iverilogPath":iverilogPath,"dumpFile":dumpFile,"projectPath":projectToSim}
                     simulateStrDict = self.leftWidget.simulateWidget.do_simulate(simulateSettingDict)#得到iverilog的三个命令
                     #print(simulateStrDict)
                     iverilogList = [simulateStrDict.get("iverilog"),simulateStrDict.get("vvp"),simulateStrDict.get("gtkwave")]#
-                    self.simulateThread.init_thread(iverilogList,dumpFileInitPath,dumpFilePath)
+                    self.simulateThread.init_thread(iverilogList,dumpFileInitPath,dumpFilePath,projectToSim)
                     self.TextOutput.clear()
                     self.simulateThread.start()
 

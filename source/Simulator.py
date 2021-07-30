@@ -118,18 +118,19 @@ class Simulator(QWidget,Ui_module_simulat_widget):
         simDict = {}
         includeList = simulateDict.get("includeList",[])
         fileList = simulateDict.get("projectDict",[])
-        topLevelName = simulateDict.get("topLevel",{}).get("fullPath",None)
-        iverilogPath = simulateDict.get("iverilogPath","")
-        __dumpFile = simulateDict.get("dumpFile","")
+        topLevelName = (simulateDict.get("topLevel",{}).get("fullPath",None))
+        iverilogPath = os.path.abspath(simulateDict.get("iverilogPath",""))
+        __dumpFile = os.path.abspath(simulateDict.get("dumpFile",""))
         ipath=''
         for eachIncludePath in includeList :
-            ipath+=" -I "+eachIncludePath
+            ipath+=" -I "+os.path.abspath(eachIncludePath)
         __includePath = ipath
 
         #t =
-        __outputName =  os.path.dirname(topLevelName)+"\\"+os.path.basename(topLevelName).split(".")[0]+ "_evesim"
+        #全部转换为绝对地址
+        __outputName =  os.path.abspath(os.path.dirname(topLevelName)+"\\"+os.path.basename(topLevelName).split(".")[0]+ "_evesim")
         #__outputName = os.path.dirname(topLevelName)+"\\a.out"
-        iverilogPath = iverilogPath.replace("/","\\")
+        iverilogPath = (iverilogPath.replace("/","\\"))
         __iverilog =iverilogPath+r"\bin\iverilog "
         __vvp = iverilogPath+r"\bin\vvp "
         __gtkwave = iverilogPath+r"\gtkwave\bin\gtkwave "
@@ -166,9 +167,11 @@ class Simulator(QWidget,Ui_module_simulat_widget):
 
         #logging.debug(self.supportList)
         __supportStr = ""
+        #print(self.supportList)
         for eachStr in self.supportList:
-            __supportStr +=" "+eachStr
-        simDict["iverilog"] = __iverilog + __includePath+" -o "+__outputName+" "+topLevelName+" "+__supportStr
+            __supportStr +=" "+os.path.abspath(eachStr)
+        print(__supportStr)
+        simDict["iverilog"] = __iverilog + __includePath+" -o "+__outputName+" "+os.path.abspath(topLevelName)+" "+__supportStr
         #simDict["iverilog"] = __iverilog + " -I " + __includePath  + " -y " + __includePath+ " -o  " + __outputName +" "+topLevelName
         simDict["vvp"] = __vvp + " -n " + os.path.abspath(__outputName) + " -lxt2"
         simDict["gtkwave"] = __gtkwave + __dumpFile

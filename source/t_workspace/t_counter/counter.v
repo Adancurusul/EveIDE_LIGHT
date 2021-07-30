@@ -3,7 +3,6 @@
 module counter(
     input clk,
     input rst_n,
-    wire [4:0] ana
     output reg [4:0]ocnt
     
 );
