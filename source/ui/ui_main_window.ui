@@ -39,11 +39,6 @@
     <addaction name="actionSaveAs"/>
     <addaction name="menuOpenRecentFile"/>
    </widget>
-   <widget class="QMenu" name="menuEdit">
-    <property name="title">
-     <string>Edit</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
      <string>View</string>
@@ -79,7 +74,6 @@
     </property>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuEdit"/>
    <addaction name="menuView"/>
    <addaction name="menuProject"/>
    <addaction name="menuModules"/>
