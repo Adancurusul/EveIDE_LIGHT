@@ -1,4 +1,4 @@
-# EveIDE_LIGHT 使用手册
+# EveIDE_LIGHT 使用手册(更新中)
 version : v 0.0.1     
 author : Adancurusul
 
