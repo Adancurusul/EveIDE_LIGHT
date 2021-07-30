@@ -1,3 +1,8 @@
+# EveIDE_LIGHT 使用手册
+version : v 0.0.1     
+author : Adancurusul
+
+
 <!-- vscode-markdown-toc -->
 * 1. [ 概述](#)
 	* 1.1. [ 什么是EveIDE_LIGHT](#EveIDE_LIGHT)
@@ -11,9 +16,9 @@
 	numbering=true
 	autoSave=true
 	/vscode-markdown-toc-config -->
-<!-- /vscode-markdown-toc --># EveIDE_LIGHT 使用手册
-version : v 0.0.1     
-author : Adancurusul
+<!-- /vscode-markdown-toc -->
+
+
 ##  1. <a name=''></a> 概述 
 ###  1.1. <a name='EveIDE_LIGHT'></a> 什么是EveIDE_LIGHT
 EveIDE_LIGHT 目的是为RiscV核心设计者打造一个轻量化解包即用、快速开发与验证的集成开发环境。
