@@ -4,7 +4,7 @@ module counter(
     input clk,
     input rst_n,
     output reg [4:0]ocnt
-    
+    d
 );
 
 always@(posedge clk or negedge rst_n)

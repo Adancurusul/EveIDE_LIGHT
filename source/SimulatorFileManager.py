@@ -141,11 +141,12 @@ class SimulatorFileManager():
 
         """
         befVerilogList = []
-        for eachFile in self.fileList:
+        #不进行转换
+        '''for eachFile in self.fileList:
             if (eachFile.get("fileSuffix", "") == "v") or (eachFile.get("fileSuffix", "") == "sv"):
                 befVerilogList.append(eachFile)
         for eachFile in befVerilogList:
-            self.ChangeEncoding.convert(filePath=eachFile.get("fullPath"))
+            self.ChangeEncoding.convert(filePath=eachFile.get("fullPath"))'''
         for eachFile in self.fileList:
             if (eachFile.get("fileSuffix", "") == "v") or (eachFile.get("fileSuffix", "") == "sv"):
                 # eachFile["moduleName"] = eachFile.get("name","").split(".")[0]
