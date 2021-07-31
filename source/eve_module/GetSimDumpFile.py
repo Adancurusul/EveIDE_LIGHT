@@ -1,3 +1,15 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-17 18:07:02
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:10:21
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 import re
 import os
 class GetSimDumpFile():
@@ -5,7 +17,7 @@ class GetSimDumpFile():
         singLineComments = re.compile(r'//(.*)', re.MULTILINE)
         multiLineComments = re.compile(r'/\*(.*)\*/', re.DOTALL)
         text = singLineComments.sub('', text)
-        text = multiLineComments.sub('', text)
+        text = multiLineComments.sub('', text) 
         return text
     def getDumpFile(self,fileName)->str:
         stPath = ""

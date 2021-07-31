@@ -1,3 +1,15 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-23 08:53:01
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:09:57
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 import subprocess
 import os
 import sys
@@ -13,7 +25,7 @@ class CompileThread(QThread):
     def init_thread(self,compileList,cmdPath = "./"):
         self.compileList = compileList
         self.cmdPath =cmdPath
-
+ 
     def do_cmd(self,cmdStr):
         print(cmdStr)
         self.updateTextOutput.emit("<font color=black>%s </font> ",datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')

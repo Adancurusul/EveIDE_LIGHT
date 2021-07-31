@@ -1,3 +1,15 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-30 08:45:46
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:09:23
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 '''
 加 ：
 检查文件是否改动
@@ -17,7 +29,7 @@ import qtpy
 from qtpy import QtGui
 from qtpy import QtCore
 import sys
-import functools
+import functools 
 import os,shutil,subprocess
 from ui.ui_main_window import Ui_MainWindow
 from LeftModuleWidget import LeftModuleWidget
@@ -86,7 +98,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
             self.workspaceSelector.show()
             self.workspaceSelector.closeSignal.connect(self.initAll)
-    def updateWorkspace(self):
+    def update_workspace(self):
         self.treeWidget = self.leftWidget.projectWidget.projectFile_treeWidget
         self.simulateTreeWidget = self.leftWidget.simulateWidget.ProjectTreeWidget.projectFile_treeWidget
         logging.debug("nowSim"+str(self.simulateTreeWidget ))
@@ -132,7 +144,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         self.untitledNum = 1
     def initAll(self):
         if self.firstInit:
-            self.updateWorkspace()
+            self.update_workspace()
 
         else:
             logging.debug("initAll")

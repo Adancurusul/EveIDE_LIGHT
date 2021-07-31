@@ -1,3 +1,15 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-30 08:45:46
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:05:28
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 import json
 import os
 import logging

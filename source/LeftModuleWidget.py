@@ -1,3 +1,15 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-23 08:53:01
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:05:57
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 
 #####
 #按键信号未添加

@@ -1,3 +1,4 @@
+
 import re
 import argparse
 import os
@@ -7,7 +8,7 @@ class Rtl_generator:
         self.info_list=[]
         self.module_name = None
 
-    @staticmethod
+    @staticmethod 
     def display_list_for_test(list_name):
         print('list :\n')
         for unit in list_name:

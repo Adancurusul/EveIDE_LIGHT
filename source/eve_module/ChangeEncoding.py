@@ -1,3 +1,15 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-19 18:34:30
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:09:45
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 # -*- coding: utf-8 -*-
 """
 Created on python 3.6 date : Wed Sep 26 00:24:55 2018
@@ -6,7 +18,7 @@ Created on python 3.6 date : Wed Sep 26 00:24:55 2018
 
 """
 
-import os
+import os 
 import sys
 # import codecs
 import chardet

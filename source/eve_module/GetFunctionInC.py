@@ -1,7 +1,19 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-23 08:53:01
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:10:17
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 import os
 import re
 import logging
-g_allFuncList = []
+g_allFuncList = [] 
 def get1stSymPos( s, fromPos=0):
     g_DictSymbols = {'"': '"', '/*': '*/', '//': '\n'}
     listPos = []  # 位置,符号

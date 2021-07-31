@@ -1,3 +1,15 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-16 14:39:17
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:09:03
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 from qtpy.QtWidgets import QApplication, QMainWindow,QWidget,QFileDialog,QMessageBox
 import qtpy
 from qtpy.QtCore import Signal
@@ -19,7 +31,7 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
         super(SelectWorkspace,self).__init__()
         self.cfgDict = {}
         self.currentPath = None #path which the editor need to open
-        self.cfgReader = cfgRead(cfgMainPath)
+        self.cfgReader = cfgRead(cfgMainPath) 
         if self.cfgReader.check_path():
 
             self.cfgDict = self.cfgReader.get_dict()

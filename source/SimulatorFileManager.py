@@ -1,3 +1,15 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-20 09:11:39
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:08:32
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 import os
 import re
 import logging
@@ -10,7 +22,7 @@ class SimulatorFileManager():
         self.fileList = []
         self.simFiles = []
         self.modules = []
-        self.ChangeEncoding = ChangeEncoding()
+        self.ChangeEncoding = ChangeEncoding() 
         self.simulateFileDict = self.scan_files()
         print(self.simulateFileDict)
         #print(self.simulateFileDict)

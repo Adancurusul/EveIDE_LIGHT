@@ -1,3 +1,15 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-30 08:45:47
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:08:46
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 '''
 加 ：
 检查文件是否改动
@@ -21,7 +33,7 @@ import functools
 import os,shutil,subprocess
 from ui.ui_main_window import Ui_MainWindow
 from LeftModuleWidget import LeftModuleWidget
-from OutputWidget import OutputWidget
+from OutputWidget import OutputWidget 
 from EditorWidget import EditorWidget
 from eve_module.cfgRead import cfgRead
 from eve_module.CreateInstance import CreateInsance

@@ -1,3 +1,15 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-30 08:45:46
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:09:54
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 import os
 
 '''filePathNow = "E:\\codes\\MCU\\stm23cubeide\\dryer-prototype-f030\\Debug\\dryer-prototype-f030.bin"
@@ -15,7 +27,7 @@ for _ in hexList:
     #print(str(hex(_))[2:].zfill(2))'''
 
 
-
+ 
 
 class CompileOutput():
     '''

@@ -1,10 +1,22 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-19 15:50:05
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:10:39
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 
 import subprocess
 import os
 import sys
 import shutil
 import datetime
-from qtpy.QtCore import QTimer,QThread,Signal
+from qtpy.QtCore import QTimer,QThread,Signal 
 
 class SimulateThread(QThread):
     updateTextOutput = Signal(str,str)#p1 颜色 #p2 文字

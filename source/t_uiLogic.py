@@ -1,3 +1,15 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-12 10:28:27
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:08:43
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 import sys
 from qtpy.QtCore import *
 from qtpy.QtGui import *
@@ -21,7 +33,7 @@ class TabDemo(QTabWidget):
         #每个选项卡自定义的内容
         self.tab1UI()
         self.tab2UI()
-        self.tab3UI()
+        self.tab3UI() 
 
     def tab1UI(self):
         #表单布局

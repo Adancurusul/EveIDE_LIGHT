@@ -1,8 +1,20 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-30 08:45:47
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:09:42
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 import json
 import logging
 import os
 class cfgRead():
-    def __init__(self,cfgPath):
+    def __init__(self,cfgPath): 
         self.cfgPath = cfgPath
 
     def check_path(self):

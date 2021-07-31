@@ -1,3 +1,15 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-15 09:04:18
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:08:49
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 import re
 
 rgl_exp1 = r'''  
@@ -25,7 +37,7 @@ compileStrB = r"((VOID)|(void)|(char)|(short)|(int)|(float)|(long)|(double))(\s*
 def get1stSymPos( s, fromPos=0):
     g_DictSymbols = {'"': '"', '/*': '*/', '//': '\n'}
     listPos = []  # 位置,符号
-    for b in g_DictSymbols:
+    for b in g_DictSymbols: 
         pos = s.find(b, fromPos)
         listPos.append((pos, b))  # 插入位置以及结束符号
     minIndex = -1  # 最小位置在listPos中的索引

@@ -1,3 +1,15 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-12 10:28:27
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:08:36
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 import sys
 from qtpy.QtCore import Qt, QUrl
 from qtpy.QtGui import QIcon
@@ -18,7 +30,7 @@ class Demo(QWidget):
         self.url_le = QLineEdit(self)
 
         self.browser = QWebEngineView()
-
+ 
         self.h_layout = QHBoxLayout()
         self.v_layout = QVBoxLayout()
 

@@ -1,3 +1,4 @@
+
 from RtlGenerator import *
 #import rtl_generator
 mode_list = ['gen_inst_only','gen_inst_wc']
@@ -14,7 +15,7 @@ def get_arg(options,option):
         arg = getattr(options,option)
         return arg
     else:
-        return None
+        return None 
 def compile_regex(**key_args):
     regex_dict={}
     if 'module_head' in key_args.keys():

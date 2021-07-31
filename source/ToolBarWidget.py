@@ -1,3 +1,15 @@
+"""
+    	*************************** 
+    	--------EveIDE_LIGHT-------- 
+ 	 Author: Adancurusul
+ 	 Date: 2021-07-12 10:28:25
+ 	 LastEditors: Adancurusul
+ 	 LastEditTime: 2021-07-31 14:08:40
+ 	 Github: https://github.com/Adancurusul
+ 	 Email: adancurusul@gmail.com
+
+    	***************************
+    """
 from typing import List, Callable, Optional
 
 from PySide2.QtCore import Qt, QSize
@@ -20,7 +32,7 @@ class TopToolBar(QToolBar):
         super().__init__()
         self.setFloatable(False)
         self.setMovable(False)
-        self.buttonbar_widget = QWidget()
+        self.buttonbar_widget = QWidget() 
         self.addWidget(self.buttonbar_widget)
         self.buttonbar_widget.setLayout(QHBoxLayout())
         self.buttonbar_widget.setContentsMargins(0, 0, 0, 0)
