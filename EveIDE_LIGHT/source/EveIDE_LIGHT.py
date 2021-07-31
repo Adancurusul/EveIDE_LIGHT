@@ -1,3 +1,4 @@
+
 """
     	*************************** 
     	--------EveIDE_LIGHT-------- 
@@ -10,13 +11,18 @@
 
     	***************************
     """
-'''
-加 ：
-检查文件是否改动
-
 
 '''
-__version__ = "V0.0.1"
+
+   ___                     ___     ___     ___             _       ___     ___    _  _    _____  
+  | __|   __ __    ___    |_ _|   |   \   | __|           | |     |_ _|   / __|  | || |  |_   _| 
+  | _|    \ V /   / -_)    | |    | |) |  | _|     ___    | |__    | |   | (_ |  | __ |    | |   
+  |___|   _\_/_   \___|   |___|   |___/   |___|   |___|   |____|  |___|   \___|  |_||_|   _|_|_  
+_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""| 
+"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-' 
+
+'''
+__version__ = "V0.0.2"
 import datetime
 
 import logging
@@ -54,6 +60,7 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%a, %d %b %Y %H:%M:%S',)
 
+
 def read_cfg(cfgPath) -> dict:
     cfgReader = cfgRead(cfgPath)
     return cfgReader.get_dict()
@@ -66,6 +73,16 @@ def write_cfg(cfgPath, writeDict):
 
 
 class MainWinUi(QMainWindow, Ui_MainWindow):
+    __EveIDE_LIGHT = '''
+
+   ___                     ___     ___     ___             _       ___     ___    _  _    _____  
+  | __|   __ __    ___    |_ _|   |   \   | __|           | |     |_ _|   / __|  | || |  |_   _| 
+  | _|    \ V /   / -_)    | |    | |) |  | _|     ___    | |__    | |   | (_ |  | __ |    | |   
+  |___|   _\_/_   \___|   |___|   |___/   |___|   |___|   |____|  |___|   \___|  |_||_|   _|_|_  
+_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""| 
+"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-' 
+
+'''
     __main_cfg_path = cfgMainPath = "..\configure\cfgMainPath"
     #__project_cfg_path = "../configure/cfgPorjectList.evecfg"
 
@@ -121,7 +138,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
         if ( self.workspacePath == "") or (self.workspacePath is  None):
             self.workspacePath = "./"
         logging.debug("workspace now is:" + self.workspacePath)
-        self.setWindowTitle("EveIDE-LIGHT  "+ os.path.abspath(self.workspacePath))
+        self.setWindowTitle("EveIDE_LIGHT  "+ os.path.abspath(self.workspacePath))
         self.set_workspace_tree()
         cfgDict = read_cfg(self.workspacePath + "./cfgPorjectList.evecfg")
         #cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
@@ -1317,6 +1334,7 @@ class MainWinUi(QMainWindow, Ui_MainWindow):
 
         self.TextOutput.setText(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                                 +" EveIDE_LIGHT with monaco editor")
+        self.TextOutput.append(self.__EveIDE_LIGHT)
         splitter1 = QSplitter(Qt.Vertical)
         # editorNow = EditorWidget()
         splitter1.addWidget(self.mdi)  # 多文档视图占布局右上
@@ -1461,6 +1479,16 @@ def initDark():
 
 
 if __name__ == '__main__':
+    print('''
+
+   ___                     ___     ___     ___             _       ___     ___    _  _    _____  
+  | __|   __ __    ___    |_ _|   |   \   | __|           | |     |_ _|   / __|  | || |  |_   _| 
+  | _|    \ V /   / -_)    | |    | |) |  | _|     ___    | |__    | |   | (_ |  | __ |    | |   
+  |___|   _\_/_   \___|   |___|   |___/   |___|   |___|   |____|  |___|   \___|  |_||_|   _|_|_  
+_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""| 
+"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-' 
+
+''')
     # initDark()
     app = QApplication(sys.argv)
     mainWin = MainWinUi()

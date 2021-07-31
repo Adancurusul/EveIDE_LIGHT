@@ -11,12 +11,6 @@
     	***************************
     """
 # -*- coding: utf-8 -*-
-"""
-Created on python 3.6 date : Wed Sep 26 00:24:55 2018
-
-@author: y_smile
-
-"""
 
 import os 
 import sys
