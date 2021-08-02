@@ -34,7 +34,7 @@
 ***
 
 ## 版本说明
-当前为v0.0.2-alpha  版本，在realse中可以直接下载，alpha版本会保留命令行窗口以便使用出现bug时可以及时向开发团队反馈    
+当前为v0.0.2-alpha  版本，在[releases](https://github.com/Adancurusul/EveIDE_LIGHT/releases   )中可以直接下载，alpha版本会保留命令行窗口以便使用出现bug时可以及时向开发团队反馈    
 *由于开发人员只有一个，bug可能会比较多，请见谅。    
 如果使用中存在任何问题可联系 chen.yuheng@nexuslink.cn 或者 QQ：1016867898
 ### 版本部分特性
