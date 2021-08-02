@@ -1,0 +1,6 @@
+QtPy==1.9.0
+chardet==4.0.0
+pmgwidgets==0.9.4
+PySide2==5.15.2
+qt_material==2.8.8
+qtmodernredux==0.9.11
