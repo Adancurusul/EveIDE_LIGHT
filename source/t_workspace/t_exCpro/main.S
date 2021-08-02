@@ -4,7 +4,7 @@ main:
  addi x1, x1, 0x001	//x1 is the address 
  sb x1, 0x000(x1)	//store x1 
  addi x1, x1, 0x001	//x1 increase 
- bne x1, x2, main  
+ bne x1, x2, main  ,addi
  nop: 
  addi x0, x0, 0x000 
  jal x3, nop

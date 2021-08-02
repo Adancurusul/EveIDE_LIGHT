@@ -112,7 +112,6 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             self.initAll()
             #self.showMaximized()
         else:
-
             self.workspaceSelector.show()
             self.workspaceSelector.closeSignal.connect(self.initAll)
     def update_workspace(self):

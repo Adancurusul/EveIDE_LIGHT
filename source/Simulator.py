@@ -4,12 +4,13 @@
  	 Author: Adancurusul
  	 Date: 2021-07-16 14:39:17
  	 LastEditors: Adancurusul
- 	 LastEditTime: 2021-07-31 14:08:26
+ 	 LastEditTime: 2021-08-02 14:27:28
  	 Github: https://github.com/Adancurusul
  	 Email: adancurusul@gmail.com
 
     	***************************
     """
+
 import re
 import os 
 import sys
@@ -19,6 +20,8 @@ from qtpy.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QFor
 from ui.ui_module_simulate_widget import Ui_module_simulat_widget
 from eve_module.ChangeEncoding import ChangeEncoding
 from ui.ui_module_project_tree import Ui_ProjectTree
+
+
 exSettingDict = {"projectPath":None,"testbenchFile":None,"toplevelFile":None,"iverilogPath":None,"gtkwavePath":None,"vvpPath":None,"simulatorPath":None}
 def rmComments(text):
     singLineComments = re.compile(r'//(.*)', re.MULTILINE)
