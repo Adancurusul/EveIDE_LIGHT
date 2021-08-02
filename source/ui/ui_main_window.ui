@@ -27,17 +27,10 @@
     <property name="title">
      <string>File</string>
     </property>
-    <widget class="QMenu" name="menuOpenRecentFile">
-     <property name="title">
-      <string>OpenRecentFile</string>
-     </property>
-     <addaction name="actiontest"/>
-    </widget>
     <addaction name="actionnew"/>
     <addaction name="actionopen"/>
     <addaction name="actionsave"/>
     <addaction name="actionSaveAs"/>
-    <addaction name="menuOpenRecentFile"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -50,22 +43,14 @@
     <property name="title">
      <string>Project</string>
     </property>
-    <widget class="QMenu" name="menuOpenRecentProject">
-     <property name="title">
-      <string>OpenRecentProject</string>
-     </property>
-     <addaction name="actiontest_2"/>
-    </widget>
     <widget class="QMenu" name="menuNewProject">
      <property name="title">
       <string>NewProject</string>
      </property>
      <addaction name="actionNewCompile"/>
-     <addaction name="actionSimulate"/>
+     <addaction name="actionNewSimulate"/>
     </widget>
     <addaction name="menuNewProject"/>
-    <addaction name="actionOpenProject"/>
-    <addaction name="menuOpenRecentProject"/>
     <addaction name="actionSelectWorkspace"/>
    </widget>
    <widget class="QMenu" name="menuModules">
@@ -165,7 +150,7 @@
     <string>Compile</string>
    </property>
   </action>
-  <action name="actionSimulate">
+  <action name="actionNewSimulate">
    <property name="text">
     <string>Simulate</string>
    </property>
