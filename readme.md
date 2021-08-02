@@ -1,10 +1,48 @@
+
 # EveIDE_LIGHT 使用手册(更新中)
 ![EveIDE_LIGHT](./img/EveIDE_LIGHT.png)  
  
-version : v 0.0.2    
-author : Adancurusul
+当前版本 : v0.0.2-alpha    
+作者 : Adancurusul
+*****
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<!--**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*-->
 
+- [EveIDE_LIGHT 使用手册(更新中)](#eveide_light-%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C%E6%9B%B4%E6%96%B0%E4%B8%AD)
+  - [版本说明](#%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
+    - [版本部分特性](#%E7%89%88%E6%9C%AC%E9%83%A8%E5%88%86%E7%89%B9%E6%80%A7)
+  - [概述](#%E6%A6%82%E8%BF%B0)
+    - [什么是EveIDE_LIGHT](#%E4%BB%80%E4%B9%88%E6%98%AFeveide_light)
+  - [使用介绍](#%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D)
+    - [选择工作区](#%E9%80%89%E6%8B%A9%E5%B7%A5%E4%BD%9C%E5%8C%BA)
+    - [进入主界面](#%E8%BF%9B%E5%85%A5%E4%B8%BB%E7%95%8C%E9%9D%A2)
+      - [左侧模组区](#%E5%B7%A6%E4%BE%A7%E6%A8%A1%E7%BB%84%E5%8C%BA)
+        - [工程视图](#%E5%B7%A5%E7%A8%8B%E8%A7%86%E5%9B%BE)
+        - [编译设置](#%E7%BC%96%E8%AF%91%E8%AE%BE%E7%BD%AE)
+        - [仿真设置](#%E4%BB%BF%E7%9C%9F%E8%AE%BE%E7%BD%AE)
+      - [右侧编辑器](#%E5%8F%B3%E4%BE%A7%E7%BC%96%E8%BE%91%E5%99%A8)
+      - [顶部菜单](#%E9%A1%B6%E9%83%A8%E8%8F%9C%E5%8D%95)
+        - [文件](#%E6%96%87%E4%BB%B6)
+        - [视图](#%E8%A7%86%E5%9B%BE)
+        - [工程](#%E5%B7%A5%E7%A8%8B)
+        - [模组](#%E6%A8%A1%E7%BB%84)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+***
+
+## 版本说明
+当前为v0.0.2-alpha  版本，在realse中可以直接下载，alpha版本会保留命令行窗口以便使用出现bug时可以及时向开发团队反馈    
+*由于开发人员只有一个，bug可能会比较多，请见谅。    
+如果使用中存在任何问题可联系 chen.yuheng@nexuslink.cn 或者 QQ：1016867898
+### 版本部分特性
+- 工程目录和ide所在目录需放在同一磁盘中（如C盘）
+- 自动例化程序当前版本存在一定特性，以下特性会在稳定版本中修复：
+  - wire和对应位宽之间需添加空格否则该信号无法被例化
+  - 例化的文件下应当只定义一个module否则例化会出现错误
+- 本版本编译时只能对工程下的main.c或main.s或main.S自动编译，此特性会在后续版本中修复
 
 
 ##   概述 
@@ -103,14 +141,16 @@ EveIDE_LIGHT 本着小巧稳定的原则取消了之前的自研编辑器改为�
 
 ####  顶部菜单 
 #####  文件
-*文件菜单栏中OpenRecentFile暂未实现   
 ![](img/文件菜单.png)
 #####  视图 
 视图菜单栏目前用于控制模组和输出区域的显示和隐藏当被选中状态时该视图会显示，可以通过单击列表项来改变视图的显示和隐藏    
 ![](img/视图菜单.png)
 ##### 工程    
 用于新建工程和切换工作区    
-*菜单栏中OpenRecentProject暂未实现   
-
+![工程菜单](img/工程菜单栏.png)    
+点击新建工程子列表后的任意一个会弹出新建工程窗口，在输入框中输入新建工程路径点击create即可生成新工程同时更新在树状视图     
+![新建工程](img/新建工程.png)     
+若选择的文件夹不是空文件夹IDE会弹出警告但不会修改其中内容     
+![新建工程警告](img/新建工程警告.png)
 #####  模组   
 本版本中暂无用途

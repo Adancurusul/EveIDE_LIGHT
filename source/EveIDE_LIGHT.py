@@ -27,6 +27,7 @@ import datetime
 
 import logging
 import time
+
 from qtpy.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QFormLayout, QLineEdit, QTabWidget, \
     QMdiArea, QTextEdit, QDockWidget, QSplitter, QMdiSubWindow, QTreeWidgetItem, QMessageBox,QMenu,QAction
 from qtpy.QtCore import Qt, Signal, QTimer,QSize,QFile
@@ -55,10 +56,10 @@ from SelectWorkspace import SelectWorkspace
 from NewProjectWidget import NewProjectWidget
 from SimulatorFileManager import SimulatorFileManager
 ex_cfgMainDict = {"workspaceSetting":{}}
-logging.getLogger().setLevel(logging.DEBUG)
+'''logging.getLogger().setLevel(logging.DEBUG)
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                    datefmt='%a, %d %b %Y %H:%M:%S',)
+                    datefmt='%a, %d %b %Y %H:%M:%S',)'''
 
 
 def read_cfg(cfgPath) -> dict:
@@ -585,9 +586,10 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                 try:
                     os.remove(fullPath)
                 except:
-                    os.removedirs(fullPath)
+                    shutil.rmtree(fullPath)
                 self.check_file()
                 self.update_sim_tree()
+                self.set_workspace_tree()
 
     def simulate_right_click_handler(self,q):
         treeNode = self.simulateTreeWidget.currentItem()
