@@ -1,5 +1,5 @@
 
-# EveIDE_LIGHT 使用手册(更新中)
+# EveIDE_LIGHT 使用手册
 ![EveIDE_LIGHT](./img/EveIDE_LIGHT.png)  
  
 当前版本 : v0.0.2-alpha    
