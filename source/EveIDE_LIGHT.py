@@ -455,7 +455,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         #cfgDict = cfg.get_dict()
         self.simulateProjectList= cfgDict.get("simulate_projectPathList",[])
         self.iverilogPathDict = read_cfg(self.__simulator_cfg_path)
-        self.iverilogPath = self.iverilogPathDict.get("iverilogPath","")
+        self.iverilogPath = os.path.abspath(self.iverilogPathDict.get("iverilogPath",""))
         self.simulateProjectList.reverse()
         simList = []
         self.topLevelDict = {}
@@ -692,7 +692,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 
     def do_simulate(self):
         pathNow = self.leftWidget.simulateWidget.iverlogPath_lineEdit.text()
-        self.iverilogPathDict["iverilogPath"] = pathNow
+        self.iverilogPathDict["iverilogPath"] = os.path.relpath(pathNow)
         write_cfg(self.__simulator_cfg_path,self.iverilogPathDict)
         dictToSim = self.simFileDict
 
