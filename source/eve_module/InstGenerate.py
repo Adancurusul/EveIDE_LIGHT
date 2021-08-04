@@ -60,3 +60,6 @@ if __name__ == "__main__":
     rg.extract_ports_info(regex_dict['module_ports'],regex_dict['width'])
     #rg.display_list_for_test(rg.info_list)
     rg.gen_module_instance(target_file_arg,work_mode_arg)
+    '''
+    (output|input|inout)(\s+)(wire|reg)?(\[[\w\-\:]+\])?(\s+)?(\w+) 
+        '''

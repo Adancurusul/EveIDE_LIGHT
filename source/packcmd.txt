@@ -1,2 +1,2 @@
-
+pipreqs ./ --encoding=utf8
 pyinstaller -F -i RVAT.ico EveIDE_LIGHT.py    

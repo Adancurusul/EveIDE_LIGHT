@@ -77,7 +77,7 @@ def findIoPorts(text):
 
     portPat = r'(\s*(input|output|inout)\s+)((wire|reg)\s*)*((signed)\s*)*(\[.*?:.*?\]\s*)*' \
               r'(.*\s*)(=?)(.*)(?=\binput\b|\boutput\b|\binout\b|\))'
-
+#(\\s*(input|output|inout)\\s+)((wire|reg)\\s*)*((signed)\\s*)*(\\[.*?:.*?\\]\\s*)*(.*\\s*)(=?)(.*)(?=\\binput\\b|\boutput\\b|\\binout\\b|\\))
     portLst = re.findall(portPat, text)
     if len(portLst)==0:
         raise HdlError('Syntax error: Can not find io port!')

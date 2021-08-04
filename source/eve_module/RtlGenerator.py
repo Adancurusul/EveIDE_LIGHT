@@ -36,17 +36,17 @@ class Rtl_generator:
         for unit in self.extract_list:
             re_ports_obj = re.search(regex_ports,unit)
             if re_ports_obj is not None:
-                port_name = re_ports_obj.group(6)
-                port_direction = re_ports_obj.group(1)
-                port_width_str = re_ports_obj.group(4)
+                port_name = re_ports_obj.group(6)#得到ports
+                port_direction = re_ports_obj.group(1)#方向
+                port_width_str = re_ports_obj.group(4)#位宽
                 if port_width_str is None:
                     port_width = 1
                 else:
                     #port_width = port_width_str
                     width_str = re.search(regex_width,port_width_str).group(2)
                     width_info_list = width_str.split(":")
-                    high_str = width_info_list[0]
-                    low_str = width_info_list[1]
+                    high_str = width_info_list[0]#高位
+                    low_str = width_info_list[1]#低位
                     if '-1' in high_str:
                         port_width = high_str.split("-")[0]
                     else:
@@ -88,4 +88,3 @@ class Rtl_generator:
                 file_obj.write('\n')
         print('generate instance finish')
 
-#rtl_generator.py

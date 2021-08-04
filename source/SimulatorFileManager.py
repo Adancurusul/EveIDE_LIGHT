@@ -250,3 +250,12 @@ if __name__ == '__main__':
 
     c = SimulatorFileManager("D:\codes\PRV464PRO\RTL")
 
+'''
+(let*-values ([(re_commentSingleLine) #rx"\\/\\/(.*?)\n"]
+              [(re_commentMultipleLine) #rx"\\/\\*.*?\\*\\/"]
+              [(strFile) (file->string "test.v" #:mode 'text)])
+  (let*-values ([(withoutMultipleCommentStr) (regexp-replace* re_commentMultipleLine strFile "")] 
+      [(withoutCommentStr) (regexp-replace* re_commentSingleLine withoutMultipleCommentStr "")])
+  withoutCommentStr))
+
+'''
