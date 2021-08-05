@@ -90,7 +90,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
     __workspace_cfg_path = "../configure/cfgWorkspace.evecfg"
 
     __simulator_cfg_path = "../configure/cfgSimulater.evecfg"
-
+    __instance_module_path = "modules/CreateInstance/CreateInstance.exe"
     projectTreeDictList = []
     #_surpprot_file_suffix_list[]
 
@@ -544,8 +544,12 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             pre = os.path.dirname(currentDict.get("fullPath", ""))
             nameNow = currentDict.get("name", "")
             newPath = pre + "/inst_" + nameNow
-            c = CreateInsance()
-            c.CreateInsance(currentDict.get("fullPath", ""), newPath)
+            cmdStr = self.__instance_module_path + " " + pre+" "+newPath
+            # 利用lisp
+
+
+            '''c = CreateInsance()
+            c.CreateInsance(currentDict.get("fullPath", ""), newPath)'''
             if os.path.exists(newPath):
                 projectManager = ProjectManage(self.currentProjectPath)
                 projectTreeDict = projectManager.porject_dict
@@ -598,10 +602,13 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         textNow = q.text()
         if "create instance file" in textNow :
             pre = os.path.dirname(currentDict.get("fullPath",""))
+
             nameNow = currentDict.get("name","")
             newPath = pre+"/inst_"+nameNow
-            c = CreateInsance()
-            c.CreateInsance(currentDict.get("fullPath",""),newPath)
+            cmdStr = os.path.abspath(self.__instance_module_path) + " " + os.path.abspath(currentDict.get("fullPath","")) + " " + os.path.abspath(newPath)
+            print("*" * 100 + cmdStr)
+            p = subprocess.Popen(cmdStr, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                 shell=True, cwd='./')
             if os.path.exists(newPath) :
 
                 projectManager = ProjectManage(self.currentProjectPath)
