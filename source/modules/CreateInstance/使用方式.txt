@@ -1,3 +1,0 @@
-racket CreateInstance.rkt  <inputFile> <outputFile> 
-或 
-CreateInstance.exe  <inputFile> <outputFile>

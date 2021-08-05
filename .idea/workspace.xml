@@ -20,11 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d61de26-ad7b-456a-ba80-27eddadd55d4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/EveIDE_LIGHT.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/EveIDE_LIGHT.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/modules/CreateInstance/CreateInstance.rkt" beforeDir="false" afterPath="$PROJECT_DIR$/source/modules/CreateInstance/CreateInstance.rkt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/t_workspace/t_counter/inst_counter.v" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/t_workspace/t_counter/inst_t.v" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/t_counter/inst_t.v" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/modules/CreateInstance/使用方式.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
