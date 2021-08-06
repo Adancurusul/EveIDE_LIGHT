@@ -2,7 +2,7 @@
 # EveIDE_LIGHT 使用手册
 ![EveIDE_LIGHT](./img/EveIDE_LIGHT.png)  
  
-当前版本 : v0.0.2-alpha    
+当前版本 : v0.0.2-beta  （支持windows7以上版本 64位操作系统）    
 作者 : Adancurusul
 *****
 
@@ -10,7 +10,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <!--**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*-->
 
-- [EveIDE_LIGHT 使用手册(更新中)](#eveide_light-%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C%E6%9B%B4%E6%96%B0%E4%B8%AD)
+
   - [版本说明](#%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
     - [版本部分特性](#%E7%89%88%E6%9C%AC%E9%83%A8%E5%88%86%E7%89%B9%E6%80%A7)
   - [概述](#%E6%A6%82%E8%BF%B0)
@@ -34,21 +34,22 @@
 ***
 
 ## 版本说明
-当前为v0.0.2-alpha  版本，在[releases](https://github.com/Adancurusul/EveIDE_LIGHT/releases   )中可以直接下载，alpha版本会保留命令行窗口以便使用出现bug时可以及时向开发团队反馈    
+当前为v0.0.2-beta  版本，在[releases](https://github.com/Adancurusul/EveIDE_LIGHT/releases   )中可以直接下载，beta版本会保留命令行窗口以便使用出现bug时可以及时向开发团队反馈    
 *由于开发人员只有一个，bug可能会比较多，请见谅。    
 如果使用中存在任何问题可联系 chen.yuheng@nexuslink.cn 或者 QQ：1016867898
 ### 版本部分特性
 - 工程目录和ide所在目录需放在同一磁盘中（如C盘）
-- 自动例化程序当前版本存在一定特性，以下特性会在稳定版本中修复：
-  - wire和对应位宽之间需添加空格否则该信号无法被例化
-  - 例化的文件下应当只定义一个module否则例化会出现错误
+- 自动例化已用Racket重写，优化输出文件格式、支持一个文件下多个模组且可以独立使用，但是仍然具备一定局限，[自动例化器](https://github.com/Adancurusul/EveIDE_LIGHT/tree/main/source/modules/CreateInstance   )
+  - 例化代码中input 与output 应当每行一个不能一行多个
+  - 例化的模组中parameter定义前需要加上“parameter” eg：“parameter a = 0”
+  - ***可能会出现例化后信号丢失或者信号多出现象，请注意检查***
 - 本版本编译时只能对工程下的main.c或main.s或main.S自动编译，此特性会在后续版本中修复
 
 
 ##   概述 
 ###   什么是EveIDE_LIGHT
 EveIDE_LIGHT 目的是为RiscV核心设计者打造一个轻量化解包即用、快速开发与验证的集成开发环境。
-EveIDE_LIGHT目前集成了编辑器，仿真器和烧录器，后期还会添加Git等版本管理模块。打包后可执行文件仅100MB ,能做到解包即用不用配置其他环境
+EveIDE_LIGHT目前集成了编辑器，仿真器和烧录器，后期还会添加Git等版本管理模块。打包后可执行很小 ,且能做到解包即用不用配置其他环境
 
 ##   使用介绍 
 ###   选择工作区

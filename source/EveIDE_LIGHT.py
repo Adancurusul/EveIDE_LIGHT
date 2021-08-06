@@ -90,7 +90,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
     __workspace_cfg_path = "../configure/cfgWorkspace.evecfg"
 
     __simulator_cfg_path = "../configure/cfgSimulater.evecfg"
-    __instance_module_path = "modules/CreateInstance/CreateInstance.exe"
+    __instance_module_path = "modules/CreateInstance/bin/CreateInstance.exe"
     projectTreeDictList = []
     #_surpprot_file_suffix_list[]
 
