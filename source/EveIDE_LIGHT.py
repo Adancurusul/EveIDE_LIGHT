@@ -43,12 +43,13 @@ from LeftModuleWidget import LeftModuleWidget
 from OutputWidget import OutputWidget
 from EditorWidget import EditorWidget
 from eve_module.cfgRead import cfgRead
-from eve_module.CreateInstance import CreateInsance
+#from eve_module.CreateInstance import CreateInsance
 from eve_module.GetSimDumpFile import GetSimDumpFile
 from eve_module.ChangeEncoding import ChangeEncoding
 from eve_module.CompileOutput import CompileOutput
 from eve_module.GetFunctionInC import GetFunctionInC
 from eve_module.SimulateThread import SimulateThread
+from eve_module.CreateInstanceNew import CreateInstance
 from eve_module.CompileThread import CompileThread
 from eve_module.EmittingStr import EmittingStr
 from ProjectManage import ProjectManage
@@ -605,10 +606,13 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 
             nameNow = currentDict.get("name","")
             newPath = pre+"/inst_"+nameNow
+            #racket 的方法
             cmdStr = os.path.abspath(self.__instance_module_path) + " " + os.path.abspath(currentDict.get("fullPath","")) + " " + os.path.abspath(newPath)
             print("*" * 100 + cmdStr)
             p = subprocess.Popen(cmdStr, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                  shell=True, cwd='./')
+            #python的方法
+            #CreateInstance(os.path.abspath(currentDict.get("fullPath","")),os.path.abspath(newPath))
             if os.path.exists(newPath) :
 
                 projectManager = ProjectManage(self.currentProjectPath)
