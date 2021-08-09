@@ -1,12 +1,7 @@
-/***Generate by EveIDE_LIGHT at 2021-07-23 09:23:30***/
-/****************V0.0.1******************/
-char q(char a )
-{
-    a+=2;
-    return a;
-}
+#include "t.h"
+
 void main()
 {
-    char a = 1;
-    char b = q(a);
+    int a = 1;
+    int b = qqqqe(a);
 }

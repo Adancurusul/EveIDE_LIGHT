@@ -56,7 +56,7 @@ class NewProjectWidget(QWidget,Ui_NewProject):
                 os.mkdir(self.pathNow)
                 if self.type == "compile":
                     try:
-                        os.mkdir(self.pathNow + "\\src")
+                        #os.mkdir(self.pathNow + "\\src")
                         os.mkdir(self.pathNow + "\\inc")
                     except Exception as e:
                         logging.debug(e)

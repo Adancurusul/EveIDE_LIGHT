@@ -2,7 +2,7 @@
 # EveIDE_LIGHT 使用手册
 ![EveIDE_LIGHT](./img/EveIDE_LIGHT.png)  
  
-当前版本 : v0.0.2-beta  （支持windows7以上版本 64位操作系统）    
+当前版本 : v0.0.2-beta.2  （支持windows7以上版本 64位操作系统）    
 作者 : Adancurusul
 *****
 
@@ -39,6 +39,7 @@
 如果使用中存在任何问题可联系 chen.yuheng@nexuslink.cn 或者 QQ：1016867898
 ### 版本部分特性
 - 工程目录和ide所在目录需放在同一磁盘中（如C盘）
+- 目前只支持UTF-8格式编码文件工程若遇无法打开IDE或文件无法打开应检查编码，或使用[批量转换工具]( https://github.com/Adancurusul/EveIDE_LIGHT/tree/main/source/modules/ChangeEncoding )批量转换为UTF-8
 - 自动例化已用Racket重写，优化输出文件格式、支持一个文件下多个模组且可以独立使用，但是仍然具备一定局限，[自动例化器](https://github.com/Adancurusul/EveIDE_LIGHT/tree/main/source/modules/CreateInstance   )
   - 例化代码中input 与output 应当每行一个不能一行多个
   - 例化的模组中parameter定义前需要加上“parameter” eg：“parameter a = 0”

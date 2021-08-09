@@ -17,6 +17,7 @@ import os
 import sys
 # import codecs
 import chardet
+import argparse
 class ChangeEncoding():
     #def __init__(self):
     def convert(self,filePath,outEncoding = "utf-8"):
@@ -40,7 +41,7 @@ def convert(filename, out_enc='utf-8'):
     try:
         with open(filename, 'rb') as f:
             content_bytes = f.read()
-        print("0000000000000000000000000000000000000000000000")
+        print("#"*20)
         print(type(f))
 
         source_encoding = chardet.detect(content_bytes).get('encoding')
@@ -49,9 +50,9 @@ def convert(filename, out_enc='utf-8'):
         with open(filename, 'r', encoding=source_encoding) as f:
             content_str = f.read()
         print(type(content_str))
-        print("1111111111111111111111111111111111111111111111")
         print(filename)
-        #    print(content_str)
+        print("#"*20)
+
 
         with open(filename, 'w', encoding=out_enc) as f:
             f.write(content_str)
@@ -67,21 +68,25 @@ def convert(filename, out_enc='utf-8'):
         print("I/O error:{0}".format(err))
 
 
-def explore(dir):
+def explore(dir,suffixList):
+    print(dir)
+    print(suffixList)
     for root, dirs, files in os.walk(dir):
         for file in files:
-            if os.path.splitext(file)[1] == '.txt':
-                print(file)
-                path = os.path.join(root, file)
-                convert(path)
+            for eachSuffix in suffixList:
+                if os.path.splitext(file)[1] == eachSuffix:
+                    print("converting : " + file)
+                    path = os.path.join(root, file)
+                    convert(path)
 
 
-def main():
-    #  explore(os.getcwd())
-    explore("C:/Users/y_smile/Desktop/coding_2_utf8")
-
-
-#    explore('C:\\Users\\y_smile\\Desktop\\coding_2_utf8')
 
 if __name__ == "__main__":
-    main()
+
+    parser = argparse.ArgumentParser(description='Convert specific suffix files in the directory to utf-8 encoding')
+    parser.add_argument('path', type=str, help='Folder path')
+    parser.add_argument('suffix', type=str, nargs='+', help='file suffix eg: .v .c .txt')
+    args = parser.parse_args()
+    suffixList = args.suffix
+    folderPath = args.path
+    explore(folderPath, suffixList)

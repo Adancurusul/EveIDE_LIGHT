@@ -23,11 +23,9 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 
 '''
 __version__ = "V0.0.2"
-import datetime
 
-import logging
-import time
 
+#导入需要的qt库
 from qtpy.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QFormLayout, QLineEdit, QTabWidget, \
     QMdiArea, QTextEdit, QDockWidget, QSplitter, QMdiSubWindow, QTreeWidgetItem, QMessageBox,QMenu,QAction
 from qtpy.QtCore import Qt, Signal, QTimer,QSize,QFile
@@ -35,9 +33,17 @@ from qtpy.QtGui import QPalette, QBrush, QColor,QIcon,QCursor
 import qtpy
 from qtpy import QtGui
 from qtpy import QtCore
+
+
+#导入库
 import sys
+import datetime
+import logging
+import time
 import functools 
 import os,shutil,subprocess
+
+#导入自定义库
 from ui.ui_main_window import Ui_MainWindow
 from LeftModuleWidget import LeftModuleWidget
 from OutputWidget import OutputWidget
@@ -64,11 +70,22 @@ logging.basicConfig(level=logging.DEBUG,
 
 
 def read_cfg(cfgPath) -> dict:
+    '''
+    读取cfg文件
+    :param cfgPath:cfg文件路径
+    :return: cfg文件中的字典
+    '''
     cfgReader = cfgRead(cfgPath)
     return cfgReader.get_dict()
 
 
 def write_cfg(cfgPath, writeDict):
+    '''
+    写cfg文件
+    :param cfgPath: cfg文件路径
+    :param writeDict: 需要写入的字典
+    :return:
+    '''
     cfgReader = cfgRead(cfgPath)
     cfgReader.write_dict(writeDict)
     # return cfgReader.get_dict()
@@ -105,10 +122,71 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 
         self.firstInit = 0  # 第一次启动selectworkspace
         self.initWorkspace()
+    def initAll(self):
+        if self.firstInit:
+            self.update_workspace()
 
+        else:
+            logging.debug("initAll")
+            self.showNormal()
+            self.initUi()
+            self.initLogic()
+            self.init_simulator()
+            self.init_timer()
+            self.untitledNum = 1
+    def init_timer(self):
+        '''
+        初始化定时器
+        :return:
+        '''
+        self.timerCheckFile = QTimer()#用于文件是否改变的定时器
+        self.timerCheckFile.timeout.connect(self.check_file)
+        self.timerCheckFile.start(10000)
+
+    def initLogic(self):
+        '''
+        逻辑部分初始化
+        :return:
+        '''
+        self.ChangeEncoding = ChangeEncoding()#用于修改文件encoding 现弃用并只支持UTF-8
+        self.firstInit = 1
+        self.treeWidget = self.leftWidget.projectWidget.projectFile_treeWidget #左侧模组中project的树状结构
+        self.simulateTreeWidget = self.leftWidget.simulateWidget.ProjectTreeWidget.projectFile_treeWidget#左侧模组中simulate的树状结构
+        logging.debug("nowSim"+str(self.simulateTreeWidget ))
+        self.treeWidget.setHeaderLabel("")
+        cfgDict = read_cfg(self.__workspace_cfg_path)
+        self.workspacePath = cfgDict.get("workspaceNow","../")
+        write_cfg(self.__workspace_cfg_path,cfgDict)
+        self.projectList = self.check_compile_projects
+        self.simulateList = self.check_simulate_projcet
+        self.__project_cfg_path = self.workspacePath+"/cfgPorjectList.evecfg"
+        cfgDictProject = read_cfg(self.__project_cfg_path)
+        compileSettingList = self.clear_unused_compile_project(cfgDictProject.get("comlipeSetting",[]),self.projectList)
+
+        cfgDictProject["comlipeSetting"] = compileSettingList
+        write_cfg(self.__project_cfg_path,cfgDictProject)
+
+        self.leftWidget.compileWidget.addSettingsDictList(compileSettingList)
+
+        logging.debug("workspace Now :" + self.workspacePath)
+        if ( self.workspacePath == "") or (self.workspacePath is  None):
+            self.workspacePath = "./"
+        logging.debug("workspace now is:" + self.workspacePath)
+        self.setWindowTitle("EveIDE-LIGHT  "+ os.path.abspath(self.workspacePath))
+        self.set_workspace_tree()
+        # 刷新树状列表
+        self.treeWidget.setContextMenuPolicy(Qt.CustomContextMenu)  # 打开右键菜单的策略
+        self.treeWidget.customContextMenuRequested.connect(self.project_tree_right_click)  # 绑定事件
+        self.init_sub_thread()
+        self.view_dock_closeEvent()
+        self.connect_signal()
 
     def initWorkspace(self):
-        self.showMinimized()
+        '''
+        初始化选择workspace窗口
+        :return:
+        '''
+        self.showMinimized()#将主窗口隐藏
         self.workspaceSelector = SelectWorkspace()
         if self.workspaceSelector.cfgDict.get("useAsDefault",0) == 1:
             self.initAll()
@@ -117,6 +195,10 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             self.workspaceSelector.show()
             self.workspaceSelector.closeSignal.connect(self.initAll)
     def update_workspace(self):
+        '''
+        更新工作区
+        :return:
+        '''
         self.treeWidget = self.leftWidget.projectWidget.projectFile_treeWidget
         self.simulateTreeWidget = self.leftWidget.simulateWidget.ProjectTreeWidget.projectFile_treeWidget
         logging.debug("nowSim"+str(self.simulateTreeWidget ))
@@ -160,58 +242,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         self.leftWidget.simulateWidget.iverlogPath_lineEdit.setText(self.iverilogPath)
         #self.init_timer()
         self.untitledNum = 1
-    def initAll(self):
-        if self.firstInit:
-            self.update_workspace()
 
-        else:
-            logging.debug("initAll")
-            self.showNormal()
-            self.initUi()
-            self.initLogic()
-            self.init_simulator()
-            self.init_timer()
-            self.untitledNum = 1
-    def init_timer(self):
-        self.timerCheckFile = QTimer()
-        self.timerCheckFile.timeout.connect(self.check_file)
-        self.timerCheckFile.start(10000)
-
-    def initLogic(self):
-        self.ChangeEncoding = ChangeEncoding()
-
-        self.firstInit = 1
-
-        self.treeWidget = self.leftWidget.projectWidget.projectFile_treeWidget
-        self.simulateTreeWidget = self.leftWidget.simulateWidget.ProjectTreeWidget.projectFile_treeWidget
-        logging.debug("nowSim"+str(self.simulateTreeWidget ))
-        self.treeWidget.setHeaderLabel("")
-        cfgDict = read_cfg(self.__workspace_cfg_path)
-        self.workspacePath = cfgDict.get("workspaceNow","../")
-        write_cfg(self.__workspace_cfg_path,cfgDict)
-        self.projectList = self.check_compile_projects
-        self.simulateList = self.check_simulate_projcet
-        self.__project_cfg_path = self.workspacePath+"/cfgPorjectList.evecfg"
-        cfgDictProject = read_cfg(self.__project_cfg_path)
-        compileSettingList = self.clear_unused_compile_project(cfgDictProject.get("comlipeSetting",[]),self.projectList)
-
-        cfgDictProject["comlipeSetting"] = compileSettingList
-        write_cfg(self.__project_cfg_path,cfgDictProject)
-
-        self.leftWidget.compileWidget.addSettingsDictList(compileSettingList)
-
-        logging.debug("workspace Now :" + self.workspacePath)
-        if ( self.workspacePath == "") or (self.workspacePath is  None):
-            self.workspacePath = "./"
-        logging.debug("workspace now is:" + self.workspacePath)
-        self.setWindowTitle("EveIDE-LIGHT  "+ os.path.abspath(self.workspacePath))
-        self.set_workspace_tree()
-        # 刷新树状列表
-        self.treeWidget.setContextMenuPolicy(Qt.CustomContextMenu)  # 打开右键菜单的策略
-        self.treeWidget.customContextMenuRequested.connect(self.project_tree_right_click)  # 绑定事件
-        self.init_sub_thread()
-        self.view_dock_closeEvent()
-        self.connect_signal()
 
     def clear_unused_compile_project(self,projectSettingList,projectList):
         realSettingList = []
