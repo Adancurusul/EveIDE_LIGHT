@@ -94,11 +94,13 @@ EveIDE_LIGHT 工程管理方式为工作区，工作区下可以创建或导入�
 ![错误的gcc路径](./img/错误的gcc路径.png)      
 
 gcc选择下面为指令集选择，可以根据自己工程的指令集来选择
+*请使用 xxx-gcc -print-multi-lib查看支持的multilib来勾选指令集   
 
 ![选择isa](img/选择isa.png)
 
 IDE支持自动为使用者编译，只需将Auto generate勾上即可（当为设置Auto generate时自定义编译设置将无效）  
 *目前EveIDE_LIGHT只支持工程目录下的main.S和main.c自动生成，后面会继续完善    
+
 ![自动makefile](img/自动生成makefile.png)   
 为了方便开发者在FPGA上和仿真器中验证，IDE为开发者设置了输出文件可选项，目前支持mif，coe，纯二进制bin，和与纯二进制区分后缀为elf的文件   
 
