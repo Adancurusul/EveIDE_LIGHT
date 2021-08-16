@@ -131,7 +131,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             self.showNormal()
             self.initUi()
             self.initLogic()
-            self.init_simulator()
+            self.first_init_simulatro()
             self.init_timer()
             self.untitledNum = 1
     def init_timer(self):
@@ -481,7 +481,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 
         self.workspaceSelector.show()
         self.workspaceSelector.closeSignal.connect(self.initAll)
-    def init_simulator(self):
+    def first_init_simulatro(self):
         cfgDict = read_cfg(self.workspacePath + "./cfgPorjectList.evecfg")
         #cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
         #cfgDict = cfg.get_dict()
@@ -510,6 +510,48 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         self.leftWidget.simulateWidget.simulate_pushButton.clicked.connect(self.do_simulate)
         self.simulateTreeWidget.itemDoubleClicked.connect(self.open_project_file)
         self.leftWidget.simulateWidget.ProjectTreeWidget.pushButton.clicked.connect(self.update_sim_tree)
+        self.currentProjectPath = self.leftWidget.simulateWidget.project_comboBox.currentText()
+        if not self.currentProjectPath == "":
+            projectManager = ProjectManage(self.currentProjectPath)
+            projectTreeDict = projectManager.porject_dict
+            #print(projectTreeDict)
+            simulatorFileManager = SimulatorFileManager(self.currentProjectPath)
+            simulatorFileDict = simulatorFileManager.simulateFileDict
+            self.projectTreeDictList.append(projectTreeDict)
+            # 创建工程树
+            self.set_sim_project_tree(projectTreeDict,self.simulateTreeWidget,simulatorFileDict)
+            self.simFileDict = simulatorFileDict
+            simulatorInculdeDict = simulatorFileManager.includeFileList
+            self.simIncludeDict = simulatorInculdeDict
+    def init_simulator(self):
+        cfgDict = read_cfg(self.workspacePath + "./cfgPorjectList.evecfg")
+        #cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
+        #cfgDict = cfg.get_dict()
+        self.simulateProjectList= cfgDict.get("simulate_projectPathList",[])
+        self.iverilogPathDict = read_cfg(self.__simulator_cfg_path)
+        self.iverilogPath = os.path.abspath(self.iverilogPathDict.get("iverilogPath",""))
+        self.simulateProjectList.reverse()
+        simList = []
+        self.topLevelDict = {}
+        for each in self.simulateProjectList:
+            simList.append(os.path.abspath(each))
+        self.simulateTreeWidget.clear()
+        self.leftWidget.simulateWidget.project_comboBox.clear()
+        self.leftWidget.simulateWidget.project_comboBox.addItems(simList)
+        #self.leftWidget.simulateWidget.project_comboBox.setItemText(0,"")
+        self.leftWidget.simulateWidget.project_comboBox.setToolTip(self.leftWidget.simulateWidget.project_comboBox.currentText())
+        self.leftWidget.simulateWidget.iverlogPath_lineEdit.setText(os.path.abspath(self.iverilogPath))
+        #self.leftWidget.projectWidget.projectFile_treeWidget
+        #self.leftWidget.simulateWidget.selectProjectPath_pushButton.clicked.connect(lambda : self.simulator_project_path("project"))
+        #self.leftWidget.simulateWidget.selectIverilogPath_pushButton.clicked.connect(lambda : self.simulator_project_path("iverilog"))
+
+        #self.simulateTreeWidget.setContextMenuPolicy(Qt.CustomContextMenu)  # 打开右键菜单的策略
+        #self.simulateTreeWidget.customContextMenuRequested.connect(self.sim_tree_right_click)  # 绑定事件
+
+        '''        self.leftWidget.simulateWidget.project_comboBox.currentIndexChanged.connect(self.update_sim_tree)
+        self.leftWidget.simulateWidget.simulate_pushButton.clicked.connect(self.do_simulate)
+        self.simulateTreeWidget.itemDoubleClicked.connect(self.open_project_file)
+        self.leftWidget.simulateWidget.ProjectTreeWidget.pushButton.clicked.connect(self.update_sim_tree)'''
         self.currentProjectPath = self.leftWidget.simulateWidget.project_comboBox.currentText()
         if not self.currentProjectPath == "":
             projectManager = ProjectManage(self.currentProjectPath)
