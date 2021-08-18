@@ -225,7 +225,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         logging.debug("workspace now is:" + self.workspacePath)
         self.setWindowTitle("EveIDE_LIGHT  "+ os.path.abspath(self.workspacePath))
         self.set_workspace_tree()
-        cfgDict = read_cfg(self.workspacePath + "cfgPorjectList.evecfg")#t
+        cfgDict = read_cfg(self.workspacePath + "/cfgPorjectList.evecfg")
         #cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
         #cfgDict = cfg.get_dict()
         self.simulateProjectList= cfgDict.get("simulate_projectPathList",[])
@@ -484,7 +484,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         self.workspaceSelector.show()
         self.workspaceSelector.closeSignal.connect(self.initAll)
     def first_init_simulatro(self):
-        cfgDict = read_cfg(self.workspacePath + "cfgPorjectList.evecfg")
+        cfgDict = read_cfg(self.workspacePath + "/cfgPorjectList.evecfg")
         #cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
         #cfgDict = cfg.get_dict()
         self.simulateProjectList= cfgDict.get("simulate_projectPathList",[])
@@ -526,7 +526,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             simulatorInculdeDict = simulatorFileManager.includeFileList
             self.simIncludeDict = simulatorInculdeDict
     def init_simulator(self):
-        cfgDict = read_cfg(self.workspacePath + "cfgPorjectList.evecfg")
+        cfgDict = read_cfg(self.workspacePath + "/cfgPorjectList.evecfg")
         #cfg = cfgRead(self.workspacePath + "./cfgPorjectList.evecfg")
         #cfgDict = cfg.get_dict()
         self.simulateProjectList= cfgDict.get("simulate_projectPathList",[])
@@ -758,7 +758,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             if not pathNow is None:
                 self.simulateProjectList.insert(0,os.path.relpath(pathNow))
                 #self.leftWidget.simulateWidget.project_comboBox.addItems(self.simulateProjectList)
-                cfg = cfgRead(self.workspacePath + "cfgPorjectList.evecfg")
+                cfg = cfgRead(self.workspacePath + "/cfgPorjectList.evecfg")
                 cfgDict = cfg.get_dict()
                 self.simulateProjectList.reverse()
                 cfgDict["simulate_projectPathList"] =self.simulateProjectList
@@ -818,7 +818,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                                     "Incorrect iverilog path!\n (gtkwave should be in the path)")
     def add_new_project(self,pathNow,type):
         if not pathNow == "":
-            cfg = cfgRead(self.workspacePath + "cfgPorjectList.evecfg")
+            cfg = cfgRead(self.workspacePath + "/cfgPorjectList.evecfg")
             cfgDict = cfg.get_dict()
             if type == "compile":
                 cfgDict["compile_projectPathList"].append(os.path.relpath(pathNow))
@@ -895,9 +895,9 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         #logging.debug(valueNow)
     @property
     def check_simulate_projcet(self):
-        cfgPath = self.workspacePath + "cfgPorjectList.evecfg"
+        cfgPath = self.workspacePath + "/cfgPorjectList.evecfg"
         if os.path.exists(cfgPath):
-            cfg = cfgRead(self.workspacePath + "cfgPorjectList.evecfg")
+            cfg = cfgRead(self.workspacePath + "/cfgPorjectList.evecfg")
             cfgDict = cfg.get_dict()
             #cfgDict = read_cfg(self.__project_cfg_path)
             projectList = cfgDict.get("simulate_projectPathList","")
@@ -927,10 +927,10 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             return []
     @property
     def check_compile_projects(self):
-        cfgPath = self.workspacePath + "cfgPorjectList.evecfg"
+        cfgPath = self.workspacePath + "/cfgPorjectList.evecfg"
         if os.path.exists(cfgPath):
             try :
-                cfg = cfgRead(self.workspacePath + "cfgPorjectList.evecfg")
+                cfg = cfgRead(self.workspacePath + "/cfgPorjectList.evecfg")
                 cfgDict = cfg.get_dict()
                 #cfgDict = read_cfg(self.__project_cfg_path)
                 projectList = cfgDict.get("compile_projectPathList","")
@@ -951,7 +951,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                 return projectList
             except Exception as e:
                 logging.debug(e)
-                cfg = cfgRead(self.workspacePath + "cfgPorjectList.evecfg")
+                cfg = cfgRead(self.workspacePath + "/cfgPorjectList.evecfg")
                 ifCreate = QMessageBox.warning(self, "EveIDE_LIGHT -- OPEN Error",
                                                "Failed to read workspace config {0}\ncreate a new one for this workspace ? ".format(
                                                    os.path.abspath(cfgPath)))
