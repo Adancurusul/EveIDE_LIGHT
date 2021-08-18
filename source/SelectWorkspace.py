@@ -31,7 +31,8 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
         super(SelectWorkspace,self).__init__()
         self.cfgDict = {}
         self.currentPath = None #path which the editor need to open
-        self.cfgReader = cfgRead(cfgMainPath) 
+        self.cfgReader = cfgRead(cfgMainPath)
+        self.closeState = 0
         if self.cfgReader.check_path():
 
             self.cfgDict = self.cfgReader.get_dict()
@@ -45,7 +46,7 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
         self.setupUi(self)
         self.logic_init()
         self.ui_init()
-        self.closeState = 0
+
 
     def ui_init(self):
         itemShow = []
