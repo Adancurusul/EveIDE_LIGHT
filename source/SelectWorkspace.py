@@ -22,7 +22,7 @@ import logging
 from eve_module.cfgRead import cfgRead
 
 
-cfgMainPath = "..\configure\cfgWorkspace.evecfg"
+cfgMainPath = "../configure/cfgWorkspace.evecfg"
 
 
 class SelectWorkspace(QWidget,Ui_SelectWorkspace):
@@ -45,6 +45,7 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
         self.setupUi(self)
         self.logic_init()
         self.ui_init()
+        self.closeState = 0
 
     def ui_init(self):
         itemShow = []
