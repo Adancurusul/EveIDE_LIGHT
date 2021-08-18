@@ -230,6 +230,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         #cfgDict = cfg.get_dict()
         self.simulateProjectList= cfgDict.get("simulate_projectPathList",[])
         self.iverilogPathDict = read_cfg(self.__simulator_cfg_path)
+        print(self.__simulator_cfg_path+"*"*100)
         self.iverilogPath = self.iverilogPathDict.get("iverilogPath","")
         self.simulateProjectList.reverse()
         simList = []
