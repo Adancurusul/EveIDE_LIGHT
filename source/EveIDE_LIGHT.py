@@ -33,7 +33,7 @@ from qtpy.QtGui import QPalette, QBrush, QColor,QIcon,QCursor
 import qtpy
 from qtpy import QtGui
 from qtpy import QtCore
-
+import platform
 
 #导入库
 import sys
@@ -122,6 +122,8 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 
         self.firstInit = 0  # 第一次启动selectworkspace
         self.initWorkspace()
+
+
     def initAll(self):
         if self.firstInit:
             self.update_workspace()
@@ -1395,6 +1397,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 
 
     def initUi(self):
+        self.platformVersion = platform.system()
         self.setupUi(self)
         self.initIcon()
         self.setWindowIcon(self.EveIDEIcon)
@@ -1418,7 +1421,9 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         self.OutputDock.setWidget(self.TextOutput)
 
         self.TextOutput.setText(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                                +" EveIDE_LIGHT with monaco editor")
+                                +" EveIDE_LIGHT with monaco editor ")
+        self.TextOutput.append(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                                + " System : " +str(self.platformVersion))
         self.TextOutput.append(self.__EveIDE_LIGHT)
         splitter1 = QSplitter(Qt.Vertical)
         # editorNow = EditorWidget()
@@ -1554,14 +1559,14 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 
 
 def initDark():
-    from qtmodernredux import QtModernRedux
-    app = QtModernRedux.QApplication(sys.argv)
+    '''#from qtmodernredux import QtModernRedux
+    #app = QtModernRedux.QApplication(sys.argv)
     mw = QtModernRedux.wrap(MainWinUi(),
                             titlebar_color=QColor('#555555'),
                             window_buttons_position=QtModernRedux.WINDOW_BUTTONS_RIGHT)
     mw.show()
-    sys.exit(app.exec_())
-
+    sys.exit(app.exec_())'''
+    pass
 
 if __name__ == '__main__':
     print('''
