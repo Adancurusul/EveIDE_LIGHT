@@ -77,17 +77,20 @@ BEGIN
         with open(filePath, "rb")as r:
             byteStr = r.read()
         return self.bin2hexStr(byteStr)
-    def bin2hexStr(self,byteStr):
-        firstLineStr = "/*********open as Little endian, word length 64bit,do not edit !*********/ \n"
+    def get_hexStr_with_length_from_bin(self,filePath,wordLength):
+        with open(filePath, "rb")as r:
+            byteStr = r.read()
+        return self.bin2hexStr(byteStr,wordLength)
+    def bin2hexStr(self,byteStr,wordLen=64):
+        firstLineStr = "/*********open as Little endian, word length "+str(wordLen)+"bit,do not edit !*********/ \n"
         hexList = self.get_hex_list(byteStr)
-        wordLen = 64
         lenHex = len(hexList)
         lines = int(lenHex/(wordLen/8))
         codeStr = ""
         codeStr+=firstLineStr
         for line in range(lines):
             for i in range(int(wordLen/8)):
-                indexNow = 7-i+line*int((wordLen/8))
+                indexNow = int(wordLen/8)-1-i+line*int((wordLen/8))
                 codeStr += str(hexList[indexNow])
             codeStr+="\n"
         #print (codeStr)
@@ -114,10 +117,12 @@ BEGIN
         return binList
 
 if __name__ == '__main__':
-    filePathNow = r"D:\codes\EveIDE_Plus\EveIDE_Plus\source\t_workspace\unname\build\main.bin"
+    filePathNow = r"C:\Users\User\Documents\GitHub\EveIDE_Plus\source\t_workspace\unname\main.o"
     t = CompileOutput()
     #byteStr = t.get_byte_str(filePathNow)
-    hexStr = t.get_hexStr_from_bin(filePathNow)
+    #hexStr = t.get_hexStr_from_bin(filePathNow)
+
+    hexStr = t.get_hexStr_with_length_from_bin(filePathNow,128)
     print(hexStr)
     byteStr = t.get_byte_str(filePathNow)
     mifStr = t.bin2mif(byteStr)

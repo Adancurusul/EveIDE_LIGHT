@@ -50,6 +50,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="useDefault_pushButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>20</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>useDefaultSettings</string>
        </property>
@@ -73,7 +79,14 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QLineEdit" name="toolchain_lineEdit"/>
+       <widget class="QLineEdit" name="toolchain_lineEdit">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>20</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="moreToolchain_pushButton">
@@ -108,6 +121,12 @@
     <layout class="QVBoxLayout" name="verticalLayout_4">
      <item>
       <widget class="QGroupBox" name="groupBox_3">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>20</height>
+        </size>
+       </property>
        <property name="title">
         <string>CompileSettings</string>
        </property>
@@ -116,6 +135,12 @@
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <widget class="QCheckBox" name="bit64_checkBox">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>20</height>
+             </size>
+            </property>
             <property name="text">
              <string>64bit</string>
             </property>
@@ -126,6 +151,12 @@
           </item>
           <item>
            <widget class="QCheckBox" name="bit32_checkBox">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>20</height>
+             </size>
+            </property>
             <property name="text">
              <string>32bit</string>
             </property>
@@ -253,6 +284,12 @@
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
          <widget class="QCheckBox" name="binaryOutput_checkBox">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
           <property name="text">
            <string>BinOutput</string>
           </property>
@@ -263,6 +300,12 @@
         </item>
         <item>
          <widget class="QCheckBox" name="mifOutput_checkBox">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
           <property name="text">
            <string>MifOutput</string>
           </property>
@@ -270,6 +313,12 @@
         </item>
         <item>
          <widget class="QCheckBox" name="coeOutput_checkBox">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
           <property name="text">
            <string>CoeOutput</string>
           </property>
@@ -277,6 +326,12 @@
         </item>
         <item>
          <widget class="QCheckBox" name="normalOutput_checkBox">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
           <property name="text">
            <string>elfOutput</string>
           </property>
@@ -302,6 +357,12 @@
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <widget class="QLabel" name="label_2">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>20</height>
+             </size>
+            </property>
             <property name="text">
              <string>output dir:</string>
             </property>
