@@ -2,7 +2,7 @@
 # EveIDE_LIGHT 使用手册
 ![EveIDE_LIGHT](./img/EveIDE_LIGHT.png)  
  
-当前版本 : v0.0.2-beta.2  （支持windows7以上版本 64位操作系统）    
+当前版本 : v0.0.3  （支持windows7以上版本 64位操作系统）    
 作者 : Adancurusul
 *****
 
@@ -34,11 +34,12 @@
 ***
 
 ## 版本说明
-当前为v0.0.2-beta  版本，在[releases](https://github.com/Adancurusul/EveIDE_LIGHT/releases   )中可以直接下载，beta版本会保留命令行窗口以便使用出现bug时可以及时向开发团队反馈    
+当前为v0.0.3  版本，在[releases](https://github.com/Adancurusul/EveIDE_LIGHT/releases   )中可以直接下载，v0.0.03为测试版本，测试版本会保留命令行窗口以便使用出现bug时可以及时向开发团队反馈    
 *由于开发人员只有一个，bug可能会比较多，请见谅。    
 如果使用中存在任何问题可联系 chen.yuheng@nexuslink.cn 或者 QQ：1016867898
 ### 版本部分特性
 - 工程目录和ide所在目录需放在同一磁盘中（如C盘）
+- 新增自定义字长打开后缀为.bin的纯二进制文件并显示
 - 目前只支持UTF-8格式编码文件工程若遇无法打开IDE或文件无法打开应检查编码，或使用[批量转换工具]( https://github.com/Adancurusul/EveIDE_LIGHT/tree/main/source/modules/ChangeEncoding )批量转换为UTF-8
 - 自动例化已用Racket重写，优化输出文件格式、支持一个文件下多个模组且可以独立使用，但是仍然具备一定局限，[自动例化器](https://github.com/Adancurusul/EveIDE_LIGHT/tree/main/source/modules/CreateInstance   )
   - 例化代码中input 与output 应当每行一个不能一行多个
@@ -136,8 +137,10 @@ EveIDE_LIGHT设计了一套自动寻找例化模组和头文件算法能帮助�
 #### 右侧编辑器
 EveIDE_LIGHT 本着小巧稳定的原则取消了之前的自研编辑器改为采用更加稳定易用的[monaco editor](https://github.com/microsoft/monaco-editor   )
 且目前支持c，verilog，riscv汇编的高亮功能，后续还会继续优化编辑器体验。  
- *对于后缀为bin的文件由于是纯二进制文件于是IDE会读取并以64位字长的小端序显示并不支持编辑
-
+ *双击后缀为bin的文件由于是纯二进制文件于是IDE会读取并以64位字长的小端序显示并不支持编辑    
+ 也可以右键bin的树状结构根据选项选择字长（目前支持32bit 64bit 和128bit)     
+ ![自定义字长显示](img/自定义显示字长.png)    
+ ![显示128bit](img/字长128显示.png)
 ![显示bin文件](img/显示bin文件.png)    
 为避免同一个工作区下不同工程的同名文件之间的干扰，当前打开文件若处于树状图中则会展开当前文件所在节点，切换文件时左侧树状结构也会同时切换     
 ![切换文件](img/切换显示文件.png)    
