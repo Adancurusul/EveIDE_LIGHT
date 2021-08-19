@@ -53,6 +53,7 @@ class Ui_CompileWidget(object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.toolchain_lineEdit = QLineEdit(self.groupBox_2)
         self.toolchain_lineEdit.setObjectName(u"toolchain_lineEdit")
+        self.toolchain_lineEdit.setMinimumSize(QSize(0, 20))
 
         self.horizontalLayout_2.addWidget(self.toolchain_lineEdit)
 
@@ -73,18 +74,21 @@ class Ui_CompileWidget(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.groupBox_3 = QGroupBox(CompileWidget)
         self.groupBox_3.setObjectName(u"groupBox_3")
+        self.groupBox_3.setMinimumSize(QSize(0, 20))
         self.verticalLayout_3 = QVBoxLayout(self.groupBox_3)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.bit64_checkBox = QCheckBox(self.groupBox_3)
         self.bit64_checkBox.setObjectName(u"bit64_checkBox")
+        self.bit64_checkBox.setMinimumSize(QSize(0, 20))
         self.bit64_checkBox.setChecked(True)
 
         self.verticalLayout_2.addWidget(self.bit64_checkBox)
 
         self.bit32_checkBox = QCheckBox(self.groupBox_3)
         self.bit32_checkBox.setObjectName(u"bit32_checkBox")
+        self.bit32_checkBox.setMinimumSize(QSize(0, 20))
         self.bit32_checkBox.setChecked(False)
 
         self.verticalLayout_2.addWidget(self.bit32_checkBox)
@@ -160,22 +164,26 @@ class Ui_CompileWidget(object):
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.binaryOutput_checkBox = QCheckBox(self.groupBox)
         self.binaryOutput_checkBox.setObjectName(u"binaryOutput_checkBox")
+        self.binaryOutput_checkBox.setMinimumSize(QSize(0, 20))
         self.binaryOutput_checkBox.setChecked(True)
 
         self.verticalLayout_5.addWidget(self.binaryOutput_checkBox)
 
         self.mifOutput_checkBox = QCheckBox(self.groupBox)
         self.mifOutput_checkBox.setObjectName(u"mifOutput_checkBox")
+        self.mifOutput_checkBox.setMinimumSize(QSize(0, 20))
 
         self.verticalLayout_5.addWidget(self.mifOutput_checkBox)
 
         self.coeOutput_checkBox = QCheckBox(self.groupBox)
         self.coeOutput_checkBox.setObjectName(u"coeOutput_checkBox")
+        self.coeOutput_checkBox.setMinimumSize(QSize(0, 20))
 
         self.verticalLayout_5.addWidget(self.coeOutput_checkBox)
 
         self.normalOutput_checkBox = QCheckBox(self.groupBox)
         self.normalOutput_checkBox.setObjectName(u"normalOutput_checkBox")
+        self.normalOutput_checkBox.setMinimumSize(QSize(0, 20))
 
         self.verticalLayout_5.addWidget(self.normalOutput_checkBox)
 
@@ -187,6 +195,7 @@ class Ui_CompileWidget(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.label_2 = QLabel(self.groupBox)
         self.label_2.setObjectName(u"label_2")
+        self.label_2.setMinimumSize(QSize(0, 20))
 
         self.verticalLayout.addWidget(self.label_2)
 

@@ -105,10 +105,10 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
     __main_cfg_path = cfgMainPath = "..\configure\cfgMainPath"
     #__project_cfg_path = "../configure/cfgPorjectList.evecfg"
 
-    __workspace_cfg_path = "../configure/cfgWorkspace.evecfg"
+    __workspace_cfg_path = os.path.abspath("../configure/cfgWorkspace.evecfg")
 
-    __simulator_cfg_path = "../configure/cfgSimulater.evecfg"
-    __instance_module_path = "modules/CreateInstance/bin/CreateInstance.exe"
+    __simulator_cfg_path = os.path.abspath("../configure/cfgSimulater.evecfg")
+    __instance_module_path = os.path.abspath("modules/CreateInstance/bin/CreateInstance")
     projectTreeDictList = []
     #_surpprot_file_suffix_list[]
 
@@ -581,6 +581,16 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                 popMenu.addAction(QAction(u'delete file : ' + currentDict.get("name", ""), self))
                 popMenu.triggered[QAction].connect(self.project_right_click_handler)
                 popMenu.exec_(QCursor.pos())
+            elif currentDict.get("fileSuffix", "") == "bin" :
+                popMenu = QMenu()
+                # popMenu.addAction(QAction(u'set ' + currentDict.get("name", "") + ' as the top level ', self))
+                # popMenu.addAction(QAction(u'create instance file : inst_' + currentDict.get("name", ""), self))
+                popMenu.addAction(QAction(u'open file : ' + currentDict.get("name", "")+",with word length 64", self))
+                popMenu.addAction(QAction(u'open file : ' + currentDict.get("name", "") + ",with word length 32", self))
+                popMenu.addAction(QAction(u'open file : ' + currentDict.get("name", "") + ",with word length 128", self))
+                popMenu.addAction(QAction(u'delete file : ' + currentDict.get("name", ""), self))
+                popMenu.triggered[QAction].connect(self.project_right_click_handler)
+                popMenu.exec_(QCursor.pos())
             else:
                 nameNow = currentDict.get("name",None)
                 if nameNow:
@@ -657,7 +667,14 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                                     "UNKNOWN")
             # logging.debug("b")
         elif "open file" in textNow:
-            self.addEditorWidget(currentDict)
+            if "length 64" in textNow:
+                self.addEditorWidget(currentDict,64)
+            elif "length 128" in textNow:
+                self.addEditorWidget(currentDict, 128)
+            elif "length 32" in textNow:
+                self.addEditorWidget(currentDict,32)
+            else:
+                self.addEditorWidget(currentDict)
         elif "delete " in textNow:
             fullPath = os.path.abspath(currentDict.get("fullPath", ""))
             choose = QMessageBox.warning(self, "EveIDE_LIGHT -- FILE warning",
@@ -671,6 +688,15 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                 self.check_file()
                 self.update_sim_tree()
                 self.set_workspace_tree()
+        elif ",with " in textNow:
+            print("open with XXbit")
+            if "length 64" in textNow:
+                self.addEditorWidget(currentDict,64)
+            elif "length 128" in textNow:
+                self.addEditorWidget(currentDict, 128)
+            elif "length 32" in textNow:
+                self.addEditorWidget(currentDict,32)
+
 
     def simulate_right_click_handler(self,q):
         treeNode = self.simulateTreeWidget.currentItem()
@@ -872,6 +898,8 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         #logging.debug("currentTree :"+str(currentTree))
         currentTreeDict = currentTree.dictNow
         #logging.debug("currentTree :"+str(currentTreeDict))
+        if (currentTreeDict.get("fileSuffix","") == "bin"):
+            pass
         if currentTreeDict.get("type", "") == "file":
             self.addEditorWidget(currentTreeDict)
 
@@ -1457,7 +1485,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         self.sub.showMaximized()
         self.sub.setWindowFlags(Qt.FramelessWindowHint)'''
 
-    def addEditorWidget(self, fileDict=None):
+    def addEditorWidget(self, fileDict=None,binFileWordLength=64):
 
         # fileNameNow = fileName.replace("\\","/")
         # if fileName == "untitled":
@@ -1498,7 +1526,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                 code = ""
                 if not fullPath is None:
                     t = CompileOutput()
-                    code = t.get_hexStr_from_bin(fullPath)
+                    code = t.get_hexStr_with_length_from_bin(fullPath,binFileWordLength)
 
                 editorNow.add_codes(code)
 

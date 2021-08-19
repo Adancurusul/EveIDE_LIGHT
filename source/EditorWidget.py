@@ -95,8 +95,8 @@ class EditorWidget(QtWidgets.QMainWindow):
 
         self.setCentralWidget(self.view)
 
-        filename =  "/editor_settings/t_index.html"
-        self.view.load(QtCore.QUrl.fromLocalFile(filename))
+        filename =  "editor_settings/t_index.html"
+        self.view.load(QtCore.QUrl.fromLocalFile(os.path.abspath(filename)))
 
         self.bridge.initialized.connect(self.handle_initialized)
         self.bridge.valueChanged.connect(self.handle_valueChanged)
