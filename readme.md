@@ -34,7 +34,7 @@
 ***
 
 ## 版本说明
-* V003版本目前发现启动时可能出现bug正在排查中，先从release中撤下，排查完后再上架
+* V003版本目前发现启动时可能出现bug正在排查中，先从release中撤下，排查完后再上架      
 当前为v0.0.3  版本，在[releases](https://github.com/Adancurusul/EveIDE_LIGHT/releases   )中可以直接下载，v0.0.03为测试版本，测试版本会保留命令行窗口以便使用出现bug时可以及时向开发团队反馈    
 *由于开发人员只有一个，bug可能会比较多，请见谅。    
 如果使用中存在任何问题可联系 chen.yuheng@nexuslink.cn 或者 QQ：1016867898
