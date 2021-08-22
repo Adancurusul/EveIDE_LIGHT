@@ -22,21 +22,24 @@ import logging
 
 class NewProjectWidget(QWidget,Ui_NewProject):
     closeSignal = Signal(str,str)
-    def __init__(self,workspacePath,type):
+    def __init__(self,):
         super(NewProjectWidget, self).__init__()
         self.setupUi(self)
-
-        self.fatherPath = workspacePath
-        self.type = type
         self.name = "unname"
-        self.projectPath_lineEdit.setText(os.path.abspath(self.fatherPath+"/"+self.name))
-        self.projectPath_lineEdit.setToolTip(self.projectPath_lineEdit.text())
+
         self.select_pushButton.clicked.connect(self.select_workspace)
         self.projectName_label.setText(os.path.split(self.projectPath_lineEdit.text())[1])
         self.projectPath_lineEdit.textChanged.connect(self.line_changed)
-        self.cancel_pushButton.clicked.connect(lambda : self.button_handler("cancel"))
-        self.create_pushButton.clicked.connect(lambda : self.button_handler("create"))
+        self.cancel_pushButton.clicked.connect(lambda: self.button_handler("cancel"))
+        self.create_pushButton.clicked.connect(lambda: self.button_handler("create"))
         self.pathNow = ""
+    def init(self,workspacePath,type):
+        self.fatherPath = workspacePath
+        self.type = type
+        self.projectPath_lineEdit.setText(os.path.abspath(self.fatherPath + "/" + self.name))
+        self.projectPath_lineEdit.setToolTip(self.projectPath_lineEdit.text())
+
+
 
     def button_handler(self,which):
         if which == "cancel":

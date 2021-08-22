@@ -463,6 +463,10 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         self.actionSelectWorkspace.triggered.connect(self.selectNewWorkspace)
         self.actionModules.toggled.connect(functools.partial(self.view_handler, "Modules"))
         self.actionOutputs.toggled.connect(functools.partial(self.view_handler, "Outputs"))
+        self.newProjectWidget = NewProjectWidget()
+        self.newProjectWidget.init(self.workspacePath, type)
+        
+        self.newProjectWidget.closeSignal.connect(self.add_new_project)
         self.actionNewCompile.triggered.connect(lambda : self.new_project_widget("compile"))
         self.actionNewSimulate.triggered.connect(lambda : self.new_project_widget("simulate"))
         self.treeWidget.itemDoubleClicked.connect(self.open_project_file)
@@ -870,9 +874,9 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             self.set_workspace_tree()
 
     def new_project_widget(self,type):
-        newProjectWidget = NewProjectWidget(self.workspacePath,type)
-        newProjectWidget.show()
-        newProjectWidget.closeSignal.connect(self.add_new_project)
+        self.newProjectWidget.init(self.workspacePath, type)
+        self.newProjectWidget.show()
+
         #newProjectWidget.setWindowFlags(Qt.FramelessWindowHint)
 
 
@@ -1000,7 +1004,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                 pass
             d = {"compile_projectPathList":[],"simulate_projectPathList":[]}
 
-            workspacecfg = cfgRead(self.workspacePath)
+            workspacecfg = cfgRead(self.workspacePath+"/cfgPorjectList.evecfg")
             workspacecfg.write_dict(d)
 
             return []
