@@ -105,9 +105,9 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
     __main_cfg_path = cfgMainPath = "..\configure\cfgMainPath"
     #__project_cfg_path = "../configure/cfgPorjectList.evecfg"
 
-    __workspace_cfg_path = os.path.abspath("../configure/cfgWorkspace.evecfg")
+    __workspace_cfg_path = os.path.abspath("./configure/cfgWorkspace.evecfg")
 
-    __simulator_cfg_path = os.path.abspath("../configure/cfgSimulater.evecfg")
+    __simulator_cfg_path = os.path.abspath("./configure/cfgSimulater.evecfg")
     __instance_module_path = os.path.abspath("modules/CreateInstance/bin/CreateInstance")
     projectTreeDictList = []
     #_surpprot_file_suffix_list[]

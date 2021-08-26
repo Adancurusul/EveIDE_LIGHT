@@ -22,7 +22,7 @@ import logging
 from eve_module.cfgRead import cfgRead
 
 
-cfgMainPath = "../configure/cfgWorkspace.evecfg"
+cfgMainPath = "./configure/cfgWorkspace.evecfg"
 
 
 class SelectWorkspace(QWidget,Ui_SelectWorkspace):
