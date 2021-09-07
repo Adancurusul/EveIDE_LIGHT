@@ -21,15 +21,11 @@
   <component name="ChangeListManager">
     <list default="true" id="2d61de26-ad7b-456a-ba80-27eddadd55d4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configure/cfgSImulater.evecfg" beforeDir="false" afterPath="$PROJECT_DIR$/configure/cfgSImulater.evecfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configure/cfgWorkspace.evecfg" beforeDir="false" afterPath="$PROJECT_DIR$/configure/cfgWorkspace.evecfg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/EveIDE_LIGHT.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/EveIDE_LIGHT.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/NewProjectWidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/NewProjectWidget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/t_workspace/cfgPorjectList.evecfg" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/cfgPorjectList.evecfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/t_workspace/t_counter/tb_counter_evesim" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/t_counter/tb_counter_evesim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/modules/CreateInstance/CreateInstance.bak" beforeDir="false" afterPath="$PROJECT_DIR$/source/modules/CreateInstance/CreateInstance.bak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/modules/CreateInstance/CreateInstance.rkt" beforeDir="false" afterPath="$PROJECT_DIR$/source/modules/CreateInstance/CreateInstance.rkt" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -56,18 +52,6 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Python.EveIDE_LIGHT">
     <configuration name="CompileOutput" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -203,13 +187,12 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="805" y="311" key="FileChooserDialogImpl" timestamp="1628301467321">

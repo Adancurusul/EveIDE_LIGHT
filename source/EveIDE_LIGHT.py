@@ -25,7 +25,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 __version__ = "V0.0.3"
 
 
-#导入需要的qt库
+#Import the required qt library
 from qtpy.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QFormLayout, QLineEdit, QTabWidget, \
     QMdiArea, QTextEdit, QDockWidget, QSplitter, QMdiSubWindow, QTreeWidgetItem, QMessageBox,QMenu,QAction
 from qtpy.QtCore import Qt, Signal, QTimer,QSize,QFile
@@ -35,7 +35,7 @@ from qtpy import QtGui
 from qtpy import QtCore
 import platform
 
-#导入库
+#Import the library
 import sys
 import datetime
 import logging
@@ -43,7 +43,7 @@ import time
 import functools 
 import os,shutil,subprocess
 
-#导入自定义库
+#Import a custom library
 from ui.ui_main_window import Ui_MainWindow
 from LeftModuleWidget import LeftModuleWidget
 from OutputWidget import OutputWidget
@@ -71,9 +71,9 @@ logging.basicConfig(level=logging.DEBUG,
 
 def read_cfg(cfgPath) -> dict:
     '''
-    读取cfg文件
-    :param cfgPath:cfg文件路径
-    :return: cfg文件中的字典
+    Read the cfg file
+    :param cfgPath:The cfg file path
+    :return: The dictionary in the cfg file
     '''
     cfgReader = cfgRead(cfgPath)
     return cfgReader.get_dict()
@@ -81,9 +81,9 @@ def read_cfg(cfgPath) -> dict:
 
 def write_cfg(cfgPath, writeDict):
     '''
-    写cfg文件
-    :param cfgPath: cfg文件路径
-    :param writeDict: 需要写入的字典
+    Write the cfg file
+    :param cfgPath: The cfg file path
+    :param writeDict: The dictionary that needs to be written
     :return:
     '''
     cfgReader = cfgRead(cfgPath)
@@ -138,22 +138,22 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             self.untitledNum = 1
     def init_timer(self):
         '''
-        初始化定时器
+        Initialize the timer
         :return:
         '''
-        self.timerCheckFile = QTimer()#用于文件是否改变的定时器
+        self.timerCheckFile = QTimer()#A timer for whether a file has changed
         self.timerCheckFile.timeout.connect(self.check_file)
         self.timerCheckFile.start(10000)
 
     def initLogic(self):
         '''
-        逻辑部分初始化
+        The logical part is initialized
         :return:
         '''
-        self.ChangeEncoding = ChangeEncoding()#用于修改文件encoding 现弃用并只支持UTF-8
+        self.ChangeEncoding = ChangeEncoding()#Used to modify files encoding is now deprecated and only supports UTF-8
         self.firstInit = 1
-        self.treeWidget = self.leftWidget.projectWidget.projectFile_treeWidget #左侧模组中project的树状结构
-        self.simulateTreeWidget = self.leftWidget.simulateWidget.ProjectTreeWidget.projectFile_treeWidget#左侧模组中simulate的树状结构
+        self.treeWidget = self.leftWidget.projectWidget.projectFile_treeWidget #The tree structure of project in the left module
+        self.simulateTreeWidget = self.leftWidget.simulateWidget.ProjectTreeWidget.projectFile_treeWidget#The tree structure of simulate in the left module
         logging.debug("nowSim"+str(self.simulateTreeWidget ))
         self.treeWidget.setHeaderLabel("")
         cfgDict = read_cfg(self.__workspace_cfg_path)
@@ -176,19 +176,19 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         logging.debug("workspace now is:" + self.workspacePath)
         self.setWindowTitle("EveIDE-LIGHT  "+ os.path.abspath(self.workspacePath))
         self.set_workspace_tree()
-        # 刷新树状列表
-        self.treeWidget.setContextMenuPolicy(Qt.CustomContextMenu)  # 打开右键菜单的策略
-        self.treeWidget.customContextMenuRequested.connect(self.project_tree_right_click)  # 绑定事件
+        # Refresh the tree list
+        self.treeWidget.setContextMenuPolicy(Qt.CustomContextMenu)  # The policy that opens the right-click menu
+        self.treeWidget.customContextMenuRequested.connect(self.project_tree_right_click)  # Binding events
         self.init_sub_thread()
         self.view_dock_closeEvent()
         self.connect_signal()
 
     def initWorkspace(self):
         '''
-        初始化选择workspace窗口
+        Initialize the selection workspace window
         :return:
         '''
-        self.showMinimized()#将主窗口隐藏
+        self.showMinimized()#Hide the main window
         self.workspaceSelector = SelectWorkspace()
         if self.workspaceSelector.cfgDict.get("useAsDefault",0) == 1:
             self.initAll()
@@ -198,7 +198,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             self.workspaceSelector.closeSignal.connect(self.initAll)
     def update_workspace(self):
         '''
-        更新工作区
+        Update the workspace
         :return:
         '''
         self.treeWidget = self.leftWidget.projectWidget.projectFile_treeWidget
@@ -270,7 +270,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         self.compilethreadUsed = 0
         self.simulateThread.updateTextOutput.connect(self.updateTextOutput)
         self.compileThread.updateTextOutput.connect(self.updateTextOutput)
-        #不能在pushbutton的槽函数里面，否则会多次遍历
+        #Cannot be in the slot function of pushbutton, otherwise it will traverse multiple times
         self.global_mifOutput = 1
         self.global_coeOutput = 1
         self.global_outputPath = "./"
@@ -317,8 +317,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
     def do_compile_for_project(self,settingList,currentPorjectName):
         '''
         TODO:
-        目前只支持单文件自动编译，后期会增加多文件
-
+Currently, only single-file autocompilation is supported, adding multiple files later
         :param settingList:
         :param currentPorjectName:
         :return:
@@ -648,7 +647,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                 simulatorFileDict = simulatorFileManager.simulateFileDict
 
                 self.projectTreeDictList.append(projectTreeDict)
-                # 创建工程树
+                # Create a project tree
                 self.set_sim_project_tree(projectTreeDict, self.simulateTreeWidget, simulatorFileDict)
                 self.simFileDict = simulatorFileDict
                 simulatorInculdeDict = simulatorFileManager.includeFileList
@@ -712,12 +711,12 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 
             nameNow = currentDict.get("name","")
             newPath = pre+"/inst_"+nameNow
-            #racket 的方法
+            #racket way
             cmdStr = os.path.abspath(self.__instance_module_path) + " " + os.path.abspath(currentDict.get("fullPath","")) + " " + os.path.abspath(newPath)
-            print("*" * 100 + cmdStr)
+            #print("*" * 100 + cmdStr)
             p = subprocess.Popen(cmdStr, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                  shell=True, cwd='./')
-            #python的方法
+            #python way
             #CreateInstance(os.path.abspath(currentDict.get("fullPath","")),os.path.abspath(newPath))
             if os.path.exists(newPath) :
 
@@ -777,7 +776,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 
         self.projectTreeDictList.append(projectTreeDict)
         #logging.debug(str(projectTreeDict).replace("\'", "\""))
-        # 创建工程树
+        # Create a project tree
         self.simulateTreeWidget.clear()
         self.set_sim_project_tree(projectTreeDict,self.simulateTreeWidget,simulatorFileDict)
         self.simFileDict = simulatorFileDict

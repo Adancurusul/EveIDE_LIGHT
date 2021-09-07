@@ -2,6 +2,8 @@
 (require racket/file
          racket/string
          racket/list)
+;raco exe CreateInstance.rkt
+;raco distribute greeting CreateInstance.exe
 ;how to use
 ;racket CreateInstance.rkt  <inputFile> <outputFile> 
 ;eg :racket CreateInstance.rkt ATU.v tt.v
