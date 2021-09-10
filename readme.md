@@ -2,7 +2,7 @@
 # EveIDE_LIGHT 使用手册
 ![EveIDE_LIGHT](./img/EveIDE_LIGHT.png)  
  
-当前版本 : v0.0.3  （支持windows7以上版本 64位操作系统）    
+当前版本 : v0.0.3  （支持windows7以上版本 64位操作系统）（支持ubuntu16.04以上linux操作系统）    
 作者 : Adancurusul
 *****
 
@@ -10,24 +10,26 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <!--**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*-->
 
-
-  - [版本说明](#%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
-    - [版本部分特性](#%E7%89%88%E6%9C%AC%E9%83%A8%E5%88%86%E7%89%B9%E6%80%A7)
-  - [概述](#%E6%A6%82%E8%BF%B0)
-    - [什么是EveIDE_LIGHT](#%E4%BB%80%E4%B9%88%E6%98%AFeveide_light)
-  - [使用介绍](#%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D)
-    - [选择工作区](#%E9%80%89%E6%8B%A9%E5%B7%A5%E4%BD%9C%E5%8C%BA)
-    - [进入主界面](#%E8%BF%9B%E5%85%A5%E4%B8%BB%E7%95%8C%E9%9D%A2)
-      - [左侧模组区](#%E5%B7%A6%E4%BE%A7%E6%A8%A1%E7%BB%84%E5%8C%BA)
-        - [工程视图](#%E5%B7%A5%E7%A8%8B%E8%A7%86%E5%9B%BE)
-        - [编译设置](#%E7%BC%96%E8%AF%91%E8%AE%BE%E7%BD%AE)
-        - [仿真设置](#%E4%BB%BF%E7%9C%9F%E8%AE%BE%E7%BD%AE)
-      - [右侧编辑器](#%E5%8F%B3%E4%BE%A7%E7%BC%96%E8%BE%91%E5%99%A8)
-      - [顶部菜单](#%E9%A1%B6%E9%83%A8%E8%8F%9C%E5%8D%95)
-        - [文件](#%E6%96%87%E4%BB%B6)
-        - [视图](#%E8%A7%86%E5%9B%BE)
-        - [工程](#%E5%B7%A5%E7%A8%8B)
-        - [模组](#%E6%A8%A1%E7%BB%84)
+- [版本说明](#%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
+  - [版本部分特性](#%E7%89%88%E6%9C%AC%E9%83%A8%E5%88%86%E7%89%B9%E6%80%A7)
+  - [使用方式](#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F)
+    - [python脚本运行](#python%E8%84%9A%E6%9C%AC%E8%BF%90%E8%A1%8C)
+    - [可执行文件运行](#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E8%BF%90%E8%A1%8C)
+- [概述](#%E6%A6%82%E8%BF%B0)
+  - [什么是EveIDE_LIGHT](#%E4%BB%80%E4%B9%88%E6%98%AFeveide_light)
+- [使用介绍](#%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D)
+  - [选择工作区](#%E9%80%89%E6%8B%A9%E5%B7%A5%E4%BD%9C%E5%8C%BA)
+  - [进入主界面](#%E8%BF%9B%E5%85%A5%E4%B8%BB%E7%95%8C%E9%9D%A2)
+    - [左侧模组区](#%E5%B7%A6%E4%BE%A7%E6%A8%A1%E7%BB%84%E5%8C%BA)
+      - [工程视图](#%E5%B7%A5%E7%A8%8B%E8%A7%86%E5%9B%BE)
+      - [编译设置](#%E7%BC%96%E8%AF%91%E8%AE%BE%E7%BD%AE)
+      - [仿真设置](#%E4%BB%BF%E7%9C%9F%E8%AE%BE%E7%BD%AE)
+    - [右侧编辑器](#%E5%8F%B3%E4%BE%A7%E7%BC%96%E8%BE%91%E5%99%A8)
+    - [顶部菜单](#%E9%A1%B6%E9%83%A8%E8%8F%9C%E5%8D%95)
+      - [文件](#%E6%96%87%E4%BB%B6)
+      - [视图](#%E8%A7%86%E5%9B%BE)
+      - [工程](#%E5%B7%A5%E7%A8%8B)
+      - [模组](#%E6%A8%A1%E7%BB%84)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -35,10 +37,11 @@
 
 ## 版本说明
 *V003版本目前发现启动时可能出现bug正在排查中，先从release中撤下，排查完后再上架      
-当前为v0.0.3  版本，在[releases](https://github.com/Adancurusul/EveIDE_LIGHT/releases   )中可以直接下载，v0.0.03为测试版本，测试版本会保留命令行窗口以便使用出现bug时可以及时向开发团队反馈    
+当前为v0.0.3  版本，在[releases](https://github.com/Adancurusul/EveIDE_LIGHT/releases   )中可以直接下载，v0.0.3为测试版本，测试版本会保留命令行窗口以便使用出现bug时可以及时向开发团队反馈    
 *由于开发人员只有一个，bug可能会比较多，请见谅。    
 如果使用中存在任何问题可联系 chen.yuheng@nexuslink.cn 或者 QQ：1016867898
 ### 版本部分特性
+- 包含windows版本和linux版本
 - 工程目录和ide所在目录需放在同一磁盘中（如C盘）
 - 新增自定义字长打开后缀为.bin的纯二进制文件并显示
 - 目前只支持UTF-8格式编码文件工程若遇无法打开IDE或文件无法打开应检查编码，或使用[批量转换工具]( https://github.com/Adancurusul/EveIDE_LIGHT/tree/main/source/modules/ChangeEncoding )批量转换为UTF-8
@@ -49,7 +52,15 @@
 - 自动查找例化算法目前支持多层查找但只在IDE中显示一层例化，后期会添加自定义层数接口
 - 本版本编译时只能对工程下的main.c或main.s或main.S自动编译，此特性会在后续版本中修复
 
+### 使用方式
+#### python脚本运行 
+***需要python3.8环境***
 
+    pip install -r requirements.txt  
+    python EveIDE_LIGHT.py
+#### 可执行文件运行
+[releases](https://github.com/Adancurusul/EveIDE_LIGHT/releases   )中可以直接下载并在source目录下找到对应平台的可执行文件并运行
+    
 ##   概述 
 ###   什么是EveIDE_LIGHT
 EveIDE_LIGHT 目的是为RiscV核心设计者打造一个轻量化解包即用、快速开发与验证的集成开发环境。
