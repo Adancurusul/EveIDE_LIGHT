@@ -335,6 +335,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
 
                     gccPrefix = self.get_gcc_prefix(gccPath)
                     eachDict["gccPrefix"] = gccPrefix
+
                     outputPath = eachDict.get("outputPath","").replace("/","\\")
 
                     if not os.path.exists(outputPath):
@@ -368,8 +369,17 @@ Currently, only single-file autocompilation is supported, adding multiple files 
                         if dictNow.get("f",0):
                             marchStr+="f"
                         mabiStr = " -mabi=ilp32 "
-                    compilePrefixStr = gccPath+"\\"+gccPrefix+"gcc"+" -c -nostdlib "+marchStr+mabiStr
-                    objdumpPrefixStr = gccPath+"\\"+gccPrefix+"objcopy -O binary "
+                    '''
+                    Todo:
+                    找到为啥linux找前缀找不到
+                    '''
+                    if gccPrefix==None:
+                        gccPrefix="riscv-nuclei-elf-"
+                        compilePrefixStr = gccPrefix + "gcc" + " -c -nostdlib " + marchStr + mabiStr
+                        objdumpPrefixStr = gccPrefix + "objcopy -O binary "
+                    else :
+                        compilePrefixStr = gccPath+"\\"+gccPrefix+"gcc"+" -c -nostdlib "+marchStr+mabiStr
+                        objdumpPrefixStr = gccPath+"\\"+gccPrefix+"objcopy -O binary "
                     if os.path.exists(pathNow+"\\main.S") :
                         fileStr = pathNow+"\\main.S"
                     elif os.path.exists(pathNow+"\\main.c"):
@@ -436,13 +446,20 @@ Currently, only single-file autocompilation is supported, adding multiple files 
             for files in os.listdir(gccPath) :
 
                 #print("get Prefix",files)
-                if "objcopy" in files:
+                if "objcopy.exe" in files:
                     #print("get Prefix",files.replace("objcopy.exe",""))
-                    preFixNow = files.replace("objcopy","")
+                    preFixNow = files.replace("objcopy.exe","")
+
+                    logging.debug("prefixNow:" + preFixNow)
                     break
+
         else :
             QMessageBox.warning(self, "EveIDE_LIGHT -- COMPILE Error",
                                 "UNKNOWN PATH FOR GCC")
+        #if preFixNow==None:
+        #    QMessageBox.warning(self, "EveIDE_LIGHT -- COMPILE Error",
+        #                        "UNKNOWN PATH FOR GCC")
+
         return preFixNow
 
 
