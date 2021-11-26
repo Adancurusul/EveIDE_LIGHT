@@ -436,9 +436,9 @@ Currently, only single-file autocompilation is supported, adding multiple files 
             for files in os.listdir(gccPath) :
 
                 #print("get Prefix",files)
-                if "objcopy.exe" in files:
+                if "objcopy" in files:
                     #print("get Prefix",files.replace("objcopy.exe",""))
-                    preFixNow = files.replace("objcopy.exe","")
+                    preFixNow = files.replace("objcopy","")
                     break
         else :
             QMessageBox.warning(self, "EveIDE_LIGHT -- COMPILE Error",
