@@ -173,4 +173,5 @@ EveIDE_LIGHT 本着小巧稳定的原则取消了之前的自研编辑器改为�
 若选择的文件夹不是空文件夹IDE会弹出警告但不会修改其中内容     
 ![新建工程警告](img/新建工程警告.png)
 #####  模组   
-本版本中暂无用途
+添加了串口调试助手
+详细见[串口调试助手](https://github.com/Adancurusul/SerialPortAssistant  )

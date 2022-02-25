@@ -42,7 +42,9 @@ import logging
 import time
 import functools 
 import os,shutil,subprocess
-
+# import modules
+sys.path.append(os.path.abspath(r'.\modules\SerialPortAssistant'))
+import  SerialPortAssistant
 #Import a custom library
 from ui.ui_main_window import Ui_MainWindow
 from LeftModuleWidget import LeftModuleWidget
@@ -469,24 +471,31 @@ Currently, only single-file autocompilation is supported, adding multiple files 
         write_cfg(self.__project_cfg_path,cfgDict)
         logging.debug("workspace_cfg saved")
 
+    def open_serial_port_assistant(self):
+        print("open serial port ")
+
+        serialNow = SerialPortAssistant.serialLogic()
+        serialNow.show()
+
     def connect_signal(self):
         self.leftWidget.compileWidget.compileSignal.connect(self.do_compile_for_project)
         self.leftWidget.projectWidget.pushButton.clicked.connect(self.set_workspace_tree)
         self.actionnew.triggered.connect(lambda: self.addEditorWidget(fileDict=None))
         self.actionopen.triggered.connect(self.openFile)
-        self.actionSaveAs.triggered.connect(lambda : self.saveAsFile(self.mdi.activeSubWindow()))
+        self.actionSaveAs.triggered.connect(lambda: self.saveAsFile(self.mdi.activeSubWindow()))
         self.actionsave.triggered.connect(self.saveFile)
         self.actionSelectWorkspace.triggered.connect(self.selectNewWorkspace)
         self.actionModules.toggled.connect(functools.partial(self.view_handler, "Modules"))
         self.actionOutputs.toggled.connect(functools.partial(self.view_handler, "Outputs"))
         self.newProjectWidget = NewProjectWidget()
         self.newProjectWidget.init(self.workspacePath, type)
-        
+
         self.newProjectWidget.closeSignal.connect(self.add_new_project)
-        self.actionNewCompile.triggered.connect(lambda : self.new_project_widget("compile"))
-        self.actionNewSimulate.triggered.connect(lambda : self.new_project_widget("simulate"))
+        self.actionNewCompile.triggered.connect(lambda: self.new_project_widget("compile"))
+        self.actionNewSimulate.triggered.connect(lambda: self.new_project_widget("simulate"))
         self.treeWidget.itemDoubleClicked.connect(self.open_project_file)
         self.mdi.subWindowActivated.connect(self.current_editor_changed)
+        self.actionSerialPortAssistant.triggered.connect(self.open_serial_port_assistant)
 
         # .parent
         # setItem
@@ -1444,8 +1453,17 @@ Currently, only single-file autocompilation is supported, adding multiple files 
         self.EveIDEIcon = QIcon()
         self.EveIDEIcon.addFile(u":/pic/RVAT.png",QSize(), QIcon.Normal, QIcon.Off)
 
+    def add_module_actions(self):
+        # QAction(MainWindow)
+        # self.serialPortAssistant = QAction(MainWindow)
+        self.actionSerialPortAssistant = QAction()
+        self.actionSerialPortAssistant.setObjectName(u"serialPortAssistant")
+        self.actionSerialPortAssistant.setText("SerialPortAssistant")
+        self.menuModules.addAction(self.actionSerialPortAssistant)
 
     def initUi(self):
+        # self.menuNewProject.addAction
+
         self.platformVersion = platform.system()
         self.setupUi(self)
         self.initIcon()
@@ -1470,9 +1488,9 @@ Currently, only single-file autocompilation is supported, adding multiple files 
         self.OutputDock.setWidget(self.TextOutput)
 
         self.TextOutput.setText(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                                +" EveIDE_LIGHT with monaco editor ")
+                                + " EveIDE_LIGHT with monaco editor ")
         self.TextOutput.append(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                                + " System : " +str(self.platformVersion))
+                               + " System : " + str(self.platformVersion))
         self.TextOutput.append(self.__EveIDE_LIGHT)
         splitter1 = QSplitter(Qt.Vertical)
         # editorNow = EditorWidget()
@@ -1481,6 +1499,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
         self.addDockWidget(Qt.LeftDockWidgetArea, self.LeftDockWidget)  # 工程视图占布局左边
         # self.addDockWidget(Qt.RightDockWidgetArea,self.RightDockWidget)
         self.setCentralWidget(splitter1)
+        self.add_module_actions()
 
     def view_dock_closeEvent(self):  # 当dock关闭时触发
         self.OutputDock.closeEvent = self.dock_output_close
