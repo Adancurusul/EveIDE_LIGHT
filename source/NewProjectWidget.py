@@ -63,13 +63,22 @@ class NewProjectWidget(QWidget,Ui_NewProject):
                         os.mkdir(self.pathNow + "\\inc")
                     except Exception as e:
                         logging.debug(e)
-
+                elif self.type == "compileC51":
+                    try:
+                        #os.mkdir(self.pathNow + "\\src")
+                        os.mkdir(self.pathNow + "\\inc")
+                        os.mkdir(self.pathNow + "\\src")
+                        os.mkdir(self.pathNow + "\\obj")
+                        os.mkdir(self.pathNow + "\\bin")
+                    except Exception as e:
+                        logging.debug(e)
                     #with open(self.pathNow+"/main.c","w+")as f:
                      #   f.write("//Created by EveIDE_LIGHT ")
                 logging.debug("new projectCreated : path : "+self.pathNow+" . type : "+self.type)
                 self.close()
 
     def closeEvent(self, event):
+        #self.newProjectWidget.closeSignal.connect(self.add_new_project)
         self.closeSignal.emit(self.pathNow,self.type)
     def line_changed(self):
         self.projectName_label.setText(os.path.split(self.projectPath_lineEdit.text())[1])

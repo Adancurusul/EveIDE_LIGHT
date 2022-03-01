@@ -1,1 +1,0 @@
-int qqqqe(int c);

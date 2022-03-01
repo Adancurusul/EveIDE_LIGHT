@@ -1,0 +1,23 @@
+-muwx
+-i bin\Release\target002.ihx
+-M
+-Y
+-I 0x0100
+-X 0x0800
+-C 0x10000
+-b HOME = 0x0000
+-b XSEG = 0x0001
+-b PSEG = 0x0001
+-b ISEG = 0x0000
+-b BSEG = 0x0000
+-k C:\Program Files\SDCC\lib
+-k D:\Android\SDCC\bin\..\lib\small
+-l mcs51
+-l libsdcc
+-l libint
+-l liblong
+-l libfloat
+obj\Release\driver\hardware.rel
+obj\Release\main.rel
+
+-e

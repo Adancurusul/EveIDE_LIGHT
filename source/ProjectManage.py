@@ -28,9 +28,6 @@ path = "C:\\Users\\User\\Documents\\GitHub\\EveIDE_Plus\\source\\t_exCpro"
 class ProjectManage():
     def __init__(self,projectPath):
         self.projectPath = projectPath
-
-
-
     def get_project_tree_dict(self):
         files = os.listdir(path)
     def get_project_dict(self):
@@ -96,6 +93,7 @@ class ProjectManage():
         return fileList
     @property
     def porject_dict(self) :
+
         rootName = os.path.basename(self.projectPath)
 
         rootTreeList = []

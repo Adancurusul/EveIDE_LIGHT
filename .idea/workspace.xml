@@ -19,7 +19,35 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d61de26-ad7b-456a-ba80-27eddadd55d4" name="Default Changelist" comment="" />
+    <list default="true" id="2d61de26-ad7b-456a-ba80-27eddadd55d4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/source/C51CompileWidget.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/EveIDE_LIGHT.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/EveIDE_LIGHT.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/LeftModuleWidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/LeftModuleWidget.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/NewProjectWidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/NewProjectWidget.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/ProjectManage.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/ProjectManage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/configure/cfgWorkspace.evecfg" beforeDir="false" afterPath="$PROJECT_DIR$/source/configure/cfgWorkspace.evecfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/cfgPorjectList.evecfg" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/cfgPorjectList.evecfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/build/main" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/build/main.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/build/main.coe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/build/main.elf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/build/main.mif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/build/main.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/build/main.q" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/build/t.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/unname/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/main.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/main.oo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/t.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/t.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/t.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/testNow" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/unname/testNowB" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/ui/ui_main_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/ui/ui_main_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/ui/ui_main_window.ui" beforeDir="false" afterPath="$PROJECT_DIR$/source/ui/ui_main_window.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/ui/ui_module_compile_widget.ui" beforeDir="false" afterPath="$PROJECT_DIR$/source/ui/ui_module_compile_widget.ui" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,6 +77,27 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager" selected="Python.EveIDE_LIGHT">
+    <configuration name="C51CompileWidget" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="EveIDE_Plus" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/source" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/source/C51CompileWidget.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="CompileOutput" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="EveIDE_Plus" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -91,28 +140,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="GetFunctionInC" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="EveIDE_Plus" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/source/eve_module" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/source/eve_module/GetFunctionInC.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="t_file" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="LeftModuleWidget" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="EveIDE_Plus" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -124,7 +152,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/source/t_file.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/source/LeftModuleWidget.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -157,10 +185,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.EveIDE_LIGHT" />
+        <item itemvalue="Python.LeftModuleWidget" />
+        <item itemvalue="Python.C51CompileWidget" />
         <item itemvalue="Python.CompileOutput" />
         <item itemvalue="Python.t_mainWin" />
-        <item itemvalue="Python.t_file" />
-        <item itemvalue="Python.GetFunctionInC" />
       </list>
     </recent_temporary>
   </component>

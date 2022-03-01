@@ -1,0 +1,922 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.8.6 #10998 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module hardware
+                                      6 	.optsdcc -mmcs51 --model-small
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _CCF0
+                                     12 	.globl _CCF1
+                                     13 	.globl _CCF2
+                                     14 	.globl _CR
+                                     15 	.globl _CF
+                                     16 	.globl _RI
+                                     17 	.globl _TI
+                                     18 	.globl _RB8
+                                     19 	.globl _TB8
+                                     20 	.globl _REN
+                                     21 	.globl _SM2
+                                     22 	.globl _SM1
+                                     23 	.globl _SM0
+                                     24 	.globl _IT0
+                                     25 	.globl _IE0
+                                     26 	.globl _IT1
+                                     27 	.globl _IE1
+                                     28 	.globl _TR0
+                                     29 	.globl _TF0
+                                     30 	.globl _TR1
+                                     31 	.globl _TF1
+                                     32 	.globl _PX0
+                                     33 	.globl _PT0
+                                     34 	.globl _PX1
+                                     35 	.globl _PT1
+                                     36 	.globl _PS
+                                     37 	.globl _PADC
+                                     38 	.globl _PLVD
+                                     39 	.globl _PPCA
+                                     40 	.globl _EX0
+                                     41 	.globl _ET0
+                                     42 	.globl _EX1
+                                     43 	.globl _ET1
+                                     44 	.globl _ES
+                                     45 	.globl _EADC
+                                     46 	.globl _ELVD
+                                     47 	.globl _EA
+                                     48 	.globl _P7_7
+                                     49 	.globl _P7_6
+                                     50 	.globl _P7_5
+                                     51 	.globl _P7_4
+                                     52 	.globl _P7_3
+                                     53 	.globl _P7_2
+                                     54 	.globl _P7_1
+                                     55 	.globl _P7_0
+                                     56 	.globl _P6_7
+                                     57 	.globl _P6_6
+                                     58 	.globl _P6_5
+                                     59 	.globl _P6_4
+                                     60 	.globl _P6_3
+                                     61 	.globl _P6_2
+                                     62 	.globl _P6_1
+                                     63 	.globl _P6_0
+                                     64 	.globl _P5_7
+                                     65 	.globl _P5_6
+                                     66 	.globl _P5_5
+                                     67 	.globl _P5_4
+                                     68 	.globl _P5_3
+                                     69 	.globl _P5_2
+                                     70 	.globl _P5_1
+                                     71 	.globl _P5_0
+                                     72 	.globl _P4_7
+                                     73 	.globl _P4_6
+                                     74 	.globl _P4_5
+                                     75 	.globl _P4_4
+                                     76 	.globl _P4_3
+                                     77 	.globl _P4_2
+                                     78 	.globl _P4_1
+                                     79 	.globl _P4_0
+                                     80 	.globl _P3_7
+                                     81 	.globl _P3_6
+                                     82 	.globl _P3_5
+                                     83 	.globl _P3_4
+                                     84 	.globl _P3_3
+                                     85 	.globl _P3_2
+                                     86 	.globl _P3_1
+                                     87 	.globl _P3_0
+                                     88 	.globl _P2_7
+                                     89 	.globl _P2_6
+                                     90 	.globl _P2_5
+                                     91 	.globl _P2_4
+                                     92 	.globl _P2_3
+                                     93 	.globl _P2_2
+                                     94 	.globl _P2_1
+                                     95 	.globl _P2_0
+                                     96 	.globl _P1_7
+                                     97 	.globl _P1_6
+                                     98 	.globl _P1_5
+                                     99 	.globl _P1_4
+                                    100 	.globl _P1_3
+                                    101 	.globl _P1_2
+                                    102 	.globl _P1_1
+                                    103 	.globl _P1_0
+                                    104 	.globl _P0_7
+                                    105 	.globl _P0_6
+                                    106 	.globl _P0_5
+                                    107 	.globl _P0_4
+                                    108 	.globl _P0_3
+                                    109 	.globl _P0_2
+                                    110 	.globl _P0_1
+                                    111 	.globl _P0_0
+                                    112 	.globl _P
+                                    113 	.globl _OV
+                                    114 	.globl _RS0
+                                    115 	.globl _RS1
+                                    116 	.globl _F0
+                                    117 	.globl _AC
+                                    118 	.globl _CY
+                                    119 	.globl _PWMFDCR
+                                    120 	.globl _PWMIF
+                                    121 	.globl _PWMCR
+                                    122 	.globl _PWMCFG
+                                    123 	.globl _CMPCR2
+                                    124 	.globl _CMPCR1
+                                    125 	.globl _CCAP2H
+                                    126 	.globl _CCAP1H
+                                    127 	.globl _CCAP0H
+                                    128 	.globl _PCA_PWM2
+                                    129 	.globl _PCA_PWM1
+                                    130 	.globl _PCA_PWM0
+                                    131 	.globl _CCAP2L
+                                    132 	.globl _CCAP1L
+                                    133 	.globl _CCAP0L
+                                    134 	.globl _CCAPM2
+                                    135 	.globl _CCAPM1
+                                    136 	.globl _CCAPM0
+                                    137 	.globl _CH
+                                    138 	.globl _CL
+                                    139 	.globl _CMOD
+                                    140 	.globl _CCON
+                                    141 	.globl _IAP_CONTR
+                                    142 	.globl _IAP_TRIG
+                                    143 	.globl _IAP_CMD
+                                    144 	.globl _IAP_ADDRL
+                                    145 	.globl _IAP_ADDRH
+                                    146 	.globl _IAP_DATA
+                                    147 	.globl _SPDAT
+                                    148 	.globl _SPCTL
+                                    149 	.globl _SPSTAT
+                                    150 	.globl _ADC_RESL
+                                    151 	.globl _ADC_RES
+                                    152 	.globl _ADC_CONTR
+                                    153 	.globl _SADEN
+                                    154 	.globl _SADDR
+                                    155 	.globl _S4BUF
+                                    156 	.globl _S4CON
+                                    157 	.globl _S3BUF
+                                    158 	.globl _S3CON
+                                    159 	.globl _S2BUF
+                                    160 	.globl _S2CON
+                                    161 	.globl _SBUF
+                                    162 	.globl _SCON
+                                    163 	.globl _WDT_CONTR
+                                    164 	.globl _WKTCH
+                                    165 	.globl _WKTCL
+                                    166 	.globl _TL2
+                                    167 	.globl _TH2
+                                    168 	.globl _TL3
+                                    169 	.globl _TH3
+                                    170 	.globl _TL4
+                                    171 	.globl _TH4
+                                    172 	.globl _T2L
+                                    173 	.globl _T2H
+                                    174 	.globl _T3L
+                                    175 	.globl _T3H
+                                    176 	.globl _T4L
+                                    177 	.globl _T4H
+                                    178 	.globl _T3T4M
+                                    179 	.globl _T4T3M
+                                    180 	.globl _TH1
+                                    181 	.globl _TH0
+                                    182 	.globl _TL1
+                                    183 	.globl _TL0
+                                    184 	.globl _TMOD
+                                    185 	.globl _TCON
+                                    186 	.globl _INT_CLKO
+                                    187 	.globl _IP2
+                                    188 	.globl _IE2
+                                    189 	.globl _IP
+                                    190 	.globl _IE
+                                    191 	.globl _P_SW2
+                                    192 	.globl _P1ASF
+                                    193 	.globl _BUS_SPEED
+                                    194 	.globl _CLK_DIV
+                                    195 	.globl _P_SW1
+                                    196 	.globl _AUXR1
+                                    197 	.globl _AUXR
+                                    198 	.globl _PCON
+                                    199 	.globl _P7M1
+                                    200 	.globl _P7M0
+                                    201 	.globl _P6M1
+                                    202 	.globl _P6M0
+                                    203 	.globl _P5M1
+                                    204 	.globl _P5M0
+                                    205 	.globl _P4M1
+                                    206 	.globl _P4M0
+                                    207 	.globl _P3M1
+                                    208 	.globl _P3M0
+                                    209 	.globl _P2M1
+                                    210 	.globl _P2M0
+                                    211 	.globl _P1M1
+                                    212 	.globl _P1M0
+                                    213 	.globl _P0M1
+                                    214 	.globl _P0M0
+                                    215 	.globl _P7
+                                    216 	.globl _P6
+                                    217 	.globl _P5
+                                    218 	.globl _P4
+                                    219 	.globl _P3
+                                    220 	.globl _P2
+                                    221 	.globl _P1
+                                    222 	.globl _P0
+                                    223 	.globl _DPH
+                                    224 	.globl _DPL
+                                    225 	.globl _SP
+                                    226 	.globl _PSW
+                                    227 	.globl _B
+                                    228 	.globl _ACC
+                                    229 	.globl _txdData
+                                    230 	.globl _rxdData
+                                    231 	.globl _RecIspStat
+                                    232 	.globl _time_count
+                                    233 	.globl _ClearUartData
+                                    234 	.globl _UartInit
+                                    235 	.globl _GetUartData
+                                    236 	.globl _GetUartRxdLen
+                                    237 	.globl _UartPrint
+                                    238 	.globl _Timer0Init
+                                    239 	.globl _delay_ms
+                                    240 	.globl _delay_100us
+                                    241 ;--------------------------------------------------------
+                                    242 ; special function registers
+                                    243 ;--------------------------------------------------------
+                                    244 	.area RSEG    (ABS,DATA)
+      000000                        245 	.org 0x0000
+                           0000E0   246 _ACC	=	0x00e0
+                           0000F0   247 _B	=	0x00f0
+                           0000D0   248 _PSW	=	0x00d0
+                           000081   249 _SP	=	0x0081
+                           000082   250 _DPL	=	0x0082
+                           000083   251 _DPH	=	0x0083
+                           000080   252 _P0	=	0x0080
+                           000090   253 _P1	=	0x0090
+                           0000A0   254 _P2	=	0x00a0
+                           0000B0   255 _P3	=	0x00b0
+                           0000C0   256 _P4	=	0x00c0
+                           0000C8   257 _P5	=	0x00c8
+                           0000E8   258 _P6	=	0x00e8
+                           0000F8   259 _P7	=	0x00f8
+                           000094   260 _P0M0	=	0x0094
+                           000093   261 _P0M1	=	0x0093
+                           000092   262 _P1M0	=	0x0092
+                           000091   263 _P1M1	=	0x0091
+                           000096   264 _P2M0	=	0x0096
+                           000095   265 _P2M1	=	0x0095
+                           0000B2   266 _P3M0	=	0x00b2
+                           0000B1   267 _P3M1	=	0x00b1
+                           0000B4   268 _P4M0	=	0x00b4
+                           0000B3   269 _P4M1	=	0x00b3
+                           0000CA   270 _P5M0	=	0x00ca
+                           0000C9   271 _P5M1	=	0x00c9
+                           0000CC   272 _P6M0	=	0x00cc
+                           0000CB   273 _P6M1	=	0x00cb
+                           0000E2   274 _P7M0	=	0x00e2
+                           0000E1   275 _P7M1	=	0x00e1
+                           000087   276 _PCON	=	0x0087
+                           00008E   277 _AUXR	=	0x008e
+                           0000A2   278 _AUXR1	=	0x00a2
+                           0000A2   279 _P_SW1	=	0x00a2
+                           000097   280 _CLK_DIV	=	0x0097
+                           0000A1   281 _BUS_SPEED	=	0x00a1
+                           00009D   282 _P1ASF	=	0x009d
+                           0000BA   283 _P_SW2	=	0x00ba
+                           0000A8   284 _IE	=	0x00a8
+                           0000B8   285 _IP	=	0x00b8
+                           0000AF   286 _IE2	=	0x00af
+                           0000B5   287 _IP2	=	0x00b5
+                           00008F   288 _INT_CLKO	=	0x008f
+                           000088   289 _TCON	=	0x0088
+                           000089   290 _TMOD	=	0x0089
+                           00008A   291 _TL0	=	0x008a
+                           00008B   292 _TL1	=	0x008b
+                           00008C   293 _TH0	=	0x008c
+                           00008D   294 _TH1	=	0x008d
+                           0000D1   295 _T4T3M	=	0x00d1
+                           0000D1   296 _T3T4M	=	0x00d1
+                           0000D2   297 _T4H	=	0x00d2
+                           0000D3   298 _T4L	=	0x00d3
+                           0000D4   299 _T3H	=	0x00d4
+                           0000D5   300 _T3L	=	0x00d5
+                           0000D6   301 _T2H	=	0x00d6
+                           0000D7   302 _T2L	=	0x00d7
+                           0000D2   303 _TH4	=	0x00d2
+                           0000D3   304 _TL4	=	0x00d3
+                           0000D4   305 _TH3	=	0x00d4
+                           0000D5   306 _TL3	=	0x00d5
+                           0000D6   307 _TH2	=	0x00d6
+                           0000D7   308 _TL2	=	0x00d7
+                           0000AA   309 _WKTCL	=	0x00aa
+                           0000AB   310 _WKTCH	=	0x00ab
+                           0000C1   311 _WDT_CONTR	=	0x00c1
+                           000098   312 _SCON	=	0x0098
+                           000099   313 _SBUF	=	0x0099
+                           00009A   314 _S2CON	=	0x009a
+                           00009B   315 _S2BUF	=	0x009b
+                           0000AC   316 _S3CON	=	0x00ac
+                           0000AD   317 _S3BUF	=	0x00ad
+                           000084   318 _S4CON	=	0x0084
+                           000085   319 _S4BUF	=	0x0085
+                           0000A9   320 _SADDR	=	0x00a9
+                           0000B9   321 _SADEN	=	0x00b9
+                           0000BC   322 _ADC_CONTR	=	0x00bc
+                           0000BD   323 _ADC_RES	=	0x00bd
+                           0000BE   324 _ADC_RESL	=	0x00be
+                           0000CD   325 _SPSTAT	=	0x00cd
+                           0000CE   326 _SPCTL	=	0x00ce
+                           0000CF   327 _SPDAT	=	0x00cf
+                           0000C2   328 _IAP_DATA	=	0x00c2
+                           0000C3   329 _IAP_ADDRH	=	0x00c3
+                           0000C4   330 _IAP_ADDRL	=	0x00c4
+                           0000C5   331 _IAP_CMD	=	0x00c5
+                           0000C6   332 _IAP_TRIG	=	0x00c6
+                           0000C7   333 _IAP_CONTR	=	0x00c7
+                           0000D8   334 _CCON	=	0x00d8
+                           0000D9   335 _CMOD	=	0x00d9
+                           0000E9   336 _CL	=	0x00e9
+                           0000F9   337 _CH	=	0x00f9
+                           0000DA   338 _CCAPM0	=	0x00da
+                           0000DB   339 _CCAPM1	=	0x00db
+                           0000DC   340 _CCAPM2	=	0x00dc
+                           0000EA   341 _CCAP0L	=	0x00ea
+                           0000EB   342 _CCAP1L	=	0x00eb
+                           0000EC   343 _CCAP2L	=	0x00ec
+                           0000F2   344 _PCA_PWM0	=	0x00f2
+                           0000F3   345 _PCA_PWM1	=	0x00f3
+                           0000F4   346 _PCA_PWM2	=	0x00f4
+                           0000FA   347 _CCAP0H	=	0x00fa
+                           0000FB   348 _CCAP1H	=	0x00fb
+                           0000FC   349 _CCAP2H	=	0x00fc
+                           0000E6   350 _CMPCR1	=	0x00e6
+                           0000E7   351 _CMPCR2	=	0x00e7
+                           0000F1   352 _PWMCFG	=	0x00f1
+                           0000F5   353 _PWMCR	=	0x00f5
+                           0000F6   354 _PWMIF	=	0x00f6
+                           0000F7   355 _PWMFDCR	=	0x00f7
+                                    356 ;--------------------------------------------------------
+                                    357 ; special function bits
+                                    358 ;--------------------------------------------------------
+                                    359 	.area RSEG    (ABS,DATA)
+      000000                        360 	.org 0x0000
+                           0000D7   361 _CY	=	0x00d7
+                           0000D6   362 _AC	=	0x00d6
+                           0000D5   363 _F0	=	0x00d5
+                           0000D4   364 _RS1	=	0x00d4
+                           0000D3   365 _RS0	=	0x00d3
+                           0000D2   366 _OV	=	0x00d2
+                           0000D0   367 _P	=	0x00d0
+                           000080   368 _P0_0	=	0x0080
+                           000081   369 _P0_1	=	0x0081
+                           000082   370 _P0_2	=	0x0082
+                           000083   371 _P0_3	=	0x0083
+                           000084   372 _P0_4	=	0x0084
+                           000085   373 _P0_5	=	0x0085
+                           000086   374 _P0_6	=	0x0086
+                           000087   375 _P0_7	=	0x0087
+                           000090   376 _P1_0	=	0x0090
+                           000091   377 _P1_1	=	0x0091
+                           000092   378 _P1_2	=	0x0092
+                           000093   379 _P1_3	=	0x0093
+                           000094   380 _P1_4	=	0x0094
+                           000095   381 _P1_5	=	0x0095
+                           000096   382 _P1_6	=	0x0096
+                           000097   383 _P1_7	=	0x0097
+                           0000A0   384 _P2_0	=	0x00a0
+                           0000A1   385 _P2_1	=	0x00a1
+                           0000A2   386 _P2_2	=	0x00a2
+                           0000A3   387 _P2_3	=	0x00a3
+                           0000A4   388 _P2_4	=	0x00a4
+                           0000A5   389 _P2_5	=	0x00a5
+                           0000A6   390 _P2_6	=	0x00a6
+                           0000A7   391 _P2_7	=	0x00a7
+                           0000B0   392 _P3_0	=	0x00b0
+                           0000B1   393 _P3_1	=	0x00b1
+                           0000B2   394 _P3_2	=	0x00b2
+                           0000B3   395 _P3_3	=	0x00b3
+                           0000B4   396 _P3_4	=	0x00b4
+                           0000B5   397 _P3_5	=	0x00b5
+                           0000B6   398 _P3_6	=	0x00b6
+                           0000B7   399 _P3_7	=	0x00b7
+                           0000C0   400 _P4_0	=	0x00c0
+                           0000C1   401 _P4_1	=	0x00c1
+                           0000C2   402 _P4_2	=	0x00c2
+                           0000C3   403 _P4_3	=	0x00c3
+                           0000C4   404 _P4_4	=	0x00c4
+                           0000C5   405 _P4_5	=	0x00c5
+                           0000C6   406 _P4_6	=	0x00c6
+                           0000C7   407 _P4_7	=	0x00c7
+                           0000C8   408 _P5_0	=	0x00c8
+                           0000C9   409 _P5_1	=	0x00c9
+                           0000CA   410 _P5_2	=	0x00ca
+                           0000CB   411 _P5_3	=	0x00cb
+                           0000CC   412 _P5_4	=	0x00cc
+                           0000CD   413 _P5_5	=	0x00cd
+                           0000CE   414 _P5_6	=	0x00ce
+                           0000CF   415 _P5_7	=	0x00cf
+                           0000E8   416 _P6_0	=	0x00e8
+                           0000E9   417 _P6_1	=	0x00e9
+                           0000EA   418 _P6_2	=	0x00ea
+                           0000EB   419 _P6_3	=	0x00eb
+                           0000EC   420 _P6_4	=	0x00ec
+                           0000ED   421 _P6_5	=	0x00ed
+                           0000EE   422 _P6_6	=	0x00ee
+                           0000EF   423 _P6_7	=	0x00ef
+                           0000F8   424 _P7_0	=	0x00f8
+                           0000F9   425 _P7_1	=	0x00f9
+                           0000FA   426 _P7_2	=	0x00fa
+                           0000FB   427 _P7_3	=	0x00fb
+                           0000FC   428 _P7_4	=	0x00fc
+                           0000FD   429 _P7_5	=	0x00fd
+                           0000FE   430 _P7_6	=	0x00fe
+                           0000FF   431 _P7_7	=	0x00ff
+                           0000AF   432 _EA	=	0x00af
+                           0000AE   433 _ELVD	=	0x00ae
+                           0000AD   434 _EADC	=	0x00ad
+                           0000AC   435 _ES	=	0x00ac
+                           0000AB   436 _ET1	=	0x00ab
+                           0000AA   437 _EX1	=	0x00aa
+                           0000A9   438 _ET0	=	0x00a9
+                           0000A8   439 _EX0	=	0x00a8
+                           0000BF   440 _PPCA	=	0x00bf
+                           0000BE   441 _PLVD	=	0x00be
+                           0000BD   442 _PADC	=	0x00bd
+                           0000BC   443 _PS	=	0x00bc
+                           0000BB   444 _PT1	=	0x00bb
+                           0000BA   445 _PX1	=	0x00ba
+                           0000B9   446 _PT0	=	0x00b9
+                           0000B8   447 _PX0	=	0x00b8
+                           00008F   448 _TF1	=	0x008f
+                           00008E   449 _TR1	=	0x008e
+                           00008D   450 _TF0	=	0x008d
+                           00008C   451 _TR0	=	0x008c
+                           00008B   452 _IE1	=	0x008b
+                           00008A   453 _IT1	=	0x008a
+                           000089   454 _IE0	=	0x0089
+                           000088   455 _IT0	=	0x0088
+                           00009F   456 _SM0	=	0x009f
+                           00009E   457 _SM1	=	0x009e
+                           00009D   458 _SM2	=	0x009d
+                           00009C   459 _REN	=	0x009c
+                           00009B   460 _TB8	=	0x009b
+                           00009A   461 _RB8	=	0x009a
+                           000099   462 _TI	=	0x0099
+                           000098   463 _RI	=	0x0098
+                           0000DF   464 _CF	=	0x00df
+                           0000DE   465 _CR	=	0x00de
+                           0000DA   466 _CCF2	=	0x00da
+                           0000D9   467 _CCF1	=	0x00d9
+                           0000D8   468 _CCF0	=	0x00d8
+                                    469 ;--------------------------------------------------------
+                                    470 ; overlayable register banks
+                                    471 ;--------------------------------------------------------
+                                    472 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        473 	.ds 8
+                                    474 ;--------------------------------------------------------
+                                    475 ; internal ram data
+                                    476 ;--------------------------------------------------------
+                                    477 	.area DSEG    (DATA)
+      000008                        478 _time_count::
+      000008                        479 	.ds 1
+      000009                        480 _RecIspStat::
+      000009                        481 	.ds 1
+                                    482 ;--------------------------------------------------------
+                                    483 ; overlayable items in internal ram 
+                                    484 ;--------------------------------------------------------
+                                    485 ;--------------------------------------------------------
+                                    486 ; indirectly addressable internal ram data
+                                    487 ;--------------------------------------------------------
+                                    488 	.area ISEG    (DATA)
+      00000B                        489 _rxdData::
+      00000B                        490 	.ds 20
+      00001F                        491 _txdData::
+      00001F                        492 	.ds 20
+                                    493 ;--------------------------------------------------------
+                                    494 ; absolute internal ram data
+                                    495 ;--------------------------------------------------------
+                                    496 	.area IABS    (ABS,DATA)
+                                    497 	.area IABS    (ABS,DATA)
+                                    498 ;--------------------------------------------------------
+                                    499 ; bit data
+                                    500 ;--------------------------------------------------------
+                                    501 	.area BSEG    (BIT)
+                                    502 ;--------------------------------------------------------
+                                    503 ; paged external ram data
+                                    504 ;--------------------------------------------------------
+                                    505 	.area PSEG    (PAG,XDATA)
+                                    506 ;--------------------------------------------------------
+                                    507 ; external ram data
+                                    508 ;--------------------------------------------------------
+                                    509 	.area XSEG    (XDATA)
+                                    510 ;--------------------------------------------------------
+                                    511 ; absolute external ram data
+                                    512 ;--------------------------------------------------------
+                                    513 	.area XABS    (ABS,XDATA)
+                                    514 ;--------------------------------------------------------
+                                    515 ; external initialized ram data
+                                    516 ;--------------------------------------------------------
+                                    517 	.area XISEG   (XDATA)
+                                    518 	.area HOME    (CODE)
+                                    519 	.area GSINIT0 (CODE)
+                                    520 	.area GSINIT1 (CODE)
+                                    521 	.area GSINIT2 (CODE)
+                                    522 	.area GSINIT3 (CODE)
+                                    523 	.area GSINIT4 (CODE)
+                                    524 	.area GSINIT5 (CODE)
+                                    525 	.area GSINIT  (CODE)
+                                    526 	.area GSFINAL (CODE)
+                                    527 	.area CSEG    (CODE)
+                                    528 ;--------------------------------------------------------
+                                    529 ; global & static initialisations
+                                    530 ;--------------------------------------------------------
+                                    531 	.area HOME    (CODE)
+                                    532 	.area GSINIT  (CODE)
+                                    533 	.area GSFINAL (CODE)
+                                    534 	.area GSINIT  (CODE)
+                                    535 ;--------------------------------------------------------
+                                    536 ; Home
+                                    537 ;--------------------------------------------------------
+                                    538 	.area HOME    (CODE)
+                                    539 	.area HOME    (CODE)
+                                    540 ;--------------------------------------------------------
+                                    541 ; code
+                                    542 ;--------------------------------------------------------
+                                    543 	.area CSEG    (CODE)
+                                    544 ;------------------------------------------------------------
+                                    545 ;Allocation info for local variables in function 'ClearUartData'
+                                    546 ;------------------------------------------------------------
+                                    547 ;puartData                 Allocated to registers r5 r6 r7 
+                                    548 ;------------------------------------------------------------
+                                    549 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:7: void    ClearUartData(UartRxdData * puartData)
+                                    550 ;	-----------------------------------------
+                                    551 ;	 function ClearUartData
+                                    552 ;	-----------------------------------------
+      000188                        553 _ClearUartData:
+                           000007   554 	ar7 = 0x07
+                           000006   555 	ar6 = 0x06
+                           000005   556 	ar5 = 0x05
+                           000004   557 	ar4 = 0x04
+                           000003   558 	ar3 = 0x03
+                           000002   559 	ar2 = 0x02
+                           000001   560 	ar1 = 0x01
+                           000000   561 	ar0 = 0x00
+      000188 AD 82            [24]  562 	mov	r5,dpl
+      00018A AE 83            [24]  563 	mov	r6,dph
+      00018C AF F0            [24]  564 	mov	r7,b
+                                    565 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:9: puartData->len = 0;
+      00018E 74 11            [12]  566 	mov	a,#0x11
+      000190 2D               [12]  567 	add	a,r5
+      000191 FA               [12]  568 	mov	r2,a
+      000192 E4               [12]  569 	clr	a
+      000193 3E               [12]  570 	addc	a,r6
+      000194 FB               [12]  571 	mov	r3,a
+      000195 8F 04            [24]  572 	mov	ar4,r7
+      000197 8A 82            [24]  573 	mov	dpl,r2
+      000199 8B 83            [24]  574 	mov	dph,r3
+      00019B 8C F0            [24]  575 	mov	b,r4
+      00019D E4               [12]  576 	clr	a
+      00019E 12 03 04         [24]  577 	lcall	__gptrput
+                                    578 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:10: puartData->index = 0;
+      0001A1 74 10            [12]  579 	mov	a,#0x10
+      0001A3 2D               [12]  580 	add	a,r5
+      0001A4 FA               [12]  581 	mov	r2,a
+      0001A5 E4               [12]  582 	clr	a
+      0001A6 3E               [12]  583 	addc	a,r6
+      0001A7 FB               [12]  584 	mov	r3,a
+      0001A8 8F 04            [24]  585 	mov	ar4,r7
+      0001AA 8A 82            [24]  586 	mov	dpl,r2
+      0001AC 8B 83            [24]  587 	mov	dph,r3
+      0001AE 8C F0            [24]  588 	mov	b,r4
+      0001B0 E4               [12]  589 	clr	a
+      0001B1 12 03 04         [24]  590 	lcall	__gptrput
+                                    591 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:11: puartData->busy = 0;
+      0001B4 74 12            [12]  592 	mov	a,#0x12
+      0001B6 2D               [12]  593 	add	a,r5
+      0001B7 FD               [12]  594 	mov	r5,a
+      0001B8 E4               [12]  595 	clr	a
+      0001B9 3E               [12]  596 	addc	a,r6
+      0001BA FE               [12]  597 	mov	r6,a
+      0001BB 8D 82            [24]  598 	mov	dpl,r5
+      0001BD 8E 83            [24]  599 	mov	dph,r6
+      0001BF 8F F0            [24]  600 	mov	b,r7
+      0001C1 E4               [12]  601 	clr	a
+                                    602 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:12: }
+      0001C2 02 03 04         [24]  603 	ljmp	__gptrput
+                                    604 ;------------------------------------------------------------
+                                    605 ;Allocation info for local variables in function 'UartInit'
+                                    606 ;------------------------------------------------------------
+                                    607 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:21: void UartInit(void)		//115200bps@22.1184MHz
+                                    608 ;	-----------------------------------------
+                                    609 ;	 function UartInit
+                                    610 ;	-----------------------------------------
+      0001C5                        611 _UartInit:
+                                    612 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:23: S1_8bit();				//8位数据
+      0001C5 E5 98            [12]  613 	mov	a,_SCON
+      0001C7 54 3F            [12]  614 	anl	a,#0x3f
+      0001C9 44 40            [12]  615 	orl	a,#0x40
+      0001CB F5 98            [12]  616 	mov	_SCON,a
+                                    617 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:24: S1_USE_P30P31();		//UART1 使用P30 P31口	默认//	S1_USE_P36P37();//UART1 使用P36 P37口//	S1_USE_P16P17();//UART1 使用P16 P17口
+      0001CD 53 A2 3F         [24]  618 	anl	_P_SW1,#0x3f
+                                    619 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:26: AUXR &= ~(1<<4);	//Timer stop		波特率使用Timer2产生
+      0001D0 53 8E EF         [24]  620 	anl	_AUXR,#0xef
+                                    621 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:27: AUXR |= 0x01;		//S1 BRT Use Timer2;
+      0001D3 43 8E 01         [24]  622 	orl	_AUXR,#0x01
+                                    623 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:28: AUXR |=  (1<<2);	//Timer2 set as 1T mode
+      0001D6 43 8E 04         [24]  624 	orl	_AUXR,#0x04
+                                    625 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:29: TH2 = (u8)(Timer2_Reload >> 8);
+      0001D9 75 D6 FF         [24]  626 	mov	_TH2,#0xff
+                                    627 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:30: TL2 = (u8)Timer2_Reload;
+      0001DC 75 D7 D0         [24]  628 	mov	_TL2,#0xd0
+                                    629 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:31: AUXR |=  (1<<4);	//Timer run enable
+      0001DF 43 8E 10         [24]  630 	orl	_AUXR,#0x10
+                                    631 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:33: REN = 1;	//允许接收
+                                    632 ;	assignBit
+      0001E2 D2 9C            [12]  633 	setb	_REN
+                                    634 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:34: ES  = 1;	//允许中断
+                                    635 ;	assignBit
+      0001E4 D2 AC            [12]  636 	setb	_ES
+                                    637 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:35: ClearUartData(&rxdData);
+      0001E6 90 00 0B         [24]  638 	mov	dptr,#_rxdData
+      0001E9 75 F0 40         [24]  639 	mov	b,#0x40
+      0001EC 12 01 88         [24]  640 	lcall	_ClearUartData
+                                    641 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:36: ClearUartData(&txdData);
+      0001EF 90 00 1F         [24]  642 	mov	dptr,#_txdData
+      0001F2 75 F0 40         [24]  643 	mov	b,#0x40
+      0001F5 12 01 88         [24]  644 	lcall	_ClearUartData
+                                    645 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:37: RecIspStat = 0;
+      0001F8 75 09 00         [24]  646 	mov	_RecIspStat,#0x00
+                                    647 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:39: }
+      0001FB 22               [24]  648 	ret
+                                    649 ;------------------------------------------------------------
+                                    650 ;Allocation info for local variables in function 'GetUartData'
+                                    651 ;------------------------------------------------------------
+                                    652 ;len                       Allocated to stack - _bp -3
+                                    653 ;mybuf                     Allocated to registers r5 r6 r7 
+                                    654 ;i                         Allocated to stack - _bp +1
+                                    655 ;------------------------------------------------------------
+                                    656 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:41: void    GetUartData(u8 mybuf[],u8 len)
+                                    657 ;	-----------------------------------------
+                                    658 ;	 function GetUartData
+                                    659 ;	-----------------------------------------
+      0001FC                        660 _GetUartData:
+      0001FC C0 0A            [24]  661 	push	_bp
+      0001FE 85 81 0A         [24]  662 	mov	_bp,sp
+      000201 05 81            [12]  663 	inc	sp
+      000203 AD 82            [24]  664 	mov	r5,dpl
+      000205 AE 83            [24]  665 	mov	r6,dph
+      000207 AF F0            [24]  666 	mov	r7,b
+                                    667 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:44: if(len >RXD_LENGTH) return;
+      000209 E5 0A            [12]  668 	mov	a,_bp
+      00020B 24 FD            [12]  669 	add	a,#0xfd
+      00020D F8               [12]  670 	mov	r0,a
+      00020E E6               [12]  671 	mov	a,@r0
+      00020F 24 EF            [12]  672 	add	a,#0xff - 0x10
+      000211 50 02            [24]  673 	jnc	00102$
+      000213 80 50            [24]  674 	sjmp	00107$
+      000215                        675 00102$:
+                                    676 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:45: mybuf[0] = 0;
+      000215 8D 82            [24]  677 	mov	dpl,r5
+      000217 8E 83            [24]  678 	mov	dph,r6
+      000219 8F F0            [24]  679 	mov	b,r7
+      00021B E4               [12]  680 	clr	a
+      00021C 12 03 04         [24]  681 	lcall	__gptrput
+                                    682 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:46: for(i=0;i<len;i++){
+      00021F A8 0A            [24]  683 	mov	r0,_bp
+      000221 08               [12]  684 	inc	r0
+      000222 76 00            [12]  685 	mov	@r0,#0x00
+      000224                        686 00105$:
+      000224 A8 0A            [24]  687 	mov	r0,_bp
+      000226 08               [12]  688 	inc	r0
+      000227 E5 0A            [12]  689 	mov	a,_bp
+      000229 24 FD            [12]  690 	add	a,#0xfd
+      00022B F9               [12]  691 	mov	r1,a
+      00022C C3               [12]  692 	clr	c
+      00022D E6               [12]  693 	mov	a,@r0
+      00022E 97               [12]  694 	subb	a,@r1
+      00022F 50 30            [24]  695 	jnc	00103$
+                                    696 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:47: mybuf[i] = rxdData.buf[i];
+      000231 A8 0A            [24]  697 	mov	r0,_bp
+      000233 08               [12]  698 	inc	r0
+      000234 E6               [12]  699 	mov	a,@r0
+      000235 2D               [12]  700 	add	a,r5
+      000236 FA               [12]  701 	mov	r2,a
+      000237 E4               [12]  702 	clr	a
+      000238 3E               [12]  703 	addc	a,r6
+      000239 FB               [12]  704 	mov	r3,a
+      00023A 8F 04            [24]  705 	mov	ar4,r7
+      00023C A8 0A            [24]  706 	mov	r0,_bp
+      00023E 08               [12]  707 	inc	r0
+      00023F E6               [12]  708 	mov	a,@r0
+      000240 24 0B            [12]  709 	add	a,#_rxdData
+      000242 F9               [12]  710 	mov	r1,a
+      000243 C0 05            [24]  711 	push	ar5
+      000245 C0 06            [24]  712 	push	ar6
+      000247 C0 07            [24]  713 	push	ar7
+      000249 87 07            [24]  714 	mov	ar7,@r1
+      00024B 8A 82            [24]  715 	mov	dpl,r2
+      00024D 8B 83            [24]  716 	mov	dph,r3
+      00024F 8C F0            [24]  717 	mov	b,r4
+      000251 EF               [12]  718 	mov	a,r7
+      000252 12 03 04         [24]  719 	lcall	__gptrput
+                                    720 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:46: for(i=0;i<len;i++){
+      000255 A8 0A            [24]  721 	mov	r0,_bp
+      000257 08               [12]  722 	inc	r0
+      000258 06               [12]  723 	inc	@r0
+      000259 D0 07            [24]  724 	pop	ar7
+      00025B D0 06            [24]  725 	pop	ar6
+      00025D D0 05            [24]  726 	pop	ar5
+      00025F 80 C3            [24]  727 	sjmp	00105$
+      000261                        728 00103$:
+                                    729 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:50: rxdData.len = 0;
+      000261 78 1C            [12]  730 	mov	r0,#(_rxdData + 0x0011)
+      000263 76 00            [12]  731 	mov	@r0,#0x00
+      000265                        732 00107$:
+                                    733 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:51: }
+      000265 15 81            [12]  734 	dec	sp
+      000267 D0 0A            [24]  735 	pop	_bp
+      000269 22               [24]  736 	ret
+                                    737 ;------------------------------------------------------------
+                                    738 ;Allocation info for local variables in function 'GetUartRxdLen'
+                                    739 ;------------------------------------------------------------
+                                    740 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:52: u8  GetUartRxdLen(void)
+                                    741 ;	-----------------------------------------
+                                    742 ;	 function GetUartRxdLen
+                                    743 ;	-----------------------------------------
+      00026A                        744 _GetUartRxdLen:
+                                    745 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:54: return rxdData.len;
+      00026A 78 1C            [12]  746 	mov	r0,#(_rxdData + 0x0011)
+      00026C 86 82            [24]  747 	mov	dpl,@r0
+                                    748 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:55: }
+      00026E 22               [24]  749 	ret
+                                    750 ;------------------------------------------------------------
+                                    751 ;Allocation info for local variables in function 'UartPrint'
+                                    752 ;------------------------------------------------------------
+                                    753 ;pstr                      Allocated to registers r5 r6 r7 
+                                    754 ;------------------------------------------------------------
+                                    755 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:72: void    UartPrint(const u8 * pstr)
+                                    756 ;	-----------------------------------------
+                                    757 ;	 function UartPrint
+                                    758 ;	-----------------------------------------
+      00026F                        759 _UartPrint:
+      00026F AD 82            [24]  760 	mov	r5,dpl
+      000271 AE 83            [24]  761 	mov	r6,dph
+      000273 AF F0            [24]  762 	mov	r7,b
+                                    763 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:74: while(txdData.busy);
+      000275                        764 00101$:
+      000275 78 31            [12]  765 	mov	r0,#(_txdData + 0x0012)
+      000277 E6               [12]  766 	mov	a,@r0
+                                    767 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:75: txdData.len = 0;
+      000278 70 FB            [24]  768 	jnz	00101$
+      00027A 78 30            [12]  769 	mov	r0,#(_txdData + 0x0011)
+      00027C F6               [12]  770 	mov	@r0,a
+                                    771 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:76: while(*pstr){
+      00027D                        772 00109$:
+      00027D 8D 82            [24]  773 	mov	dpl,r5
+      00027F 8E 83            [24]  774 	mov	dph,r6
+      000281 8F F0            [24]  775 	mov	b,r7
+      000283 12 03 1F         [24]  776 	lcall	__gptrget
+      000286 FC               [12]  777 	mov	r4,a
+      000287 60 31            [24]  778 	jz	00111$
+                                    779 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:77: txdData.buf[txdData.len] = *pstr;
+      000289 78 30            [12]  780 	mov	r0,#(_txdData + 0x0011)
+      00028B E6               [12]  781 	mov	a,@r0
+      00028C 24 1F            [12]  782 	add	a,#_txdData
+      00028E F8               [12]  783 	mov	r0,a
+      00028F A6 04            [24]  784 	mov	@r0,ar4
+                                    785 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:78: txdData.len++;
+      000291 78 30            [12]  786 	mov	r0,#(_txdData + 0x0011)
+      000293 E6               [12]  787 	mov	a,@r0
+      000294 04               [12]  788 	inc	a
+      000295 78 30            [12]  789 	mov	r0,#(_txdData + 0x0011)
+      000297 F6               [12]  790 	mov	@r0,a
+                                    791 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:79: pstr++;
+      000298 0D               [12]  792 	inc	r5
+      000299 BD 00 01         [24]  793 	cjne	r5,#0x00,00145$
+      00029C 0E               [12]  794 	inc	r6
+      00029D                        795 00145$:
+                                    796 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:80: if(txdData.len>=RXD_LENGTH){ // 发送缓冲区满，开始发送并等待
+      00029D 78 30            [12]  797 	mov	r0,#(_txdData + 0x0011)
+      00029F 86 04            [24]  798 	mov	ar4,@r0
+      0002A1 BC 10 00         [24]  799 	cjne	r4,#0x10,00146$
+      0002A4                        800 00146$:
+      0002A4 40 D7            [24]  801 	jc	00109$
+                                    802 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:81: txdData.index = 0;
+      0002A6 78 2F            [12]  803 	mov	r0,#(_txdData + 0x0010)
+      0002A8 76 00            [12]  804 	mov	@r0,#0x00
+                                    805 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:82: txdData.busy = true;
+      0002AA 78 31            [12]  806 	mov	r0,#(_txdData + 0x0012)
+      0002AC 76 01            [12]  807 	mov	@r0,#0x01
+                                    808 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:83: TI = 1;
+                                    809 ;	assignBit
+      0002AE D2 99            [12]  810 	setb	_TI
+                                    811 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:84: while(txdData.busy);
+      0002B0                        812 00104$:
+      0002B0 78 31            [12]  813 	mov	r0,#(_txdData + 0x0012)
+      0002B2 E6               [12]  814 	mov	a,@r0
+                                    815 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:85: txdData.len = 0;
+      0002B3 70 FB            [24]  816 	jnz	00104$
+      0002B5 78 30            [12]  817 	mov	r0,#(_txdData + 0x0011)
+      0002B7 F6               [12]  818 	mov	@r0,a
+      0002B8 80 C3            [24]  819 	sjmp	00109$
+      0002BA                        820 00111$:
+                                    821 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:88: txdData.index = 0;
+      0002BA 78 2F            [12]  822 	mov	r0,#(_txdData + 0x0010)
+      0002BC 76 00            [12]  823 	mov	@r0,#0x00
+                                    824 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:89: txdData.busy = true;
+      0002BE 78 31            [12]  825 	mov	r0,#(_txdData + 0x0012)
+      0002C0 76 01            [12]  826 	mov	@r0,#0x01
+                                    827 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:90: TI = 1;
+                                    828 ;	assignBit
+      0002C2 D2 99            [12]  829 	setb	_TI
+                                    830 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:91: }
+      0002C4 22               [24]  831 	ret
+                                    832 ;------------------------------------------------------------
+                                    833 ;Allocation info for local variables in function 'Timer0Init'
+                                    834 ;------------------------------------------------------------
+                                    835 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:96: void Timer0Init(void)		//20毫秒@22.1184MHz
+                                    836 ;	-----------------------------------------
+                                    837 ;	 function Timer0Init
+                                    838 ;	-----------------------------------------
+      0002C5                        839 _Timer0Init:
+                                    840 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:98: AUXR |= 0x80;       //定时器时钟1T模式
+      0002C5 43 8E 80         [24]  841 	orl	_AUXR,#0x80
+                                    842 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:100: TMOD &= 0xF0;		//设置定时器模式
+      0002C8 53 89 F0         [24]  843 	anl	_TMOD,#0xf0
+                                    844 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:101: TL0 = (u8)T0_1MS;		    //设置定时初值
+      0002CB 75 8A 9A         [24]  845 	mov	_TL0,#0x9a
+                                    846 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:102: TH0 = (u8)(T0_1MS>>8);		    //设置定时初值
+      0002CE 75 8C A9         [24]  847 	mov	_TH0,#0xa9
+                                    848 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:104: TF0 = 0;		    //清除TF0标志
+                                    849 ;	assignBit
+      0002D1 C2 8D            [12]  850 	clr	_TF0
+                                    851 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:105: TR0 = 1;		    //定时器0开始计时
+                                    852 ;	assignBit
+      0002D3 D2 8C            [12]  853 	setb	_TR0
+                                    854 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:106: ET0 = 1;            //使能定时器中断
+                                    855 ;	assignBit
+      0002D5 D2 A9            [12]  856 	setb	_ET0
+                                    857 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:107: }
+      0002D7 22               [24]  858 	ret
+                                    859 ;------------------------------------------------------------
+                                    860 ;Allocation info for local variables in function 'delay_ms'
+                                    861 ;------------------------------------------------------------
+                                    862 ;ms                        Allocated to registers 
+                                    863 ;------------------------------------------------------------
+                                    864 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:109: void    delay_ms(u8 ms)// 注意ms的类型，最大值只有255
+                                    865 ;	-----------------------------------------
+                                    866 ;	 function delay_ms
+                                    867 ;	-----------------------------------------
+      0002D8                        868 _delay_ms:
+      0002D8 85 82 08         [24]  869 	mov	_time_count,dpl
+                                    870 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:112: while(time_count);
+      0002DB                        871 00101$:
+      0002DB E5 08            [12]  872 	mov	a,_time_count
+      0002DD 70 FC            [24]  873 	jnz	00101$
+                                    874 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:113: }
+      0002DF 22               [24]  875 	ret
+                                    876 ;------------------------------------------------------------
+                                    877 ;Allocation info for local variables in function 'delay_100us'
+                                    878 ;------------------------------------------------------------
+                                    879 ;ms                        Allocated to registers 
+                                    880 ;x                         Allocated to registers r4 r5 
+                                    881 ;y                         Allocated to registers r6 r7 
+                                    882 ;------------------------------------------------------------
+                                    883 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:114: void delay_100us(unsigned int ms)   //  软件延时，注意数据类型，100us
+                                    884 ;	-----------------------------------------
+                                    885 ;	 function delay_100us
+                                    886 ;	-----------------------------------------
+      0002E0                        887 _delay_100us:
+      0002E0 AE 82            [24]  888 	mov	r6,dpl
+      0002E2 AF 83            [24]  889 	mov	r7,dph
+                                    890 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:117: for (y = ms; y > 0; y--) {
+      0002E4                        891 00106$:
+      0002E4 EE               [12]  892 	mov	a,r6
+      0002E5 4F               [12]  893 	orl	a,r7
+      0002E6 60 1B            [24]  894 	jz	00108$
+                                    895 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:118: for (x = 11; x > 0; x--);
+      0002E8 7C 0B            [12]  896 	mov	r4,#0x0b
+      0002EA 7D 00            [12]  897 	mov	r5,#0x00
+      0002EC                        898 00104$:
+      0002EC EC               [12]  899 	mov	a,r4
+      0002ED 24 FF            [12]  900 	add	a,#0xff
+      0002EF FA               [12]  901 	mov	r2,a
+      0002F0 ED               [12]  902 	mov	a,r5
+      0002F1 34 FF            [12]  903 	addc	a,#0xff
+      0002F3 FB               [12]  904 	mov	r3,a
+      0002F4 8A 04            [24]  905 	mov	ar4,r2
+      0002F6 8B 05            [24]  906 	mov	ar5,r3
+      0002F8 EA               [12]  907 	mov	a,r2
+      0002F9 4B               [12]  908 	orl	a,r3
+      0002FA 70 F0            [24]  909 	jnz	00104$
+                                    910 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:117: for (y = ms; y > 0; y--) {
+      0002FC 1E               [12]  911 	dec	r6
+      0002FD BE FF 01         [24]  912 	cjne	r6,#0xff,00133$
+      000300 1F               [12]  913 	dec	r7
+      000301                        914 00133$:
+      000301 80 E1            [24]  915 	sjmp	00106$
+      000303                        916 00108$:
+                                    917 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\02target002\driver\hardware.c:120: }
+      000303 22               [24]  918 	ret
+                                    919 	.area CSEG    (CODE)
+                                    920 	.area CONST   (CODE)
+                                    921 	.area XINIT   (CODE)
+                                    922 	.area CABS    (ABS,CODE)

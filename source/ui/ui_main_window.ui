@@ -50,8 +50,15 @@
      <addaction name="actionNewCompile"/>
      <addaction name="actionNewSimulate"/>
     </widget>
+    <widget class="QMenu" name="menuOpenProject">
+     <property name="title">
+      <string>OpenProject</string>
+     </property>
+     <addaction name="actionOpenRiscvProject"/>
+    </widget>
     <addaction name="menuNewProject"/>
     <addaction name="actionSelectWorkspace"/>
+    <addaction name="menuOpenProject"/>
    </widget>
    <widget class="QMenu" name="menuModules">
     <property name="title">
@@ -158,6 +165,16 @@
   <action name="actionSelectWorkspace">
    <property name="text">
     <string>SelectWorkspace</string>
+   </property>
+  </action>
+  <action name="actionOpenC51Project">
+   <property name="text">
+    <string>C51</string>
+   </property>
+  </action>
+  <action name="actionOpenRiscvProject">
+   <property name="text">
+    <string>RISC-V compile</string>
    </property>
   </action>
  </widget>

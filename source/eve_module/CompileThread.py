@@ -20,6 +20,7 @@ from qtpy.QtCore import QTimer,QThread,Signal
 class CompileThread(QThread):
     updateTextOutput = Signal(str,str)
     compileEndSignal = Signal()
+    C51compileEndSignal = Signal()
     def __init__(self):
         super(CompileThread, self).__init__()
     def init_thread(self,compileList,cmdPath = "./"):
@@ -45,7 +46,10 @@ class CompileThread(QThread):
             #QApplication.processEvents()
         for line in iter(p.stdout.readline, b''):
             self.updateTextOutput.emit("<font color=black>%s </font> ",line.decode("gbk","ignore"))
-
+    def run_C51compile(self):
+        for eachCmd in self.compileList:
+            self.do_cmd(eachCmd)
+        self.compileEndSignal.emit()
     def run(self):
         for eachCmd in self.compileList:
             self.do_cmd(eachCmd)

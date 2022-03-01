@@ -23,7 +23,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 
 '''
 __version__ = "V0.0.3"
-
+C51COMPILE = 1
 
 #Import the required qt library
 from qtpy.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QFormLayout, QLineEdit, QTabWidget, \
@@ -65,11 +65,12 @@ from SelectWorkspace import SelectWorkspace
 from NewProjectWidget import NewProjectWidget
 from SimulatorFileManager import SimulatorFileManager
 ex_cfgMainDict = {"workspaceSetting":{}}
-'''logging.getLogger().setLevel(logging.DEBUG)
+'''
+logging.getLogger().setLevel(logging.DEBUG)
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                    datefmt='%a, %d %b %Y %H:%M:%S',)'''
-
+                    datefmt='%a, %d %b %Y %H:%M:%S',)
+'''
 
 def read_cfg(cfgPath) -> dict:
     '''
@@ -161,11 +162,19 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         write_cfg(self.__workspace_cfg_path,cfgDict)
         self.projectList = self.check_compile_projects
         self.simulateList = self.check_simulate_projcet
+
         self.__project_cfg_path = self.workspacePath+"/cfgPorjectList.evecfg"
         cfgDictProject = read_cfg(self.__project_cfg_path)
-        compileSettingList = self.clear_unused_compile_project(cfgDictProject.get("comlipeSetting",[]),self.projectList)
+        compileSettingList = self.clear_unused_compile_project(cfgDictProject.get("compileSetting",[]),self.projectList)
+        cfgDictProject["compileSetting"] = compileSettingList
 
-        cfgDictProject["comlipeSetting"] = compileSettingList
+        if C51COMPILE ==1:
+            self.C51projectList = self.check_C51_compile_projects
+            #print(cfgDictProject)
+            C51compileSettingList = self.clear_unused_C51compile_project(cfgDictProject.get("C51compileSetting", []),
+                                                                         self.C51projectList)
+            cfgDictProject["C51compileSetting"] = C51compileSettingList
+            self.leftWidget.C51CompileWidget.addC51ProjectDictList(C51compileSettingList)
         write_cfg(self.__project_cfg_path,cfgDictProject)
 
         self.leftWidget.compileWidget.addSettingsDictList(compileSettingList)
@@ -214,9 +223,15 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         self.simulateList = self.check_simulate_projcet
         self.__project_cfg_path = self.workspacePath+"/cfgPorjectList.evecfg"
         cfgDictProject = read_cfg(self.__project_cfg_path)
-        compileSettingList = self.clear_unused_compile_project(cfgDictProject.get("comlipeSetting",[]),self.projectList)
+        compileSettingList = self.clear_unused_compile_project(cfgDictProject.get("compileSetting",[]),self.projectList)
+        cfgDictProject["compileSetting"] = compileSettingList
 
-        cfgDictProject["comlipeSetting"] = compileSettingList
+        if C51COMPILE ==1:
+            self.C51projectList = self.check_C51_compile_projects
+            C51compileSettingList = self.clear_unused_C51compile_project(cfgDict.get("C51compileSetting", []),
+                                                                         self.C51projectList)
+            cfgDictProject["C51compileSetting"] = C51compileSettingList
+            self.leftWidget.C51CompileWidget.addC51ProjectDictList(C51compileSettingList)
         write_cfg(self.__project_cfg_path,cfgDictProject)
 
         self.leftWidget.compileWidget.addSettingsDictList(compileSettingList)
@@ -248,13 +263,39 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         #self.init_timer()
         self.untitledNum = 1
 
+    def clear_unused_C51compile_project(self,projectSettingList,projectList):
+        '''
+        Todo
+        :param projectSettingList:
+        :param projectList:
+        :return:
+        '''
+        #print(projectSettingList)
+        realSettingList = []
+        for eachProject in projectList:
+            findSetting = 0
+            ex_projectPath = eachProject
+            compileSettingDefaultEx = {"projectName": os.path.basename(ex_projectPath), "projectPath": ex_projectPath,
+                                       "toolChainPath":"modules/SDCC/bin", "outputPath": ex_projectPath + "/build",
+                                       "xramSize":"256","iramSize":"65536"}
 
+            for eachSetting in projectSettingList:
+                fullPath = eachSetting.get("projectPath", None)
+                #print(fullPath)
+                if fullPath:
+                    if fullPath == eachProject:
+                        realSettingList.append(eachSetting)
+                        findSetting = 1
+            if not findSetting:
+                realSettingList.append(compileSettingDefaultEx)
+            #print(findSetting)
+        return realSettingList
     def clear_unused_compile_project(self,projectSettingList,projectList):
         realSettingList = []
         for eachProject in projectList:
             findSetting = 0
             ex_projectPath = eachProject
-            compileSettingDefaultEx = {"projectName":os.path.basename(ex_projectPath),"projectPath":ex_projectPath,"gccPath":"modules/bin","outputPath":ex_projectPath+"/build","binaryOutput":1,"mifOutput":0,"coeOutput":0,"normalOutput":1,
+            compileSettingDefaultEx = {"projectName":os.path.basename(ex_projectPath),"projectPath":ex_projectPath,"gccPath":"modules/gcc/bin","outputPath":ex_projectPath+"/build","binaryOutput":1,"mifOutput":0,"coeOutput":0,"normalOutput":1,
                                        "i":1,"m":0,"a":0,"c":0,"f":0,"autoMakefile":1,"gccPrefix":"riscv-nuclei-elf-addr2line","if64bit":1}
 
             for eachSetting in projectSettingList:
@@ -316,7 +357,82 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             self.addEditorWidget(fileDict)
     def updateTextOutput(self,color,outStr):
         self.TextOutput.append(color%outStr)
-    def do_compile_for_project(self,settingList,currentPorjectName):
+
+    def do_compile_for_C51(self,settingList,currentProjectName):
+        self.save_C51compile_settings(settingList)
+        #print(settingList)
+
+        for eachDict in settingList:
+            if currentProjectName == eachDict.get("projectName",""):
+
+                dictNow = eachDict
+                pathNow = dictNow.get("projectPath","").replace("/","\\")
+                sdccPath = os.path.abspath(dictNow.get("toolChainPath","").replace("/","\\"))
+                xramsize = dictNow.get("xramSize","256")
+                iramsize = dictNow.get("iramSize","65536")
+                ifFind = self.check_C51_sdcc(sdccPath)
+                print(ifFind)
+                if ifFind:#find sdcc
+                    cmdList = []
+                    srcFileList = []
+                    incDirList = [os.path.abspath(os.path.dirname(sdccPath))+"\\"+"include",pathNow]
+                    relFileList = []
+                    for home, dirs, files in os.walk(pathNow):
+
+                        '''
+                        if not dirs == []:
+                            dirs.remove("obj")
+                            dirs.remove("bin")
+                            for eachDir in dirs:
+                                incDirList.append(home+"\\"+eachDir)
+                        '''
+                        #incDirList.append(home)
+                        for eachFile in files:
+                            if eachFile.split(".")[-1] == "c" or eachFile.split(".")[-1] == "C":
+                                srcFileList.append(home+"\\"+eachFile)
+                                relFileList.append(pathNow+"\\obj\\"+eachFile.split(".")[0]+".rel")
+                            elif eachFile.split(".")[-1] == "H" or eachFile.split(".")[-1] == "h":
+                                incDirList.append(home)
+
+                    incDirList = list(set(incDirList))
+                    print(srcFileList)
+                    print(incDirList)
+                    print(relFileList)
+                    strFirst = "--model-large --opt-code-size --out-fmt-ihx --stack-auto"
+                    strSecond = "--xram-size {} --iram-size {} --out-fmt-ihx --stack-auto".format(xramsize,iramsize)
+                    strTest = "--code-size 64000 --iram-size {} --xram-size {} --stack-auto".format(xramsize,iramsize)
+                    strSDCC = sdccPath+"\\"+"sdcc"
+                    strpackihx = sdccPath+"\\"+"packihx"
+                    strInc = "-I "+" -I ".join(incDirList)
+                    #print(strInc)
+                    for fileIndex, eachFile in enumerate(srcFileList):
+                        compileStrNow  = "{} {} {} -c {} -o {}".format(strSDCC,strTest,strInc,eachFile,relFileList[fileIndex])
+                        print(compileStrNow)
+                        cmdList.append(compileStrNow)
+                    mainRelLib = os.path.abspath(os.path.dirname(sdccPath))+"\\"+"lib"
+                    mainihxPath = "{}\\obj\\{}.ihx".format(pathNow,currentProjectName)
+                    mainhexPath = "{}\\obj\\{}.hex".format(pathNow, currentProjectName)
+                    relFiles = " ".join(relFileList)
+                    compileMainRelStr = "{} -L {} -o {} {} {}".format(strSDCC,mainRelLib,mainihxPath,strTest,relFiles)
+                    cmdList.append(compileMainRelStr)
+                    changeToHexStr = "{} {} > {}".format(strpackihx,mainihxPath,mainhexPath)
+                    cmdList.append(changeToHexStr)
+                    if not os.path.exists( "{}\\obj".format(pathNow)):
+                        os.mkdir("{}\\obj".format(pathNow))
+                    self.compileThread.init_thread(cmdList)
+                    self.TextOutput.clear()
+                    self.compileThread.run()
+
+                    #print(changeToHexStr)
+                    #print(compileMainRelStr)
+
+
+                else:
+                    print("fail to find sdcc")
+
+
+
+    def do_compile_for_project(self,settingList,currentProjectName):
         '''
         TODO:
 Currently, only single-file autocompilation is supported, adding multiple files later
@@ -327,8 +443,8 @@ Currently, only single-file autocompilation is supported, adding multiple files 
 
         self.save_compile_settings(settingList)
         for eachDict in settingList:
-            if currentPorjectName == eachDict.get("projectName",""):
-                print("startCompile")
+            if currentProjectName == eachDict.get("projectName",""):
+                print("startCompile"+currentProjectName)
                 dictNow = eachDict
                 pathNow = dictNow.get("projectPath","").replace("/","\\")
 
@@ -410,8 +526,10 @@ Currently, only single-file autocompilation is supported, adding multiple files 
 
                     #-march=rv32i -mabi=ilp32
                     #-march=rv64ia -mabi=lp64
+                    break
                 else :
                     self.do_make(os.path.abspath(pathNow),os.path.abspath(gccPath))
+                    break
 
 
     def create_coe_mif(self,ifmif,ifcoe,outputPath):
@@ -439,18 +557,32 @@ Currently, only single-file autocompilation is supported, adding multiple files 
 
 
 
+    def check_C51_sdcc(self,sdccPath):
+        print(os.path.abspath(sdccPath))
+        ifFind = 0
+        if os.path.exists(os.path.abspath(sdccPath)):
+            for files in os.listdir(sdccPath):
+                if "sdcc" in files.split(".")[0] :
 
+                    ifFind = 1
+                    return  ifFind
+        else :
+            QMessageBox.warning(self, "EveIDE_LIGHT -- COMPILE Error",
+                                "UNKNOWN PATH FOR SDCC")
+        return  ifFind
     def get_gcc_prefix(self,gccPath):
         #commandDict = [""]
         usefulFileList = []
         preFixNow = None
         if os.path.exists(gccPath):
             for files in os.listdir(gccPath) :
-
+                #print(files)
                 #print("get Prefix",files)
-                if "objcopy.exe" in files:
+                if "objcopy" in files.split(".")[0]:
+
                     #print("get Prefix",files.replace("objcopy.exe",""))
                     preFixNow = files.replace("objcopy.exe","")
+                    preFixNow = preFixNow.replace("objcopy", "")
 
                     logging.debug("prefixNow:" + preFixNow)
                     break
@@ -467,10 +599,15 @@ Currently, only single-file autocompilation is supported, adding multiple files 
 
     def save_compile_settings(self,settingList):
         cfgDict = read_cfg(self.__project_cfg_path)
-        cfgDict["comlipeSetting"] = settingList
+        cfgDict["compileSetting"] = settingList
         write_cfg(self.__project_cfg_path,cfgDict)
         logging.debug("workspace_cfg saved")
-
+    def save_C51compile_settings(self,settingList):
+        cfgDict = read_cfg(self.__project_cfg_path)
+        print(settingList)
+        cfgDict["C51compileSetting"] = settingList
+        write_cfg(self.__project_cfg_path, cfgDict)
+        logging.debug("C51workspace_cfg saved")
     def open_serial_port_assistant(self):
         print("open serial port ")
 
@@ -479,16 +616,20 @@ Currently, only single-file autocompilation is supported, adding multiple files 
 
     def connect_signal(self):
         self.leftWidget.compileWidget.compileSignal.connect(self.do_compile_for_project)
+
         self.leftWidget.projectWidget.pushButton.clicked.connect(self.set_workspace_tree)
         self.actionnew.triggered.connect(lambda: self.addEditorWidget(fileDict=None))
         self.actionopen.triggered.connect(self.openFile)
         self.actionSaveAs.triggered.connect(lambda: self.saveAsFile(self.mdi.activeSubWindow()))
+
         self.actionsave.triggered.connect(self.saveFile)
         self.actionSelectWorkspace.triggered.connect(self.selectNewWorkspace)
         self.actionModules.toggled.connect(functools.partial(self.view_handler, "Modules"))
         self.actionOutputs.toggled.connect(functools.partial(self.view_handler, "Outputs"))
         self.newProjectWidget = NewProjectWidget()
         self.newProjectWidget.init(self.workspacePath, type)
+        self.actionOpenRiscvProject.triggered.connect(lambda : self.open_project("compile"))
+        #self.actionOpenCompileC51.triggered.connect(lambda: self.open_project_widget("compileC51"))
 
         self.newProjectWidget.closeSignal.connect(self.add_new_project)
         self.actionNewCompile.triggered.connect(lambda: self.new_project_widget("compile"))
@@ -506,6 +647,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
         self.init_simulator()
         self.init_timer()
         self.untitledNum = 1
+
     def selectNewWorkspace(self):
 
 
@@ -707,7 +849,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
         elif "delete " in textNow:
             fullPath = os.path.abspath(currentDict.get("fullPath", ""))
             choose = QMessageBox.warning(self, "EveIDE_LIGHT -- FILE warning",
-                                         "Sure to delete {0} ? ".format(fullPath),
+                                         "Sure to delete {0} from file system ? This action cannot be undone ".format(fullPath),
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
             if choose == QMessageBox.Yes:
                 try:
@@ -890,6 +1032,22 @@ Currently, only single-file autocompilation is supported, adding multiple files 
                 self.leftWidget.compileWidget.addSettingsDictList(settingList)
                 self.set_workspace_tree()
 
+            elif type == "compileC51":
+                cfgDict["C51compile_projectPathList"].append(os.path.abspath(pathNow))
+
+                settingListC51 = self.clear_unused_C51compile_project(cfgDict.get("C51compileSetting",[]),cfgDict.get("C51compile_projectPathList",[]))
+                cfgDict["C51compileSetting"] = settingListC51
+                cfg.write_dict(cfgDict)
+                if not os.path.exists(pathNow + "\\main.c"):
+                    with open(pathNow + "\\main.c", "w+", newline='')as r:
+                        strToWrite = "/***Generate by EveIDE_LIGHT at " + datetime.datetime.now().strftime(
+                            '%Y-%m-%d %H:%M:%S'+"***/")
+                        strToWrite += "\n/****************" + __version__ + "******************/"
+                        r.write(strToWrite)
+                self.leftWidget.C51CompileWidget.addC51ProjectDictList(settingListC51)
+                self.set_workspace_tree()
+
+
 
             elif type == "simulate":
                 cfgDict["simulate_projectPathList"].append(os.path.relpath(pathNow))
@@ -951,6 +1109,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
         valueNow = ""
         # editorNow.get_value(valueNow)
         #logging.debug(valueNow)
+
     @property
     def check_simulate_projcet(self):
         cfgPath = self.workspacePath + "/cfgPorjectList.evecfg"
@@ -984,6 +1143,42 @@ Currently, only single-file autocompilation is supported, adding multiple files 
             workspacecfg.write_dict(d)
             return []
     @property
+    def check_C51_compile_projects(self):
+        cfgPath = self.workspacePath + "/cfgPorjectList.evecfg"
+        if os.path.exists(cfgPath):
+            try:
+                cfg = cfgRead(self.workspacePath + "/cfgPorjectList.evecfg")
+                cfgDict = cfg.get_dict()
+                # cfgDict = read_cfg(self.__project_cfg_path)
+                projectList = cfgDict.get("C51compile_projectPathList", "")
+                formatList = []
+                for pro in projectList:
+                    formatList.append(pro)
+                projectList = formatList
+                cfgDict["C51compile_projectPathList"] = projectList
+                for eachProject in projectList:
+                    if not os.path.exists(eachProject):
+                        logging.debug("project :" + eachProject + " is not exist")
+                        cfgDict["C51compile_projectPathList"].remove(eachProject)
+                        #projectList.remove(eachProject)
+                    else:
+                        logging.debug("find project :" + eachProject)
+
+                write_cfg(cfgPath,cfgDict)
+                return projectList
+            except Exception as e:
+                logging.debug(e)
+                cfg = cfgRead(self.workspacePath + "/cfgPorjectList.evecfg")
+                ifCreate = QMessageBox.warning(self, "EveIDE_LIGHT -- OPEN Error",
+                                               "Failed to read workspace config {0}\ncreate a new one for this workspace ? ".format(
+                                                   os.path.abspath(cfgPath)))
+
+                d = {"compile_projectPathList": [], "simulate_projectPathList": [],"C51compile_projectPathList":[]}
+                cfg.write_dict(d)
+                return []
+
+
+    @property
     def check_compile_projects(self):
         cfgPath = self.workspacePath + "/cfgPorjectList.evecfg"
         if os.path.exists(cfgPath):
@@ -1002,6 +1197,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
                     if not os.path.exists(eachProject):
                         logging.debug("project :" + eachProject + " is not exist")
                         cfgDict["compile_projectPathList"].remove(eachProject)
+                        #projectList.remove(eachProject)#防止没有移除
                     else:
                         logging.debug("find project :" + eachProject)
                 # cfg.write_dict(cfgDict)
@@ -1127,6 +1323,9 @@ Currently, only single-file autocompilation is supported, adding multiple files 
     def set_workspace_tree(self):
         self.treeWidget.clear()
         self.projectList = self.check_compile_projects
+
+        if C51COMPILE ==1:
+            self.projectList+=self.check_C51_compile_projects
         for eachProject in self.projectList:
             print("creatingTree for "+str(eachProject))
             projectManager = ProjectManage(eachProject)
@@ -1500,6 +1699,49 @@ Currently, only single-file autocompilation is supported, adding multiple files 
         # self.addDockWidget(Qt.RightDockWidgetArea,self.RightDockWidget)
         self.setCentralWidget(splitter1)
         self.add_module_actions()
+        if C51COMPILE == 1:
+            self.init_c51_compile()
+
+
+    def init_c51_compile(self):
+        self.actionNewCompileC51 = QAction()
+        self.actionNewCompileC51.setObjectName(u"actionNewC51Compile")
+        self.actionNewCompileC51.setText("C51 Project")
+        self.menuNewProject.addAction(self.actionNewCompileC51)
+        self.actionNewCompileC51.triggered.connect(lambda: self.new_project_widget("compileC51"))
+        self.actionOpenCompileC51 = QAction()
+        self.actionOpenCompileC51.setObjectName(u"actionOpenC51Compile")
+        self.actionOpenCompileC51.setText("Open C51 Project")
+        self.menuOpenProject.addAction(self.actionOpenCompileC51)
+        self.actionOpenCompileC51.triggered.connect(lambda: self.open_project("compileC51"))
+        self.leftWidget.C51CompileWidget.compileC51Signal.connect(self.do_compile_for_C51)
+        #self.leftWidget.compileWidget.compileSignal.connect(self.do_compile_for_project)
+
+
+    def open_project(self,type):
+        pathNow = os.path.abspath(QFileDialog.getExistingDirectory(None, "choose project dictionary", None))
+        if pathNow == None:
+            logging.debug("没有选择")
+        else :
+            cfg = cfgRead(self.workspacePath + "/cfgPorjectList.evecfg")
+            cfgDict = cfg.get_dict()
+            if type == "compile":
+                cfgDict["compile_projectPathList"].append(os.path.relpath(pathNow))
+                settingList = self.clear_unused_compile_project(cfgDict.get("compileSetting", []),
+                                                                cfgDict.get("compile_projectPathList", []))
+                cfgDict["compileSetting"] = settingList
+                cfg.write_dict(cfgDict)
+                self.leftWidget.compileWidget.addSettingsDictList(settingList)
+                self.set_workspace_tree()
+
+            elif type == "compileC51":
+                cfgDict["C51compile_projectPathList"].append(os.path.abspath(pathNow))
+                settingListC51 = self.clear_unused_C51compile_project(cfgDict.get("C51compileSetting", []),
+                                                                      cfgDict.get("C51compile_projectPathList", []))
+                cfgDict["C51compileSetting"] = settingListC51
+                cfg.write_dict(cfgDict)
+                self.leftWidget.C51CompileWidget.addC51ProjectDictList(settingListC51)
+                self.set_workspace_tree()
 
     def view_dock_closeEvent(self):  # 当dock关闭时触发
         self.OutputDock.closeEvent = self.dock_output_close
