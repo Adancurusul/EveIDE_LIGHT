@@ -38,36 +38,33 @@ void main(void)
 	P1M1 = 0x0;
 	P1M0 = 0x0;
     
-	//EX1 = 1;
-	//IT1 = 1;
-LED1 = 1;
-LED0 = 1;
-LED2 = 1;
-LED5 = 1;
-LED4 = 1;
-
+    //EX1 = 1;
+    //IT1 = 1;
+    LED1 = 1;
+    LED0 = 1;
+    LED2 = 1;
     LED3 = 1;
+    LED5 = 1;
+    LED4 = 1;
+
+
 
 	while(1) 
 	{ 
-	LED1 = 1;
-LED0 = 1;
-LED2 = 1;
-LED5 = 1;
-LED3 = 1;
-LED4 = 1;
-delay(500);	
-LED1 = 0;
-LED0 = 0;
-LED2 = 0;
-LED5 = 0;
-LED4 = 0;
-LED3 = 0;
-	
-
-		
-      
-        	delay(500);	
+        LED0 = 1;
+        LED1 = 1;
+        LED2 = 1;
+        LED3 = 1;
+        LED4 = 1;
+        LED5 = 1;
+        delay(500);	
+        LED0 = 0;
+        LED1 = 0;
+        LED2 = 0;
+        LED3 = 0;
+        LED4 = 0;
+        LED5 = 0;
+        delay(500);	
 	} //end of while
 }
 

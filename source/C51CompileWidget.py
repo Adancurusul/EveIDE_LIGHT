@@ -55,7 +55,7 @@ class moduleC51CompileWidget(Ui_C51CompileWidget,QWidget):
                 self.currentC51ProjectDict = eachDict
                 self.c51toolchain_lineEdict.setText(os.path.abspath(eachDict.get("toolChainPath","nothong")))
                 self.xramSize_lineEdit.setText(eachDict.get("xramSize","256"))
-                self.iramSize_lineEdit.setText(eachDict.get("iramSize","65536"))
+                self.iramSize_lineEdit.setText(eachDict.get("iramSize","4096"))
                 self.c51outputDir_lineEdit.setText(os.path.abspath(eachDict.get("outputPath","nothing")))
                 self.c51outputDir_lineEdit.setToolTip(os.path.abspath(eachDict.get("outputPath","nothing")))
     def addC51ProjectDictList(self,listNow):

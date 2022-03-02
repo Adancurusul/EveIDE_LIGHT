@@ -69,7 +69,6 @@ class NewProjectWidget(QWidget,Ui_NewProject):
                         os.mkdir(self.pathNow + "\\inc")
                         os.mkdir(self.pathNow + "\\src")
                         os.mkdir(self.pathNow + "\\obj")
-                        os.mkdir(self.pathNow + "\\bin")
                     except Exception as e:
                         logging.debug(e)
                     #with open(self.pathNow+"/main.c","w+")as f:

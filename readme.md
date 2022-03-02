@@ -2,7 +2,7 @@
 # EveIDE_LIGHT 使用手册
 ![EveIDE_LIGHT](./img/EveIDE_LIGHT.png)  
  
-当前版本 : v0.0.3  （支持windows7以上版本 64位操作系统）（支持ubuntu16.04以上linux操作系统）    
+当前版本 : v0.0.4  （支持windows7以上版本 64位操作系统）（支持ubuntu16.04以上linux操作系统）    
 作者 : Adancurusul
 *****
 
@@ -10,7 +10,8 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <!--**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*-->
 
-- [版本说明](#%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
+- [V0.0.4版本说明](#v004%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
+- [V0.0.3版本说明](#v003%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
   - [版本部分特性](#%E7%89%88%E6%9C%AC%E9%83%A8%E5%88%86%E7%89%B9%E6%80%A7)
   - [使用方式](#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F)
     - [python脚本运行](#python%E8%84%9A%E6%9C%AC%E8%BF%90%E8%A1%8C)
@@ -30,12 +31,15 @@
       - [视图](#%E8%A7%86%E5%9B%BE)
       - [工程](#%E5%B7%A5%E7%A8%8B)
       - [模组](#%E6%A8%A1%E7%BB%84)
+        - [串口调试助手](#%E4%B8%B2%E5%8F%A3%E8%B0%83%E8%AF%95%E5%8A%A9%E6%89%8B)
+        - [C51编译](#c51%E7%BC%96%E8%AF%91)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ***
-
-## 版本说明
+## V0.0.4版本说明
+- 支持C51编译！（测试中）
+## V0.0.3版本说明
 *V003版本目前发现启动时可能出现bug正在排查中，先从release中撤下，排查完后再上架      
 当前为v0.0.3  版本，在[releases](https://github.com/Adancurusul/EveIDE_LIGHT/releases   )中可以直接下载，v0.0.3为测试版本，测试版本会保留命令行窗口以便使用出现bug时可以及时向开发团队反馈    
 *由于开发人员只有一个，bug可能会比较多，请见谅。    
@@ -172,6 +176,15 @@ EveIDE_LIGHT 本着小巧稳定的原则取消了之前的自研编辑器改为�
 ![新建工程](img/新建工程.png)     
 若选择的文件夹不是空文件夹IDE会弹出警告但不会修改其中内容     
 ![新建工程警告](img/新建工程警告.png)
-#####  模组   
+#####  模组  
+###### 串口调试助手 
 添加了串口调试助手
+![串口助手](img/串口助手.png)
 详细见[串口调试助手](https://github.com/Adancurusul/SerialPortAssistant  )
+###### C51编译
+![C51编译界面](img/C51编译界面.png)
+![C51编译成功](img/C51编译成功.png)
+目前支持对c51工程进行编译（利用sdcc）
+但是头文件上与keil中的c51略有不同，可以参考sdcc手册进行修改编译 
+编译后可以利用stc官方 stcisp进行烧录
+![stcisp烧录](img/stcisp烧录.png)

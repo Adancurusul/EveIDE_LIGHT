@@ -35,6 +35,9 @@ from qtpy import QtGui
 from qtpy import QtCore
 import platform
 
+# import hidden modules for packing
+import serial
+import serial.tools.list_ports
 #Import the library
 import sys
 import datetime
@@ -45,6 +48,7 @@ import os,shutil,subprocess
 # import modules
 sys.path.append(os.path.abspath(r'.\modules\SerialPortAssistant'))
 import  SerialPortAssistant
+
 #Import a custom library
 from ui.ui_main_window import Ui_MainWindow
 from LeftModuleWidget import LeftModuleWidget
@@ -64,6 +68,7 @@ from ProjectManage import ProjectManage
 from SelectWorkspace import SelectWorkspace
 from NewProjectWidget import NewProjectWidget
 from SimulatorFileManager import SimulatorFileManager
+import serial
 ex_cfgMainDict = {"workspaceSetting":{}}
 '''
 logging.getLogger().setLevel(logging.DEBUG)
@@ -277,7 +282,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             ex_projectPath = eachProject
             compileSettingDefaultEx = {"projectName": os.path.basename(ex_projectPath), "projectPath": ex_projectPath,
                                        "toolChainPath":"modules/SDCC/bin", "outputPath": ex_projectPath + "/build",
-                                       "xramSize":"256","iramSize":"65536"}
+                                       "xramSize":"256","iramSize":"4096"}
 
             for eachSetting in projectSettingList:
                 fullPath = eachSetting.get("projectPath", None)

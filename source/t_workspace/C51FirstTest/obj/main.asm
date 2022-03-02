@@ -611,60 +611,60 @@ _main:
 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:45: LED2 = 1;
 ;	assignBit
 	setb	_LED2
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:46: LED5 = 1;
-;	assignBit
-	setb	_LED5
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:47: LED4 = 1;
-;	assignBit
-	setb	_LED4
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:49: LED3 = 1;
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:46: LED3 = 1;
 ;	assignBit
 	setb	_LED3
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:51: while(1) 
-00102$:
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:53: LED1 = 1;
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:47: LED5 = 1;
 ;	assignBit
-	setb	_LED1
+	setb	_LED5
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:48: LED4 = 1;
+;	assignBit
+	setb	_LED4
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:52: while(1) 
+00102$:
 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:54: LED0 = 1;
 ;	assignBit
 	setb	_LED0
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:55: LED2 = 1;
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:55: LED1 = 1;
+;	assignBit
+	setb	_LED1
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:56: LED2 = 1;
 ;	assignBit
 	setb	_LED2
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:56: LED5 = 1;
-;	assignBit
-	setb	_LED5
 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:57: LED3 = 1;
 ;	assignBit
 	setb	_LED3
 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:58: LED4 = 1;
 ;	assignBit
 	setb	_LED4
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:59: delay(500);	
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:59: LED5 = 1;
+;	assignBit
+	setb	_LED5
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:60: delay(500);	
 	mov	dptr,#0x01f4
 	lcall	_delay
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:60: LED1 = 0;
-;	assignBit
-	clr	_LED1
 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:61: LED0 = 0;
 ;	assignBit
 	clr	_LED0
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:62: LED2 = 0;
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:62: LED1 = 0;
+;	assignBit
+	clr	_LED1
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:63: LED2 = 0;
 ;	assignBit
 	clr	_LED2
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:63: LED5 = 0;
-;	assignBit
-	clr	_LED5
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:64: LED4 = 0;
-;	assignBit
-	clr	_LED4
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:65: LED3 = 0;
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:64: LED3 = 0;
 ;	assignBit
 	clr	_LED3
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:70: delay(500);	
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:65: LED4 = 0;
+;	assignBit
+	clr	_LED4
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:66: LED5 = 0;
+;	assignBit
+	clr	_LED5
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:67: delay(500);	
 	mov	dptr,#0x01f4
 	lcall	_delay
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:72: }
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:69: }
 	sjmp	00102$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)

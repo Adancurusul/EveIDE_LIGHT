@@ -18,7 +18,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 from serialUI import Ui_serialUI
 from PySide2.QtWidgets import QMessageBox,QFileDialog
 from PySide2.QtCore import QTimer,QCoreApplication,Qt
-
+#import EveIDE_LIGHT
 import serial
 import serial.tools.list_ports
 import logging
