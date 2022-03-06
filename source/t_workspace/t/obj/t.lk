@@ -1,0 +1,22 @@
+-muwx
+-i C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\t\obj\t.ihx
+-M
+-Y
+-I 0x0100
+-X 0x10000
+-C 0xfa00
+-b HOME = 0x0000
+-b XSEG = 0x0001
+-b PSEG = 0x0001
+-b ISEG = 0x0000
+-b BSEG = 0x0000
+-k C:\Users\User\Downloads\Code51200318\Code51\SDCC\lib
+-k C:\Users\User\Downloads\Code51200318\Code51\SDCC\bin\..\lib\small-stack-auto
+-l mcs51
+-l libsdcc
+-l libint
+-l liblong
+-l libfloat
+C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\t\obj\main.rel
+
+-e

@@ -6,6 +6,7 @@ module counter(
     output reg [4:0]ocnt
 );
 
+
 always@(posedge clk or negedge rst_n)
 if (!rst_n) begin
     ocnt <= 5'd0;

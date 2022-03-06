@@ -412,7 +412,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                     #print(strInc)
                     for fileIndex, eachFile in enumerate(srcFileList):
                         compileStrNow  = "{} {} {} -c {} -o {}".format(strSDCC,strTest,strInc,eachFile,relFileList[fileIndex])
-                        print(compileStrNow)
+                        #print(compileStrNow)
                         cmdList.append(compileStrNow)
                     mainRelLib = os.path.abspath(os.path.dirname(sdccPath))+"\\"+"lib"
                     mainihxPath = "{}\\obj\\{}.ihx".format(pathNow,currentProjectName)
@@ -424,6 +424,8 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                     cmdList.append(changeToHexStr)
                     if not os.path.exists( "{}\\obj".format(pathNow)):
                         os.mkdir("{}\\obj".format(pathNow))
+                    for each in cmdList:
+                        print(each)
                     self.compileThread.init_thread(cmdList)
                     self.TextOutput.clear()
                     self.compileThread.run()
@@ -1839,7 +1841,8 @@ Currently, only single-file autocompilation is supported, adding multiple files 
                     suffixNow = fileDict.get("fileSuffix","")
                     if suffixNow== "c" or suffixNow == "cpp" :
                         editorNow.set_language("c")
-
+                    elif suffixNow == "h" or suffixNow == "H" :
+                        editorNow.set_language("c")
                     elif suffixNow== "v" or suffixNow == "sv" :
                         editorNow.set_language("verilog")
                     elif suffixNow== "py" :
