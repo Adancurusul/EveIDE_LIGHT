@@ -58,8 +58,11 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
         self.setFixedSize(554, 218)
 
     def logic_init(self):
-
-        if len(self.cfgDict["workspacePath"])>10:
+        listNow = self.cfgDict["workspacePath"]
+        if not type(listNow) == type([]):
+            listNow = []
+            self.cfgDict["workspacePath"] = []
+        if len(listNow)>10:
             del self.cfgDict["workspacePath"][-1]
         self.workspace_comboBox.currentIndexChanged.connect(lambda : self.update_lineEdit("comboBox"))
         self.select_pushButton.clicked.connect(lambda : self.update_lineEdit("select"))
@@ -81,8 +84,8 @@ class SelectWorkspace(QWidget,Ui_SelectWorkspace):
                 self.currentPath = currentWorkspacePath
                 if self.cfgReader.check_path():
                     self.cfgReader.write_dict(self.cfgDict)
-                    if not os.path.exists("./cfgPorjectList.evecfg"):
-                        with open("/cfgPorjectList.evecfg", "w+"):
+                    if not os.path.exists(currentWorkspacePath+"/cfgPorjectList.evecfg"):
+                        with open(currentWorkspacePath+"/cfgPorjectList.evecfg", "w+"):
                             pass
                 self.closeState = 0
                 self.close()
