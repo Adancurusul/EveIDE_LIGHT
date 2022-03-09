@@ -21,11 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2d61de26-ad7b-456a-ba80-27eddadd55d4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/EveIDE_LIGHT.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/EveIDE_LIGHT.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/configure/cfgSimulater.evecfg" beforeDir="false" afterPath="$PROJECT_DIR$/source/configure/cfgSimulater.evecfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/t_workspace/cfgPorjectList.evecfg" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/cfgPorjectList.evecfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/t_workspace/t_counter/counter.v" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/t_counter/counter.v" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/t_workspace/t_counter/tb_counter_evesim" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/t_counter/tb_counter_evesim" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +47,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../EveIDE_LIGHT_V004_BETA" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager" selected="Python.EveIDE_LIGHT">

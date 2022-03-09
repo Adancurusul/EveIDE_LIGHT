@@ -1227,13 +1227,24 @@ Currently, only single-file autocompilation is supported, adding multiple files 
             logging.debug("without workspacecfg , create new one")
             ifCreate = QMessageBox.warning(self, "EveIDE_LIGHT -- OPEN Error",
                                            "Failed to read workspace config {0}\ncreate a new one for this workspace ? ".format(
-                                               os.path.abspath(cfgPath)))
-            with open(cfgPath, "w+"):
-                pass
-            d = {"compile_projectPathList":[],"simulate_projectPathList":[]}
+                                               os.path.abspath(cfgPath)),QMessageBox.Yes|QMessageBox.No,QMessageBox.Yes)
+            if ifCreate == QMessageBox.Yes:#create new file
+                path = os.path.dirname(cfgPath)
+                if not os.path.exists(path):
+                    os.makedirs(path)
+                    with open(os.path.abspath(cfgPath), "w"):
+                       pass
+                d = {"compile_projectPathList":[],"simulate_projectPathList":[]}
 
-            workspacecfg = cfgRead(self.workspacePath+"/cfgPorjectList.evecfg")
-            workspacecfg.write_dict(d)
+                workspacecfg = cfgRead(self.workspacePath+"/cfgPorjectList.evecfg")
+                workspacecfg.write_dict(d)
+            else:#close and choose new one
+                cfgDict = read_cfg(self.__workspace_cfg_path)
+                cfgDict["workspacePath"].remove(self.workspacePath)
+                cfgDict["useAsDefault"] = 0
+                print(cfgDict)
+                write_cfg(self.__workspace_cfg_path,cfgDict)
+                self.initWorkspace()
 
             return []
 
