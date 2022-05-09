@@ -9,3 +9,5 @@ CreateInstance.exe  inputFile outputFile
 所有input output 应分行书写
 
 目前仍然属于开发版，可能会存在部分bug
+打包方式 
+raco exe CreateInstance.rkt
