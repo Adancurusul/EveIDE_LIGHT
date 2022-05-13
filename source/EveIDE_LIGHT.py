@@ -521,7 +521,8 @@ Currently, only single-file autocompilation is supported, adding multiple files 
                     compileStrList.append(objdumpPrefixStr+outputPath+"\main.o "+outputPath+"\main.bin")
                     if eachDict.get("normalOutput",0):
                         compileStrList.append(compilePrefixStr+" "+fileStr+" -o "+outputPath+"\main.elf")
-                    compileStrList.append(gccPath+"\\"+gccPrefix+"objdump -S "+outputPath+"\main.o")
+                    #取消objdump输出
+                    #compileStrList.append(gccPath+"\\"+gccPrefix+"objdump -S "+outputPath+"\main.o")
                     self.compileThread.init_thread(compileStrList)
                     self.TextOutput.clear()
                     self.global_mifOutput = eachDict.get("mifOutput",1)
@@ -1005,7 +1006,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
                     projectToSim = self.leftWidget.simulateWidget.project_comboBox.currentText()
                     simulateSettingDict = {"includeList":self.simIncludeDict,"projectDict":dictToSim,"topLevel":self.topLevelDict,"iverilogPath":iverilogPath,"dumpFile":dumpFile,"projectPath":projectToSim}
                     simulateStrDict = self.leftWidget.simulateWidget.do_simulate(simulateSettingDict)#得到iverilog的三个命令
-                    #print(simulateStrDict)
+                    print(simulateStrDict)
                     iverilogList = [simulateStrDict.get("iverilog"),simulateStrDict.get("vvp"),simulateStrDict.get("gtkwave")]#
                     self.simulateThread.init_thread(iverilogList,dumpFileInitPath,dumpFilePath,projectToSim)
                     self.TextOutput.clear()
