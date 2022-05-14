@@ -188,7 +188,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         if ( self.workspacePath == "") or (self.workspacePath is  None):
             self.workspacePath = "./"
         logging.debug("workspace now is:" + self.workspacePath)
-        self.setWindowTitle("EveIDE-LIGHT  "+ os.path.abspath(self.workspacePath))
+        self.setWindowTitle("EveIDE  "+ os.path.abspath(self.workspacePath))
         self.set_workspace_tree()
         # Refresh the tree list
         self.treeWidget.setContextMenuPolicy(Qt.CustomContextMenu)  # The policy that opens the right-click menu
@@ -196,7 +196,6 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         self.init_sub_thread()
         self.view_dock_closeEvent()
         self.connect_signal()
-
     def initWorkspace(self):
         '''
         Initialize the selection workspace window
