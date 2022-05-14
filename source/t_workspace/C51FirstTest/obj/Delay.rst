@@ -1,6 +1,6 @@
                                       1 ;--------------------------------------------------------
                                       2 ; File Created by SDCC : free open source ANSI-C Compiler
-                                      3 ; Version 3.8.6 #10998 (MINGW64)
+                                      3 ; Version 4.2.0 #13077 (MINGW32)
                                       4 ;--------------------------------------------------------
                                       5 	.module Delay
                                       6 	.optsdcc -mmcs51 --model-small
@@ -443,7 +443,7 @@
                                     443 ;--------------------------------------------------------
                                     444 	.area DSEG    (DATA)
                                     445 ;--------------------------------------------------------
-                                    446 ; overlayable items in internal ram 
+                                    446 ; overlayable items in internal ram
                                     447 ;--------------------------------------------------------
                                     448 ;--------------------------------------------------------
                                     449 ; indirectly addressable internal ram data
@@ -503,14 +503,14 @@
                                     503 ;------------------------------------------------------------
                                     504 ;Allocation info for local variables in function 'delay_ms'
                                     505 ;------------------------------------------------------------
-                                    506 ;ms                        Allocated to registers r6 r7 
+                                    506 ;ms                        Allocated to registers 
                                     507 ;i                         Allocated to registers r4 r5 
                                     508 ;------------------------------------------------------------
                                     509 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:3: void delay_ms(unsigned int ms)
                                     510 ;	-----------------------------------------
                                     511 ;	 function delay_ms
                                     512 ;	-----------------------------------------
-      0000C3                        513 _delay_ms:
+      0000B5                        513 _delay_ms:
                            000007   514 	ar7 = 0x07
                            000006   515 	ar6 = 0x06
                            000005   516 	ar5 = 0x05
@@ -519,41 +519,31 @@
                            000002   519 	ar2 = 0x02
                            000001   520 	ar1 = 0x01
                            000000   521 	ar0 = 0x00
-      0000C3 AE 82            [24]  522 	mov	r6,dpl
-      0000C5 AF 83            [24]  523 	mov	r7,dph
-                                    524 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:6: do{
-      0000C7                        525 00104$:
-                                    526 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:7: i = MAIN_FOSC / 14000;
-      0000C7 7C 15            [12]  527 	mov	r4,#0x15
-      0000C9 7D 03            [12]  528 	mov	r5,#0x03
-                                    529 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:8: while(--i)	;   //14T per loop
-      0000CB                        530 00101$:
-      0000CB EC               [12]  531 	mov	a,r4
-      0000CC 24 FF            [12]  532 	add	a,#0xff
-      0000CE FA               [12]  533 	mov	r2,a
-      0000CF ED               [12]  534 	mov	a,r5
-      0000D0 34 FF            [12]  535 	addc	a,#0xff
-      0000D2 FB               [12]  536 	mov	r3,a
-      0000D3 8A 04            [24]  537 	mov	ar4,r2
-      0000D5 8B 05            [24]  538 	mov	ar5,r3
-      0000D7 EA               [12]  539 	mov	a,r2
-      0000D8 4B               [12]  540 	orl	a,r3
-      0000D9 70 F0            [24]  541 	jnz	00101$
-                                    542 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:9: }while(--ms);
-      0000DB EE               [12]  543 	mov	a,r6
-      0000DC 24 FF            [12]  544 	add	a,#0xff
-      0000DE FC               [12]  545 	mov	r4,a
-      0000DF EF               [12]  546 	mov	a,r7
-      0000E0 34 FF            [12]  547 	addc	a,#0xff
-      0000E2 FD               [12]  548 	mov	r5,a
-      0000E3 8C 06            [24]  549 	mov	ar6,r4
-      0000E5 8D 07            [24]  550 	mov	ar7,r5
-      0000E7 EC               [12]  551 	mov	a,r4
-      0000E8 4D               [12]  552 	orl	a,r5
-      0000E9 70 DC            [24]  553 	jnz	00104$
-                                    554 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:10: }
-      0000EB 22               [24]  555 	ret
-                                    556 	.area CSEG    (CODE)
-                                    557 	.area CONST   (CODE)
-                                    558 	.area XINIT   (CODE)
-                                    559 	.area CABS    (ABS,CODE)
+      0000B5 AE 82            [24]  522 	mov	r6,dpl
+      0000B7 AF 83            [24]  523 	mov	r7,dph
+                                    524 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:8: while(--i)	;   //14T per loop
+      0000B9                        525 00109$:
+      0000B9 7C 15            [12]  526 	mov	r4,#0x15
+      0000BB 7D 03            [12]  527 	mov	r5,#0x03
+      0000BD                        528 00101$:
+      0000BD 1C               [12]  529 	dec	r4
+      0000BE BC FF 01         [24]  530 	cjne	r4,#0xff,00123$
+      0000C1 1D               [12]  531 	dec	r5
+      0000C2                        532 00123$:
+      0000C2 EC               [12]  533 	mov	a,r4
+      0000C3 4D               [12]  534 	orl	a,r5
+      0000C4 70 F7            [24]  535 	jnz	00101$
+                                    536 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:9: }while(--ms);
+      0000C6 1E               [12]  537 	dec	r6
+      0000C7 BE FF 01         [24]  538 	cjne	r6,#0xff,00125$
+      0000CA 1F               [12]  539 	dec	r7
+      0000CB                        540 00125$:
+      0000CB EE               [12]  541 	mov	a,r6
+      0000CC 4F               [12]  542 	orl	a,r7
+      0000CD 70 EA            [24]  543 	jnz	00109$
+                                    544 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:10: }
+      0000CF 22               [24]  545 	ret
+                                    546 	.area CSEG    (CODE)
+                                    547 	.area CONST   (CODE)
+                                    548 	.area XINIT   (CODE)
+                                    549 	.area CABS    (ABS,CODE)

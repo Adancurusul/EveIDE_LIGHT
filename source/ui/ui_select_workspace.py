@@ -17,11 +17,11 @@ class Ui_SelectWorkspace(object):
     def setupUi(self, SelectWorkspace):
         if not SelectWorkspace.objectName():
             SelectWorkspace.setObjectName(u"SelectWorkspace")
-        SelectWorkspace.resize(554, 218)
+        SelectWorkspace.resize(544, 218)
         self.label = QLabel(SelectWorkspace)
         self.label.setObjectName(u"label")
         self.label.setEnabled(True)
-        self.label.setGeometry(QRect(10, 10, 491, 41))
+        self.label.setGeometry(QRect(20, 20, 691, 41))
         self.label.setMaximumSize(QSize(16777215, 16777214))
         self.label.setStyleSheet(u"font: 18pt \"Agency FB\";\n"
 "")
@@ -67,7 +67,7 @@ class Ui_SelectWorkspace(object):
 
     def retranslateUi(self, SelectWorkspace):
         SelectWorkspace.setWindowTitle(QCoreApplication.translate("SelectWorkspace", u"SelectWorkspace", None))
-        self.label.setText(QCoreApplication.translate("SelectWorkspace", u"EveIDE_Plus : Select a directory as your workspace", None))
+        self.label.setText(QCoreApplication.translate("SelectWorkspace", u"EveIDE : Select a directory", None))
         self.useAsDefault_checkBox.setText(QCoreApplication.translate("SelectWorkspace", u"use this as the default and do not ask again", None))
         self.select_pushButton.setText(QCoreApplication.translate("SelectWorkspace", u"select", None))
         self.label_2.setText(QCoreApplication.translate("SelectWorkspace", u"Workspace:", None))

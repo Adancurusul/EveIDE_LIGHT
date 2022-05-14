@@ -1,6 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.8.6 #10998 (MINGW64)
+; Version 4.2.0 #13077 (MINGW32)
 ;--------------------------------------------------------
 	.module main
 	.optsdcc -mmcs51 --model-small
@@ -456,10 +456,10 @@ _LED0	=	0x00b0
 ;--------------------------------------------------------
 	.area DSEG    (DATA)
 ;--------------------------------------------------------
-; overlayable items in internal ram 
+; overlayable items in internal ram
 ;--------------------------------------------------------
 ;--------------------------------------------------------
-; Stack segment in internal ram 
+; Stack segment in internal ram
 ;--------------------------------------------------------
 	.area	SSEG
 __start__stack:
@@ -505,7 +505,7 @@ __start__stack:
 	.area GSFINAL (CODE)
 	.area CSEG    (CODE)
 ;--------------------------------------------------------
-; interrupt vector 
+; interrupt vector
 ;--------------------------------------------------------
 	.area HOME    (CODE)
 __interrupt_vect:
@@ -540,7 +540,7 @@ __sdcc_program_startup:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'delay'
 ;------------------------------------------------------------
-;ms                        Allocated to registers r6 r7 
+;ms                        Allocated to registers 
 ;i                         Allocated to registers r4 r5 
 ;------------------------------------------------------------
 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:28: void delay(unsigned int ms)
@@ -558,36 +558,26 @@ _delay:
 	ar0 = 0x00
 	mov	r6,dpl
 	mov	r7,dph
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:31: do{
-00104$:
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:32: i = 100;
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:33: while(--i)	;   //14T per loop
+00109$:
 	mov	r4,#0x64
 	mov	r5,#0x00
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:33: while(--i)	;   //14T per loop
 00101$:
-	mov	a,r4
-	add	a,#0xff
-	mov	r2,a
-	mov	a,r5
-	addc	a,#0xff
-	mov	r3,a
-	mov	ar4,r2
-	mov	ar5,r3
-	mov	a,r2
-	orl	a,r3
-	jnz	00101$
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:34: }while(--ms);
-	mov	a,r6
-	add	a,#0xff
-	mov	r4,a
-	mov	a,r7
-	addc	a,#0xff
-	mov	r5,a
-	mov	ar6,r4
-	mov	ar7,r5
+	dec	r4
+	cjne	r4,#0xff,00123$
+	dec	r5
+00123$:
 	mov	a,r4
 	orl	a,r5
-	jnz	00104$
+	jnz	00101$
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:34: }while(--ms);
+	dec	r6
+	cjne	r6,#0xff,00125$
+	dec	r7
+00125$:
+	mov	a,r6
+	orl	a,r7
+	jnz	00109$
 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\main.c:35: }
 	ret
 ;------------------------------------------------------------

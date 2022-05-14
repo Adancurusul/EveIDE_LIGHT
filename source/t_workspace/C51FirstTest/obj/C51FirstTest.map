@@ -77,10 +77,10 @@ C:   0000005F  s_GSFINAL
 C:   0000005F  s_GSINIT                        
 C:   0000005F  s_GSINIT5                       
 C:   00000062  s_CSEG                          
+C:   00000072  l_CSEG                          
 C:   00000080  l_DSEG                          
-C:   0000008E  l_CSEG                          
-C:   000000F0  s_CONST                         
-C:   000000F0  s_XINIT                         
+C:   000000D4  s_CONST                         
+C:   000000D4  s_XINIT                         
 C:   000000F8  l_SSEG                          
 C:   00000100  l_IRAM                          
 
@@ -442,14 +442,14 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                00000062    0000008E =         142. bytes (REL,CON,CODE)
+CSEG                                00000062    00000072 =         114. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
 C:   00000062  _delay                             main
-C:   0000008B  _main                              main
-C:   000000C3  _delay_ms                          Delay
-C:   000000EC  __sdcc_external_startup            _startup
+C:   0000007D  _main                              main
+C:   000000B5  _delay_ms                          Delay
+C:   000000D0  __sdcc_external_startup            _startup
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 18.
 
@@ -463,17 +463,17 @@ C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\obj\
 
 Libraries Linked                          [ object file ]
 
-C:\Users\User\Downloads\Code51200318\Code51\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
+C:\Users\User\Documents\GitHub\EveIDE_LIGHT_V004_BETA\source\EveIDE_LIGHT_V004_BETA\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
                                           [ crtclear.rel ]
-C:\Users\User\Downloads\Code51200318\Code51\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
+C:\Users\User\Documents\GitHub\EveIDE_LIGHT_V004_BETA\source\EveIDE_LIGHT_V004_BETA\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
                                           [ crtxinit.rel ]
-C:\Users\User\Downloads\Code51200318\Code51\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
+C:\Users\User\Documents\GitHub\EveIDE_LIGHT_V004_BETA\source\EveIDE_LIGHT_V004_BETA\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
                                           [ crtxclear.rel ]
-C:\Users\User\Downloads\Code51200318\Code51\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
+C:\Users\User\Documents\GitHub\EveIDE_LIGHT_V004_BETA\source\EveIDE_LIGHT_V004_BETA\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
                                           [ crtpagesfr.rel ]
-C:\Users\User\Downloads\Code51200318\Code51\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
+C:\Users\User\Documents\GitHub\EveIDE_LIGHT_V004_BETA\source\EveIDE_LIGHT_V004_BETA\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
                                           [ crtstart.rel ]
-C:\Users\User\Downloads\Code51200318\Code51\SDCC\bin\..\lib\small-stack-auto/libsdcc.lib
+C:\Users\User\Documents\GitHub\EveIDE_LIGHT_V004_BETA\source\EveIDE_LIGHT_V004_BETA\modules\SDCC\bin\..\lib\small-stack-auto/libsdcc.lib
                                           [ _startup.rel ]
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 19.

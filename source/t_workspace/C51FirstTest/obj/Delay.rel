@@ -232,7 +232,7 @@ A GSINIT4 size 0 flags 20 addr 0
 A GSINIT5 size 0 flags 20 addr 0
 A GSINIT size 0 flags 20 addr 0
 A GSFINAL size 0 flags 20 addr 0
-A CSEG size 29 flags 20 addr 0
+A CSEG size 1B flags 20 addr 0
 S _delay_ms Def000000
 A CONST size 0 flags 20 addr 0
 A XINIT size 0 flags 20 addr 0
@@ -253,9 +253,13 @@ T 00 00 04 7C 15 7D 03
 R 00 00 00 16
 T 00 00 08
 R 00 00 00 16
-T 00 00 08 EC 24 FF FA ED 34 FF FB 8A 04 8B 05 EA
+T 00 00 08 1C BC FF 01 1D
 R 00 00 00 16
-T 00 00 15 4B 70 F0 EE 24 FF FC EF 34 FF FD 8C 06
+T 00 00 0D
 R 00 00 00 16
-T 00 00 22 8D 07 EC 4D 70 DC 22
+T 00 00 0D EC 4D 70 F7 1E BE FF 01 1F
+R 00 00 00 16
+T 00 00 16
+R 00 00 00 16
+T 00 00 16 EE 4F 70 EA 22
 R 00 00 00 16

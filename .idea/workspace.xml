@@ -21,8 +21,25 @@
   <component name="ChangeListManager">
     <list default="true" id="2d61de26-ad7b-456a-ba80-27eddadd55d4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/EveIDE_LIGHT.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/EveIDE_LIGHT.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/t_workspace/cfgPorjectList.evecfg" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/cfgPorjectList.evecfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/configure/cfgWorkspace.evecfg" beforeDir="false" afterPath="$PROJECT_DIR$/source/configure/cfgWorkspace.evecfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/compile.h" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/compile.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.hex" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.hex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.ihx" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.ihx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.lk" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.lk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.map" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.mem" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.mem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/Delay.asm" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/Delay.asm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/Delay.lst" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/Delay.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/Delay.rel" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/Delay.rel" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/Delay.rst" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/Delay.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/Delay.sym" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/Delay.sym" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/main.asm" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/main.asm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/main.lst" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/main.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/main.rel" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/main.rel" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/main.rst" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/main.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/main.sym" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/main.sym" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/ui/ui_select_workspace.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/ui/ui_select_workspace.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/ui/ui_select_workspace.ui" beforeDir="false" afterPath="$PROJECT_DIR$/source/ui/ui_select_workspace.ui" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +67,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../EveIDE_LIGHT_V004_BETA" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RunManager" selected="Python.EveIDE_LIGHT">
     <configuration name="C51CompileWidget" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -137,7 +154,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="t_mainWin" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="SelectWorkspace" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="EveIDE_Plus" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -149,7 +166,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/source/t_mainWin.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/source/SelectWorkspace.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -162,9 +179,9 @@
       <list>
         <item itemvalue="Python.EveIDE_LIGHT" />
         <item itemvalue="Python.LeftModuleWidget" />
+        <item itemvalue="Python.SelectWorkspace" />
         <item itemvalue="Python.C51CompileWidget" />
         <item itemvalue="Python.CompileOutput" />
-        <item itemvalue="Python.t_mainWin" />
       </list>
     </recent_temporary>
   </component>

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>554</width>
+    <width>544</width>
     <height>218</height>
    </rect>
   </property>
@@ -19,9 +19,9 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>491</width>
+     <x>20</x>
+     <y>20</y>
+     <width>691</width>
      <height>41</height>
     </rect>
    </property>
@@ -36,7 +36,7 @@
 </string>
    </property>
    <property name="text">
-    <string>EveIDE_Plus : Select a directory as your workspace</string>
+    <string>EveIDE : Select a directory</string>
    </property>
   </widget>
   <widget class="QComboBox" name="workspace_comboBox">

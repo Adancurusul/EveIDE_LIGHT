@@ -1,6 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.8.6 #10998 (MINGW64)
+; Version 4.2.0 #13077 (MINGW32)
 ;--------------------------------------------------------
 	.module Delay
 	.optsdcc -mmcs51 --model-small
@@ -443,7 +443,7 @@ _CCF0	=	0x00d8
 ;--------------------------------------------------------
 	.area DSEG    (DATA)
 ;--------------------------------------------------------
-; overlayable items in internal ram 
+; overlayable items in internal ram
 ;--------------------------------------------------------
 ;--------------------------------------------------------
 ; indirectly addressable internal ram data
@@ -503,7 +503,7 @@ _CCF0	=	0x00d8
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'delay_ms'
 ;------------------------------------------------------------
-;ms                        Allocated to registers r6 r7 
+;ms                        Allocated to registers 
 ;i                         Allocated to registers r4 r5 
 ;------------------------------------------------------------
 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:3: void delay_ms(unsigned int ms)
@@ -521,36 +521,26 @@ _delay_ms:
 	ar0 = 0x00
 	mov	r6,dpl
 	mov	r7,dph
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:6: do{
-00104$:
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:7: i = MAIN_FOSC / 14000;
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:8: while(--i)	;   //14T per loop
+00109$:
 	mov	r4,#0x15
 	mov	r5,#0x03
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:8: while(--i)	;   //14T per loop
 00101$:
-	mov	a,r4
-	add	a,#0xff
-	mov	r2,a
-	mov	a,r5
-	addc	a,#0xff
-	mov	r3,a
-	mov	ar4,r2
-	mov	ar5,r3
-	mov	a,r2
-	orl	a,r3
-	jnz	00101$
-;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:9: }while(--ms);
-	mov	a,r6
-	add	a,#0xff
-	mov	r4,a
-	mov	a,r7
-	addc	a,#0xff
-	mov	r5,a
-	mov	ar6,r4
-	mov	ar7,r5
+	dec	r4
+	cjne	r4,#0xff,00123$
+	dec	r5
+00123$:
 	mov	a,r4
 	orl	a,r5
-	jnz	00104$
+	jnz	00101$
+;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:9: }while(--ms);
+	dec	r6
+	cjne	r6,#0xff,00125$
+	dec	r7
+00125$:
+	mov	a,r6
+	orl	a,r7
+	jnz	00109$
 ;	C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\Public\src\Delay.c:10: }
 	ret
 	.area CSEG    (CODE)
