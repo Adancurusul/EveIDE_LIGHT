@@ -2,7 +2,7 @@
 # EveIDE_LIGHT 使用手册
 ![EveIDE_LIGHT](./img/EveIDE_LIGHT.png)  
  
-当前版本 : v0.0.4  （支持windows7以上版本 64位操作系统）（支持ubuntu16.04以上linux操作系统）    
+当前版本 : v0.0.5  （支持windows7以上版本 64位操作系统）（支持ubuntu16.04以上linux操作系统）    
 作者 : Adancurusul
 *****
 
@@ -37,6 +37,8 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ***
+## V0.0.5版本说明
+- 优化编译RISC-V工程导致界面卡死
 ## V0.0.4版本说明
 - 支持C51编译！（测试中）
 - 添加串口调试助手

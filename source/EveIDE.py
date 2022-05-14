@@ -22,7 +22,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 "`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-' 
 
 '''
-__version__ = "V0.0.3"
+__version__ = "V0.0.5"
 C51COMPILE = 1
 
 #Import the required qt library
@@ -47,7 +47,7 @@ import functools
 import os,shutil,subprocess
 # import modules
 sys.path.append(os.path.abspath(r'.\modules\SerialPortAssistant'))
-import  SerialPortAssistant
+import  modules.SerialPortAssistant.SerialPortAssistant as SerialPortAssistant
 
 #Import a custom library
 from ui.ui_main_window import Ui_MainWindow

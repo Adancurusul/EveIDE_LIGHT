@@ -20,7 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d61de26-ad7b-456a-ba80-27eddadd55d4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/source/t_workspace/cfgPorjectList.evecfg" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/cfgPorjectList.evecfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/EveIDE_LIGHT.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/packcmd.txt" beforeDir="false" afterPath="$PROJECT_DIR$/source/packcmd.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +53,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../EveIDE_LIGHT_V004_BETA" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
-  <component name="RunManager" selected="Python.EveIDE_LIGHT">
+  <component name="RunManager" selected="Python.EveIDE">
     <configuration name="C51CompileWidget" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="EveIDE_Plus" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -72,7 +75,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="CompileOutput" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="EveIDE" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="EveIDE_Plus" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -80,11 +83,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/source/eve_module" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/source" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/source/eve_module/CompileOutput.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/source/EveIDE.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -158,11 +161,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.EveIDE" />
         <item itemvalue="Python.EveIDE_LIGHT" />
         <item itemvalue="Python.LeftModuleWidget" />
         <item itemvalue="Python.SelectWorkspace" />
         <item itemvalue="Python.C51CompileWidget" />
-        <item itemvalue="Python.CompileOutput" />
       </list>
     </recent_temporary>
   </component>
