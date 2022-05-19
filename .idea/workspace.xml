@@ -21,23 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2d61de26-ad7b-456a-ba80-27eddadd55d4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/C51CompileWidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/C51CompileWidget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/EveIDE.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/EveIDE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/Simulator.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/Simulator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/SimulatorFileManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/SimulatorFileManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/configure/cfgWorkspace.evecfg" beforeDir="false" afterPath="$PROJECT_DIR$/source/configure/cfgWorkspace.evecfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/eve_module/GetFunctionInC.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/eve_module/GetFunctionInC.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/eve_module/SimulateThread.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/eve_module/SimulateThread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/icons/icons.qrc" beforeDir="false" afterPath="$PROJECT_DIR$/source/icons/icons.qrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/icons_rc.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/icons_rc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/modules/CreateInstance/CreateInstance.bak" beforeDir="false" afterPath="$PROJECT_DIR$/source/modules/CreateInstance/CreateInstance.bak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/modules/CreateInstance/CreateInstance.rkt" beforeDir="false" afterPath="$PROJECT_DIR$/source/modules/CreateInstance/CreateInstance.rkt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.lk" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.lk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.map" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.mem" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/C51FirstTest/obj/C51FirstTest.mem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/t_workspace/cfgPorjectList.evecfg" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/cfgPorjectList.evecfg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
