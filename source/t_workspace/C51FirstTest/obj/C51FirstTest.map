@@ -463,17 +463,17 @@ C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\obj\
 
 Libraries Linked                          [ object file ]
 
-C:\Users\User\Documents\GitHub\EveIDE_LIGHT_V004_BETA\source\EveIDE_LIGHT_V004_BETA\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
+C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
                                           [ crtclear.rel ]
-C:\Users\User\Documents\GitHub\EveIDE_LIGHT_V004_BETA\source\EveIDE_LIGHT_V004_BETA\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
+C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
                                           [ crtxinit.rel ]
-C:\Users\User\Documents\GitHub\EveIDE_LIGHT_V004_BETA\source\EveIDE_LIGHT_V004_BETA\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
+C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
                                           [ crtxclear.rel ]
-C:\Users\User\Documents\GitHub\EveIDE_LIGHT_V004_BETA\source\EveIDE_LIGHT_V004_BETA\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
+C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
                                           [ crtpagesfr.rel ]
-C:\Users\User\Documents\GitHub\EveIDE_LIGHT_V004_BETA\source\EveIDE_LIGHT_V004_BETA\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
+C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\modules\SDCC\bin\..\lib\small-stack-auto/mcs51.lib
                                           [ crtstart.rel ]
-C:\Users\User\Documents\GitHub\EveIDE_LIGHT_V004_BETA\source\EveIDE_LIGHT_V004_BETA\modules\SDCC\bin\..\lib\small-stack-auto/libsdcc.lib
+C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\modules\SDCC\bin\..\lib\small-stack-auto/libsdcc.lib
                                           [ _startup.rel ]
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 19.

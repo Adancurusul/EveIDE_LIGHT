@@ -51,6 +51,7 @@ class moduleProjectTree(Ui_ProjectTree,QWidget):
         self.projectFile_treeWidget.collapseAll()
 
 
+
 class Simulator(QWidget,Ui_module_simulat_widget):
     def __init__(self):
         super(Simulator, self).__init__()

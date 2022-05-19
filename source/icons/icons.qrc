@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="pic">
+    <file>wave.png</file>
+    <file>python.png</file>
     <file>submodule.png</file>
     <file>module.png</file>
     <file>verilog.png</file>

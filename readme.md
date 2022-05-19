@@ -2,7 +2,7 @@
 # EveIDE_LIGHT 使用手册
 ![EveIDE_LIGHT](./img/EveIDE_LIGHT.png)  
  
-当前版本 : v0.0.5  （支持windows7以上版本 64位操作系统）（支持ubuntu16.04以上linux操作系统）    
+当前版本 : v0.0.6  （支持windows7以上版本 64位操作系统）（支持ubuntu16.04以上linux操作系统）    
 作者 : Adancurusul
 *****
 
@@ -37,6 +37,8 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ***
+## V0.0.6版本说明
+- 新增MyHDL快速仿真（测试中）
 ## V0.0.5版本说明
 - 优化编译RISC-V工程导致界面卡死
 ## V0.0.4版本说明
@@ -152,7 +154,17 @@ EveIDE_LIGHT设计了一套自动寻找例化模组和头文件算法能帮助�
 ![仿真成功](img/仿真成功.png)         
 ![仿真结果](img/仿真结果.png)         
 
+##### MyHDL仿真（测试中）
+使用MyHDL仿真需要保证电脑中存在python环境，且其包含MyHDL包,通过下面命令安装   
+  pip install myhdl
 
+在新建仿真工程后右键顶层python文件设置为顶层   
+![myhdl仿真界面](img/myhdl仿真界面.png)    
+之后点击simulate即可仿真。若生成的代码中包含了波形仿真以及verilog生成，便会生成在当前页面。
+之后右键波形仿真即可进入GTKWave    
+![打开波形](img/打开GTKWave.png)      
+打开波形后如下图    
+![仿真示例](img/仿真示例.png)
 #### 右侧编辑器
 EveIDE_LIGHT 本着小巧稳定的原则取消了之前的自研编辑器改为采用更加稳定易用的[monaco editor](https://github.com/microsoft/monaco-editor   )
 且目前支持c，verilog，riscv汇编的高亮功能，后续还会继续优化编辑器体验。  

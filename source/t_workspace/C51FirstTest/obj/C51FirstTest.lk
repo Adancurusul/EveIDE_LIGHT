@@ -2,15 +2,15 @@
 -i C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\t_workspace\C51FirstTest\obj\C51FirstTest.ihx
 -M
 -I 0x0100
--X 0x0800
+-X 0x1000
 -C 0xfa00
 -b HOME = 0x0000
 -b XSEG = 0x0001
 -b PSEG = 0x0001
 -b ISEG = 0x0000
 -b BSEG = 0x0000
--k C:\Users\User\Documents\GitHub\EveIDE_LIGHT_V004_BETA\source\EveIDE_LIGHT_V004_BETA\modules\SDCC\lib
--k C:\Users\User\Documents\GitHub\EveIDE_LIGHT_V004_BETA\source\EveIDE_LIGHT_V004_BETA\modules\SDCC\bin\..\lib\small-stack-auto
+-k C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\modules\SDCC\lib
+-k C:\Users\User\Documents\GitHub\EveIDE_LIGHT\source\modules\SDCC\bin\..\lib\small-stack-auto
 -l mcs51
 -l libsdcc
 -l libint

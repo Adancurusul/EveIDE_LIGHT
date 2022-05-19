@@ -240,7 +240,7 @@
                                          initPortStr
          ))
        )]
-                [(instStr) (string-append* "//generate by EveIDE_LIGHT V0.0.2-alpha \n " instStrList)]
+                [(instStr) (string-append* "//generate by EveIDE \n " instStrList)]
                 )
     
     (display-to-file	instStr outputFile  #:exists 'replace)

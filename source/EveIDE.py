@@ -70,12 +70,12 @@ from NewProjectWidget import NewProjectWidget
 from SimulatorFileManager import SimulatorFileManager
 import serial
 ex_cfgMainDict = {"workspaceSetting":{}}
-'''
+
 logging.getLogger().setLevel(logging.DEBUG)
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%a, %d %b %Y %H:%M:%S',)
-'''
+
 
 def read_cfg(cfgPath) -> dict:
     '''
@@ -792,6 +792,19 @@ Currently, only single-file autocompilation is supported, adding multiple files 
                 popMenu.addAction(QAction(u'delete file : ' + currentDict.get("name", ""), self))
                 popMenu.triggered[QAction].connect(self.simulate_right_click_handler)
                 popMenu.exec_(QCursor.pos())
+            elif (currentDict.get("fileSuffix","") == "py"):
+                popMenu = QMenu()
+                popMenu.addAction(QAction(u'set ' + currentDict.get("name", "") + ' as the top level ', self))
+                popMenu.addAction(QAction(u'delete current item: ' + currentDict.get("name", ""), self))
+                popMenu.triggered[QAction].connect(self.simulate_right_click_handler)
+                popMenu.exec_(QCursor.pos())
+            elif (currentDict.get("fileSuffix","") == "vcd"):
+                popMenu = QMenu()
+                popMenu.addAction(QAction(u'open GTKWave to show :' + currentDict.get("name", "") , self))
+                popMenu.addAction(QAction(u'delete current item: ' + currentDict.get("name", ""), self))
+                popMenu.triggered[QAction].connect(self.simulate_right_click_handler)
+                popMenu.exec_(QCursor.pos())
+
             else :
                 popMenu = QMenu()
                 popMenu.addAction(QAction(u'delete current item: ' + currentDict.get("name", ""), self))
@@ -925,6 +938,16 @@ Currently, only single-file autocompilation is supported, adding multiple files 
             #logging.debug("b")
         elif "open file" in textNow:
             self.addEditorWidget(currentDict)
+        elif "open GTKWave to show " in textNow:
+            iverilogPath = self.leftWidget.simulateWidget.iverlogPath_lineEdit.text()
+            if os.path.exists(iverilogPath+"/gtkwave"):
+                gtkWaveStr = iverilogPath + r"\gtkwave\bin\gtkwave "+os.path.abspath(currentDict.get("fullPath",""))
+                self.simulateThread.show_GTKWave(gtkWaveStr,currentDict.get("fullPath",""))
+                #show_GTKWave
+
+            else :
+                QMessageBox.warning(self, "EveIDE_LIGHT -- SIMULATE Error",
+                                    "Incorrect iverilog path!\n (gtkwave should be in the path)")
         elif "delete " in textNow:
             fullPath = os.path.abspath(currentDict.get("fullPath",""))
             choose = QMessageBox.warning(self, "EveIDE_LIGHT -- FILE warning",
@@ -995,28 +1018,35 @@ Currently, only single-file autocompilation is supported, adding multiple files 
             iverilogPath = self.leftWidget.simulateWidget.iverlogPath_lineEdit.text()
 
             if os.path.exists(iverilogPath+"/gtkwave"):
-                g = GetSimDumpFile()
-                #logging.debug(self.topLevelDict.get("fullPath"))
-                dumpFile = g.getDumpFile(self.topLevelDict.get("fullPath"))
-                dumpFileInitPath = os.path.basename(dumpFile)
-                dumpFilePath = dumpFile
-                if not dumpFile == "":
-                    '''第一种方式自动找依赖'''
-                    projectToSim = self.leftWidget.simulateWidget.project_comboBox.currentText()
-                    simulateSettingDict = {"includeList":self.simIncludeDict,"projectDict":dictToSim,"topLevel":self.topLevelDict,"iverilogPath":iverilogPath,"dumpFile":dumpFile,"projectPath":projectToSim}
-                    simulateStrDict = self.leftWidget.simulateWidget.do_simulate(simulateSettingDict)#得到iverilog的三个命令
-                    print(simulateStrDict)
-                    iverilogList = [simulateStrDict.get("iverilog"),simulateStrDict.get("vvp"),simulateStrDict.get("gtkwave")]#
-                    self.simulateThread.init_thread(iverilogList,dumpFileInitPath,dumpFilePath,projectToSim)
+                #print(self.topLevelDict)
+                if self.topLevelDict.get("fileSuffix","") == "py":
+                    self.simulateThread.init_MyHDL_thread(self.topLevelDict.get("fullPath",""))
                     self.TextOutput.clear()
-                    self.simulateThread.start()
+                    self.simulateThread.do_MyHDL_Simulate()
+
+                else:
+                    g = GetSimDumpFile()
+                    #logging.debug(self.topLevelDict.get("fullPath"))
+                    dumpFile = g.getDumpFile(self.topLevelDict.get("fullPath"))
+                    dumpFileInitPath = os.path.basename(dumpFile)
+                    dumpFilePath = dumpFile
+                    if not dumpFile == "":
+                        '''第一种方式自动找依赖'''
+                        projectToSim = self.leftWidget.simulateWidget.project_comboBox.currentText()
+                        simulateSettingDict = {"includeList":self.simIncludeDict,"projectDict":dictToSim,"topLevel":self.topLevelDict,"iverilogPath":iverilogPath,"dumpFile":dumpFile,"projectPath":projectToSim}
+                        simulateStrDict = self.leftWidget.simulateWidget.do_simulate(simulateSettingDict)#得到iverilog的三个命令
+                        print(simulateStrDict)
+                        iverilogList = [simulateStrDict.get("iverilog"),simulateStrDict.get("vvp"),simulateStrDict.get("gtkwave")]#
+                        self.simulateThread.init_thread(iverilogList,dumpFileInitPath,dumpFilePath,projectToSim)
+                        self.TextOutput.clear()
+                        self.simulateThread.start()
 
 
 
 
-                else :
-                    QMessageBox.warning(self, "EveIDE_LIGHT -- SIMULATE Error",
-                                        "top level file error , make sure you have add \ninitial\nbegin\n$dumpfile(\"xx.vcd\");\n$dumpvars(0,{0});\nend".format((self.topLevelDict.get("name","").split(".")[0])))
+                    else :
+                        QMessageBox.warning(self, "EveIDE_LIGHT -- SIMULATE Error",
+                                            "top level file error , make sure you have add \ninitial\nbegin\n$dumpfile(\"xx.vcd\");\n$dumpvars(0,{0});\nend".format((self.topLevelDict.get("name","").split(".")[0])))
 
             else :
                 QMessageBox.warning(self, "EveIDE_LIGHT -- SIMULATE Error",
@@ -1577,6 +1607,12 @@ Currently, only single-file autocompilation is supported, adding multiple files 
             nodeNow.setIcon(0,self.makefileIcon)
         elif fileSuffix == "S" or fileSuffix == "s":
             nodeNow.setIcon(0,self.assembleIcon)
+        elif fileSuffix == "py":
+            nodeNow.setIcon(0,self.pythonIcon)
+            # vcdIcon
+        elif fileSuffix == "vcd" or fileSuffix == "lx":
+            nodeNow.setIcon(0,self.vcdIcon)
+
 
 
     def set_child_tree(self, rootNode, childDict):
@@ -1599,7 +1635,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
                 if eachFile.get("fileSuffix") == "c":
                     CFunctionSelector = GetFunctionInC(fullName)
                     functionList = CFunctionSelector.fuctionList
-            print("functionList:"+str(functionList))
+            #print("functionList:"+str(functionList))
             for eachFunction in functionList:
                 functionNode = QTreeWidgetItem()
                 functionNode.dictNow = eachFile
@@ -1655,7 +1691,6 @@ Currently, only single-file autocompilation is supported, adding multiple files 
         self.makefileIcon = QIcon()
         self.makefileIcon.addFile(u":/pic/makefile.png", QSize(), QIcon.Normal, QIcon.Off)
         self.verilogIcon = QIcon()
-
         self.verilogIcon.addFile(u":/pic/verilog.png", QSize(), QIcon.Normal, QIcon.Off)
         self.binIcon = QIcon()
         self.binIcon.addFile(u":/pic/bin.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -1669,7 +1704,10 @@ Currently, only single-file autocompilation is supported, adding multiple files 
         self.assembleIcon.addFile(u":/pic/asm.png",QSize(), QIcon.Normal, QIcon.Off)
         self.EveIDEIcon = QIcon()
         self.EveIDEIcon.addFile(u":/pic/RVAT.png",QSize(), QIcon.Normal, QIcon.Off)
-
+        self.pythonIcon = QIcon()
+        self.pythonIcon.addFile(u":/pic/python.png",QSize(), QIcon.Normal, QIcon.Off)
+        self.vcdIcon = QIcon()
+        self.vcdIcon.addFile(u":/pic/wave.png", QSize(), QIcon.Normal, QIcon.Off)
     def add_module_actions(self):
         # QAction(MainWindow)
         # self.serialPortAssistant = QAction(MainWindow)
