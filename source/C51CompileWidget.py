@@ -46,14 +46,16 @@ class moduleC51CompileWidget(Ui_C51CompileWidget,QWidget):
         currentLineEdit.setText(pathNow)
     def change_C51project(self,projectNameNow):
         for eachDict in self.compileC51SettingDictList:
+            print("*"*19)
             print(eachDict)
+            print("*" * 19)
             if eachDict.get("projectName","nothing") == projectNameNow:
                 #print("*****************************")
                 #print(eachDict)
                 #print((eachDict.get("outputPath","nothing")))
                 #print("\r\n"*3)
                 self.currentC51ProjectDict = eachDict
-                self.c51toAolchain_lineEdict.setText(os.path.abspath(eachDict.get("toolChainPath","nothong")))
+                self.c51toolchain_lineEdict.setText(os.path.abspath(eachDict.get("toolChainPath","nothong")))
                 self.xramSize_lineEdit.setText(eachDict.get("xramSize","256"))
                 self.iramSize_lineEdit.setText(eachDict.get("iramSize","4096"))
                 self.c51outputDir_lineEdit.setText(os.path.abspath(eachDict.get("outputPath","nothing")))
