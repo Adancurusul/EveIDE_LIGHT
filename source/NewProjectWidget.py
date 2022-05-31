@@ -26,7 +26,7 @@ class NewProjectWidget(QWidget,Ui_NewProject):
         super(NewProjectWidget, self).__init__()
         self.setupUi(self)
         self.name = "unname"
-
+        self.ifOpen = 0
         self.select_pushButton.clicked.connect(self.select_workspace)
         self.projectName_label.setText(os.path.split(self.projectPath_lineEdit.text())[1])
         self.projectPath_lineEdit.textChanged.connect(self.line_changed)
@@ -39,42 +39,53 @@ class NewProjectWidget(QWidget,Ui_NewProject):
         self.projectPath_lineEdit.setText(os.path.abspath(self.fatherPath + "/" + self.name))
         self.projectPath_lineEdit.setToolTip(self.projectPath_lineEdit.text())
 
-
+    def open_project(self):
+        self.ifOpen = 1
+        self.setWindowTitle("open project")
 
     def button_handler(self,which):
-        if which == "cancel":
-            self.pathNow = ""
-            self.close()
-        elif which == "create":
-            self.pathNow = self.projectPath_lineEdit.text()
-            if os.path.exists(self.pathNow):
-                choose = QMessageBox.warning(self, "EveIDE_LIGHT -- CREATE warning",
-                                    "{0} is already exists .still create? (files inside will not be changed)".format(self.pathNow),QMessageBox.Yes|QMessageBox.No,QMessageBox.No)
-                print(choose)
-                if choose == QMessageBox.No:
-                    pass
-                else :
-                    self.close()
-            else :
-                os.mkdir(self.pathNow)
-                if self.type == "compile":
-                    try:
-                        #os.mkdir(self.pathNow + "\\src")
-                        os.mkdir(self.pathNow + "\\inc")
-                    except Exception as e:
-                        logging.debug(e)
-                elif self.type == "compileC51":
-                    try:
-                        #os.mkdir(self.pathNow + "\\src")
-                        os.mkdir(self.pathNow + "\\inc")
-                        os.mkdir(self.pathNow + "\\src")
-                        os.mkdir(self.pathNow + "\\obj")
-                    except Exception as e:
-                        logging.debug(e)
-                    #with open(self.pathNow+"/main.c","w+")as f:
-                     #   f.write("//Created by EveIDE_LIGHT ")
-                logging.debug("new projectCreated : path : "+self.pathNow+" . type : "+self.type)
+        if self.ifOpen == 1:
+            if which == "cancel":
+                self.pathNow = ""
                 self.close()
+            elif which == "create":
+                self.pathNow = self.projectPath_lineEdit.text()
+
+                self.close()
+        else:
+            if which == "cancel":
+                self.pathNow = ""
+                self.close()
+            elif which == "create":
+                self.pathNow = self.projectPath_lineEdit.text()
+                if os.path.exists(self.pathNow):
+                    choose = QMessageBox.warning(self, "EveIDE_LIGHT -- CREATE warning",
+                                        "{0} is already exists .still create? (files inside will not be changed)".format(self.pathNow),QMessageBox.Yes|QMessageBox.No,QMessageBox.No)
+                    print(choose)
+                    if choose == QMessageBox.No:
+                        pass
+                    else :
+                        self.close()
+                else :
+                    os.mkdir(self.pathNow)
+                    if self.type == "compile":
+                        try:
+                            #os.mkdir(self.pathNow + "\\src")
+                            os.mkdir(self.pathNow + "\\inc")
+                        except Exception as e:
+                            logging.debug(e)
+                    elif self.type == "compileC51":
+                        try:
+                            #os.mkdir(self.pathNow + "\\src")
+                            os.mkdir(self.pathNow + "\\inc")
+                            os.mkdir(self.pathNow + "\\src")
+                            os.mkdir(self.pathNow + "\\obj")
+                        except Exception as e:
+                            logging.debug(e)
+                        #with open(self.pathNow+"/main.c","w+")as f:
+                         #   f.write("//Created by EveIDE_LIGHT ")
+                    logging.debug("new projectCreated : path : "+self.pathNow+" . type : "+self.type)
+                    self.close()
 
     def closeEvent(self, event):
         #self.newProjectWidget.closeSignal.connect(self.add_new_project)

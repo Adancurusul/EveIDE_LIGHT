@@ -21,7 +21,9 @@
   <component name="ChangeListManager">
     <list default="true" id="2d61de26-ad7b-456a-ba80-27eddadd55d4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/C51CompileWidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/C51CompileWidget.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/EveIDE.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/EveIDE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/NewProjectWidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/NewProjectWidget.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/t_workspace/cfgPorjectList.evecfg" beforeDir="false" afterPath="$PROJECT_DIR$/source/t_workspace/cfgPorjectList.evecfg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

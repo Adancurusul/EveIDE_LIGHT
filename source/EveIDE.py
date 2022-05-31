@@ -26,11 +26,12 @@ __version__ = "V0.0.5"
 C51COMPILE = 1
 
 #Import the required qt library
+import qtpy
 from qtpy.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QFormLayout, QLineEdit, QTabWidget, \
     QMdiArea, QTextEdit, QDockWidget, QSplitter, QMdiSubWindow, QTreeWidgetItem, QMessageBox,QMenu,QAction
 from qtpy.QtCore import Qt, Signal, QTimer,QSize,QFile
 from qtpy.QtGui import QPalette, QBrush, QColor,QIcon,QCursor
-import qtpy
+
 from qtpy import QtGui
 from qtpy import QtCore
 import platform
@@ -70,13 +71,13 @@ from NewProjectWidget import NewProjectWidget
 from SimulatorFileManager import SimulatorFileManager
 import serial
 ex_cfgMainDict = {"workspaceSetting":{}}
-
+'''
 logging.getLogger().setLevel(logging.DEBUG)
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%a, %d %b %Y %H:%M:%S',)
 
-
+'''
 def read_cfg(cfgPath) -> dict:
     '''
     Read the cfg file
@@ -1060,7 +1061,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
                 settingList = self.clear_unused_compile_project(cfgDict.get("compileSetting",[]),cfgDict.get("compile_projectPathList",[]))
                 cfgDict["compileSetting"] = settingList
                 cfg.write_dict(cfgDict)
-                if not os.path.exists(pathNow + "\\main.S"):
+                if not (os.path.exists(pathNow + "\\main.S") or  os.path.exists(pathNow + "\\main.c")):
                     with open(pathNow + "\\main.S", "w+", newline='')as r:
                         strToWrite = "/***Generate by EveIDE_LIGHT at " + datetime.datetime.now().strftime(
                             '%Y-%m-%d %H:%M:%S'+"***/")
@@ -1775,8 +1776,13 @@ Currently, only single-file autocompilation is supported, adding multiple files 
 
 
     def open_project(self,type):
+        self.newProjectWidget.init(self.workspacePath, type)
+        self.newProjectWidget.ifOpen = 1
+        self.newProjectWidget.setWindowTitle("Open Project")
+        self.newProjectWidget.show()
+        '''
         pathNow = os.path.abspath(QFileDialog.getExistingDirectory(None, "choose project dictionary", None))
-        if pathNow == None:
+        if pathNow == None or pathNow == :
             logging.debug("没有选择")
         else :
             cfg = cfgRead(self.workspacePath + "/cfgPorjectList.evecfg")
@@ -1798,6 +1804,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
                 cfg.write_dict(cfgDict)
                 self.leftWidget.C51CompileWidget.addC51ProjectDictList(settingListC51)
                 self.set_workspace_tree()
+                '''
 
     def view_dock_closeEvent(self):  # 当dock关闭时触发
         self.OutputDock.closeEvent = self.dock_output_close
