@@ -482,7 +482,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
                             marchStr+="f"
                         mabiStr = " -mabi=lp64 "
                     else:
-                        marchStr = " -march=rv32 "
+                        marchStr = " -march=rv32"
                         if dictNow.get("i",0):
                             marchStr+="i"
                         if dictNow.get("m",0):
