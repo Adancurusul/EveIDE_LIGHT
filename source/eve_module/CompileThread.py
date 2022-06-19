@@ -31,8 +31,10 @@ class CompileThread(QThread):
         print(cmdStr)
         self.updateTextOutput.emit("<font color=black>%s </font> ",datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                                    +" : "+ cmdStr)
+        #'''
         p = subprocess.Popen(cmdStr, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                              shell=True, cwd=self.cmdPath)  # , bufsize=1
+        
         for line in iter(p.stderr.readline, b''):
             if b'warning' in line:
                 status = True
@@ -46,6 +48,31 @@ class CompileThread(QThread):
             #QApplication.processEvents()
         for line in iter(p.stdout.readline, b''):
             self.updateTextOutput.emit("<font color=black>%s </font> ",line.decode("gbk","ignore"))
+        # '''
+        '''
+        self.updateTextOutput.emit("<font color=black>%s </font> ",
+                                   datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                                   + " : " + cmdStr)
+        # p = subprocess.Popen(cmdStr, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        #                     shell=True, cwd='./', bufsize=1000)  # , bufsize=1
+
+        pipe = subprocess.Popen(cmdStr, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                             shell=True, cwd=self.cmdPath)  # , bufsize=1
+        for line in iter(pipe.stdout.readline, 'b'):
+            self.updateTextOutput.emit("<font color=black>%s </font> ", line.decode("gbk", "ignore"))
+            if not subprocess.Popen.poll(pipe) is None:
+                if line == b'':
+                    break
+        pipe.stdout.close()
+        if pipe.stderr:
+            for line in iter(pipe.stderr.readline, 'b'):
+                # i = str(i, encoding='utf-8')
+                self.updateTextOutput.emit("<font color=red>%s </font> ", line.decode("gbk", "ignore"))
+
+                if not subprocess.Popen.poll(pipe) is None:
+                    if line == b'':
+                        break
+        '''
     def run_C51compile(self):
         for eachCmd in self.compileList:
             self.do_cmd(eachCmd)
