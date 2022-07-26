@@ -1,79 +1,97 @@
 {
     "compile_projectPathList": [
-        "t_workspace/unname"
+        "t_workspace\\unname",
+        "t_workspace\\unname1"
     ],
     "simulate_projectPathList": [
-        "t_workspace\\t_counter"
+        "t_workspace\\t_counter",
+        "t_workspace\\unname"
+    ],
+    "C51compile_projectPathList": [
+        "C:\\Users\\User\\Documents\\GitHub\\EveIDE_LIGHT\\source\\t_workspace\\C51FirstTest",
+        "C:\\Users\\User\\Documents\\GitHub\\EveIDE_LIGHT_V004_BETA\\source\\EveIDE_LIGHT_V004_BETA\\t_workspace\\EveIDE_8051deertech\\cleanerAUTO"
     ],
     "compileSetting": [
-        {
-            "projectName": "unname",
-            "projectPath": "t_workspace/unname",
-            "gccPath": "modules/bin",
-            "outputPath": "t_workspace/unname/build",
-            "binaryOutput": 1,
-            "mifOutput": 0,
-            "coeOutput": 0,
-            "normalOutput": 1,
-            "i": 1,
-            "m": 0,
-            "a": 0,
-            "c": 0,
-            "f": 0,
-            "autoMakefile": 1,
-            "gccPrefix": "riscv-nuclei-elf-addr2line",
-            "if64bit": 1
-        },
-        {
-            "projectName": "unnfame",
-            "projectPath": "t_workspace\\unnfame",
-            "gccPath": "modules/bin",
-            "outputPath": "t_workspace\\unnfame/build",
-            "binaryOutput": 1,
-            "mifOutput": 0,
-            "coeOutput": 0,
-            "normalOutput": 1,
-            "i": 1,
-            "m": 0,
-            "a": 0,
-            "c": 0,
-            "f": 0,
-            "autoMakefile": 1,
-            "gccPrefix": "riscv-nuclei-elf-addr2line",
-            "if64bit": 1
-        }
-    ],
-    "comlipeSetting": [
         {
             "a": false,
             "autoMakefile": true,
             "binaryOutput": true,
             "c": false,
-            "coeOutput": false,
+            "coeOutput": true,
             "f": false,
-            "gccPath": "..\\img",
+            "gccPath": "modules\\gcc\\bin",
             "gccPrefix": "riscv-nuclei-elf-addr2line",
             "i": true,
             "if64bit": true,
             "m": false,
-            "mifOutput": false,
+            "mifOutput": true,
             "normalOutput": true,
             "outputPath": "t_workspace\\unname\\build",
             "projectName": "unname",
-            "projectPath": "t_workspace/unname"
+            "projectPath": "t_workspace\\unname"
+        },
+        {
+            "a": false,
+            "autoMakefile": true,
+            "binaryOutput": true,
+            "c": false,
+            "coeOutput": true,
+            "f": false,
+            "gccPath": "modules\\gcc\\bin",
+            "gccPrefix": "riscv-nuclei-elf-addr2line",
+            "i": true,
+            "if64bit": true,
+            "m": false,
+            "mifOutput": true,
+            "normalOutput": true,
+            "outputPath": "t_workspace\\unname\\build",
+            "projectName": "unname",
+            "projectPath": "t_workspace\\unname"
+        },
+        {
+            "a": false,
+            "autoMakefile": true,
+            "binaryOutput": true,
+            "c": false,
+            "coeOutput": true,
+            "f": false,
+            "gccPath": "modules\\gcc\\bin",
+            "gccPrefix": "riscv-nuclei-elf-addr2line",
+            "i": true,
+            "if64bit": true,
+            "m": false,
+            "mifOutput": true,
+            "normalOutput": true,
+            "outputPath": "t_workspace\\unname1\\build",
+            "projectName": "unname1",
+            "projectPath": "t_workspace\\unname1"
         }
-    ],
-    "C51compile_projectPathList": [
-        "C:\\Users\\User\\Documents\\GitHub\\EveIDE_LIGHT\\source\\t_workspace\\unndame"
     ],
     "C51compileSetting": [
         {
-            "projectName": "unndame",
-            "projectPath": "C:\\Users\\User\\Documents\\GitHub\\EveIDE_LIGHT\\source\\t_workspace\\unndame",
-            "toolChainPath": "modules/SDCC/bin",
-            "outputPath": "C:\\Users\\User\\Documents\\GitHub\\EveIDE_LIGHT\\source\\t_workspace\\unndame/build",
-            "xramSize": "256",
-            "iramSize": "65536"
+            "iramSize": "4096",
+            "outputPath": "t_workspace\\C51FirstTest\\build",
+            "projectName": "C51FirstTest",
+            "projectPath": "C:\\Users\\User\\Documents\\GitHub\\EveIDE_LIGHT\\source\\t_workspace\\C51FirstTest",
+            "toolChainPath": "modules\\SDCC\\bin",
+            "xramSize": "256"
+        },
+        {
+            "iramSize": "4096",
+            "outputPath": "..\\..\\EveIDE_LIGHT_V004_BETA\\source\\EveIDE_LIGHT_V004_BETA\\t_workspace\\EveIDE_8051deertech\\cleanerAUTO\\build",
+            "projectName": "cleanerAUTO",
+            "projectPath": "C:\\Users\\User\\Documents\\GitHub\\EveIDE_LIGHT_V004_BETA\\source\\EveIDE_LIGHT_V004_BETA\\t_workspace\\EveIDE_8051deertech\\cleanerAUTO",
+            "toolChainPath": "modules\\SDCC\\bin",
+            "xramSize": "256"
         }
-    ]
+    ],
+    "arduinoCompile_projectPathList": [
+        {
+            "projectName": "Lvgl_Base",
+            "projectPath": "C:\\Users\\User\\Documents\\GitHub\\EveIDE_LIGHT\\source\\t_workspace\\Lvgl_Base"
+        }
+    ],
+    "arduinoCompileSetting": {
+        "arduinoCliPath": "modules\\arduino-cli\\arduino-cli.exe"
+    }
 }

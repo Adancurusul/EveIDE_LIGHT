@@ -3,3 +3,4 @@ source/modules/gcc
 source/modules/iverilog
 source/modules/SDCC
 source/t_workspace
+source/modules/arduino-cli

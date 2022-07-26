@@ -24,7 +24,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 '''
 __version__ = "V0.0.5"
 C51COMPILE = 1
-
+ARDUINOCOMPILE = 1
 #Import the required qt library
 import qtpy
 from qtpy.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QFormLayout, QLineEdit, QTabWidget, \
@@ -181,6 +181,28 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                                                                          self.C51projectList)
             cfgDictProject["C51compileSetting"] = C51compileSettingList
             self.leftWidget.C51CompileWidget.addC51ProjectDictList(C51compileSettingList)
+        if ARDUINOCOMPILE == 1:
+            self.arduinoPorjectList = self.check_arduino_compile_projects
+            arduinoCompileSettingList = self.clear_unused_arduino_compile_project(cfgDictProject.get("arduinoCompile_projectPathList", []),
+                                                                         self.arduinoPorjectList)
+            #cfgDictProject["arduinoCompileSetting"]
+            #print("00000000000000"*20)
+            #print(arduinoCompileSettingList)
+            cfgDictProject["arduinoCompile_projectPathList"] = arduinoCompileSettingList
+
+            arduinoCompileSettingDict = cfgDictProject.get("arduinoCompileSetting", None)
+
+            if arduinoCompileSettingDict == None:
+                cfgDictProject["arduinoCompileSetting"] = {"arduinoCliPath":os.path.relpath(self.leftWidget.arduinoCompileWidget.arduinoCliDefaultPath)}
+                self.leftWidget.arduinoCompileWidget.arduinoCliPath_lineEdit.setText(os.path.relpath(self.leftWidget.arduinoCompileWidget.arduinoCliDefaultPath))
+            else:
+                cliAbspath = os.path.abspath(arduinoCompileSettingDict.get("arduinoCliPath"))
+                self.leftWidget.arduinoCompileWidget.arduinoCliPath_lineEdit.setText(cliAbspath)
+                #print("find")
+
+
+
+
         write_cfg(self.__project_cfg_path,cfgDictProject)
 
         self.leftWidget.compileWidget.addSettingsDictList(compileSettingList)
@@ -197,6 +219,14 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         self.init_sub_thread()
         self.view_dock_closeEvent()
         self.connect_signal()
+        if C51COMPILE == 1:
+            self.init_c51_compile()
+        if ARDUINOCOMPILE == 1:
+            self.init_arduino()
+            self.leftWidget.arduinoCompileWidget.projectSelect_comboBox.clear()
+            self.leftWidget.arduinoCompileWidget.projectSelect_comboBox.addItems(arduinoCompileSettingList)
+            if arduinoCompileSettingList !=[]:
+                self.update_arduino_project_tree(arduinoCompileSettingList[0])
     def initWorkspace(self):
         '''
         Initialize the selection workspace window
@@ -268,6 +298,29 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
         #self.init_timer()
         self.untitledNum = 1
 
+    def clear_unused_arduino_compile_project(self,projectSettingList,projectList):
+        # print(projectSettingList)
+        realSettingList = []
+        for eachProject in projectList:
+            findSetting = 0
+
+            ex_projectPath = eachProject
+            compileSettingDefaultEx = {"projectName":os.path.basename(ex_projectPath),
+                               "projectPath":ex_projectPath,
+                               }
+
+
+            for eachSetting in projectSettingList:
+                fullPath = eachSetting
+                # print(fullPath)
+                if fullPath:
+                    if fullPath == eachProject:
+                        realSettingList.append(eachSetting)
+                        findSetting = 1
+            if not findSetting:
+                realSettingList.append(compileSettingDefaultEx)
+            # print(findSetting)
+        return realSettingList
     def clear_unused_C51compile_project(self,projectSettingList,projectList):
         '''
         Todo
@@ -984,6 +1037,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
     def simulator_project_path(self,which):
         if which == "project":
             pathNow = os.path.relpath(QFileDialog.getExistingDirectory(None, "Choose Simulate Path", self.workspacePath))
+            #print(pathNow)
             if not pathNow is None:
                 self.simulateProjectList.insert(0,os.path.relpath(pathNow))
                 #self.leftWidget.simulateWidget.project_comboBox.addItems(self.simulateProjectList)
@@ -1154,6 +1208,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
         if os.path.exists(cfgPath):
             cfg = cfgRead(self.workspacePath + "/cfgPorjectList.evecfg")
             cfgDict = cfg.get_dict()
+
             #cfgDict = read_cfg(self.__project_cfg_path)
             projectList = cfgDict.get("simulate_projectPathList","")
             formatList = []
@@ -1215,6 +1270,49 @@ Currently, only single-file autocompilation is supported, adding multiple files 
                 cfg.write_dict(d)
                 return []
 
+    @property#需要增加
+    def check_arduino_compile_projects(self):
+        cfgPath = self.workspacePath + "/cfgPorjectList.evecfg"
+        if os.path.exists(cfgPath):
+            try:
+                cfg = cfgRead(self.workspacePath + "/cfgPorjectList.evecfg")
+                cfgDict = cfg.get_dict()
+                #print(cfgDict)
+                # cfgDict = read_cfg(self.__project_cfg_path)
+                projectList = cfgDict.get("arduinoCompile_projectPathList", [])
+                formatList = []
+                for pro in projectList:
+                    formatList.append(pro)
+                projectList = formatList
+                cfgDict["arduinoCompile_projectPathList"] = projectList
+
+                for eachProject in projectList:
+                    #eachProject = eachProject.get("projectPath","")
+                    #print("00000" * 10)
+                    #print(eachProject)
+                    #print("00000" * 10)
+                    if not os.path.exists(eachProject):
+                        logging.debug("project :" + eachProject + " is not exist")
+                        cfgDict["arduinoCompile_projectPathList"].remove(eachProject)
+                        # projectList.remove(eachProject)
+                    else:
+                        logging.debug("find project :" + eachProject)
+                #print(cfgDict)
+                write_cfg(cfgPath, cfgDict)
+                return projectList
+
+            except Exception as e:
+                logging.debug(e)
+
+                cfg = cfgRead(self.workspacePath + "/cfgPorjectList.evecfg")
+                ifCreate = QMessageBox.warning(self, "EveIDE_LIGHT -- OPEN Error",
+                                               "Failed to read workspace config {0}\ncreate a new one for this workspace ? ".format(
+                                                   os.path.abspath(cfgPath)))
+
+                d = {"compile_projectPathList": [], "simulate_projectPathList": [], "C51compile_projectPathList": [],"arduinoCompile_projectPathList":[]}
+                cfg.write_dict(d)
+                return []
+                
 
     @property
     def check_compile_projects(self):
@@ -1756,8 +1854,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
         # self.addDockWidget(Qt.RightDockWidgetArea,self.RightDockWidget)
         self.setCentralWidget(splitter1)
         self.add_module_actions()
-        if C51COMPILE == 1:
-            self.init_c51_compile()
+
 
 
     def init_c51_compile(self):
@@ -1774,6 +1871,50 @@ Currently, only single-file autocompilation is supported, adding multiple files 
         self.leftWidget.C51CompileWidget.compileC51Signal.connect(self.do_compile_for_C51)
         #self.leftWidget.compileWidget.compileSignal.connect(self.do_compile_for_project)
 
+    def init_arduino(self):
+        self.actionNewCompileArduino = QAction()
+        self.actionNewCompileArduino.setObjectName(u"actionNewArduinoCompile")
+        self.actionNewCompileArduino.setText("Arduino Project")
+        self.menuNewProject.addAction(self.actionNewCompileArduino)
+        self.actionNewCompileArduino.triggered.connect(lambda: self.new_project_widget("compileArduino"))
+
+        self.newProjectWidget.arduinoNewSignal.connect(self.leftWidget.arduinoCompileWidget.new_arduino_project)
+        self.leftWidget.arduinoCompileWidget.init_workspace(self.workspacePath)
+        self.leftWidget.arduinoCompileWidget.arduinoProjectChangeSignal.connect(self.add_arduino_project)
+
+        self.leftWidget.arduinoCompileWidget.arduinoProjectTreeRefreshSignal.connect(self.add_arduino_project)
+        #self.leftWidget.arduinoCompileWidget.arduinoProjectCreatedSignal.connect()
+        self.leftWidget.arduinoCompileWidget.arduinoProjectTreeWidget.projectFile_treeWidget.itemDoubleClicked.connect(self.open_project_file)
+        #self.leftWidget.arduinoCompileWidget.ProjectTreeWidget.pushButton.clicked.connect(self.update_sim_tree)
+        coreDictList = self.leftWidget.arduinoCompileWidget.get_core_and_board(self.leftWidget.arduinoCompileWidget.get_arduino_cli_path(),self.leftWidget.arduinoCompileWidget.get_arduino_cfg_path())
+        if coreDictList == []:
+            QMessageBox.warning(self, "EveIDE_LIGHT -- OPEN Error",
+                                "Fail to Find Core ")
+        else:
+            self.leftWidget.arduinoCompileWidget.update_comboBox(coreDictList)
+        self.leftWidget.arduinoCompileWidget.arduinoCompileThread.updateTextOutput.connect(self.updateTextOutput)
+
+    def arduino_project_check(self,pathNow):
+        cfgDictProject = read_cfg(self.__project_cfg_path)
+        listNow = cfgDictProject.get("arduinoCompile_projectPathList",[])
+        nameNow = os.path.basename(pathNow)
+        if not pathNow in listNow:
+            #dictNow = {"projectName":nameNow,"projectPath":pathNow}
+            listNow.insert(0, pathNow)#{os.path.basename(pathNow):pathNow}
+        cfgDictProject["arduinoCompile_projectPathList"] = listNow
+        write_cfg(self.__project_cfg_path,cfgDictProject)
+    #def
+    def add_arduino_project(self,pathNow):
+        textNow = self.leftWidget.arduinoCompileWidget.projectSelect_comboBox.currentText()
+        if textNow != pathNow:
+            self.leftWidget.arduinoCompileWidget.projectSelect_comboBox.addItem(pathNow)
+        self.arduino_project_check(pathNow)
+        self.update_arduino_project_tree(pathNow)
+
+
+    def update_arduino_project_tree(self,pathNow):
+        self.leftWidget.arduinoCompileWidget.arduinoProjectTreeWidget.projectFile_treeWidget.clear()
+        self.leftWidget.arduinoCompileWidget.set_arduino_project_tree(self.mdi,self.leftWidget.arduinoCompileWidget.arduinoProjectTreeWidget.projectFile_treeWidget,pathNow)
 
     def open_project(self,type):
         self.newProjectWidget.init(self.workspacePath, type)
@@ -1895,7 +2036,7 @@ Currently, only single-file autocompilation is supported, adding multiple files 
                             # logging.debug("\""+code+"\"")
                     editorNow.add_codes(code)
                     suffixNow = fileDict.get("fileSuffix","")
-                    if suffixNow== "c" or suffixNow == "cpp" :
+                    if suffixNow== "c" or suffixNow == "cpp" or suffixNow == "ino":
                         editorNow.set_language("c")
                     elif suffixNow == "h" or suffixNow == "H" :
                         editorNow.set_language("c")

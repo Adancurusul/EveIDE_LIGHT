@@ -22,6 +22,8 @@ import logging
 
 class NewProjectWidget(QWidget,Ui_NewProject):
     closeSignal = Signal(str,str)
+    arduinoNewSignal = Signal(str)# str :dictionary
+
     def __init__(self,):
         super(NewProjectWidget, self).__init__()
         self.setupUi(self)
@@ -57,6 +59,7 @@ class NewProjectWidget(QWidget,Ui_NewProject):
                 self.pathNow = ""
                 self.close()
             elif which == "create":
+
                 self.pathNow = self.projectPath_lineEdit.text()
                 if os.path.exists(self.pathNow):
                     choose = QMessageBox.warning(self, "EveIDE_LIGHT -- CREATE warning",
@@ -65,7 +68,10 @@ class NewProjectWidget(QWidget,Ui_NewProject):
                     if choose == QMessageBox.No:
                         pass
                     else :
+                        if self.type == "compileArduino":
+                            self.arduinoNewSignal.emit(self.pathNow)
                         self.close()
+
                 else :
                     os.mkdir(self.pathNow)
                     if self.type == "compile":
@@ -84,6 +90,8 @@ class NewProjectWidget(QWidget,Ui_NewProject):
                             logging.debug(e)
                         #with open(self.pathNow+"/main.c","w+")as f:
                          #   f.write("//Created by EveIDE_LIGHT ")
+                    elif self.type == "compileArduino":
+                        self.arduinoNewSignal.emit(self.pathNow)
                     logging.debug("new projectCreated : path : "+self.pathNow+" . type : "+self.type)
                     self.close()
 

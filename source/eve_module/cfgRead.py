@@ -33,7 +33,7 @@ class cfgRead():
             return dictNow
     def write_dict(self,dictNow):
         with open(self.cfgPath,"w",encoding="utf-8") as writeFile:
-            json.dump(dictNow,writeFile)
+            json.dump(dictNow,writeFile,indent=4)#format
             logging.debug("Successfully store Dict: "+str(dictNow)+"into :"+ self.cfgPath)
 
 

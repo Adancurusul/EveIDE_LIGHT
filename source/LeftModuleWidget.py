@@ -19,6 +19,8 @@ LeftSideTab
 
 '''
 C51COMPILE = 1
+ARDUINOCOMPILE = 1
+EveIDECOMMON = 1
 
 from qtpy.QtWidgets import QApplication, QMainWindow,QWidget,QFileDialog,QFormLayout,QLineEdit,QHBoxLayout,QTabWidget
 from qtpy.QtCore import Qt,Signal
@@ -35,6 +37,7 @@ from ui.ui_module_project_tree import Ui_ProjectTree
 from ui.ui_left_module_widget import  Ui_leftModuleWidget
 from ui.ui_module_compile_widget import Ui_CompileWidget
 from C51CompileWidget import moduleC51CompileWidget
+from ArduinoCompileWidget import moduleArduinoCompileWidget
 from SelectWorkspace import SelectWorkspace
 import os
 
@@ -82,9 +85,21 @@ class LeftModuleWidget(QWidget,Ui_leftModuleWidget):
         self.moduleList = [self.projectWidget,self.compileWidget,self.simulateWidget]
         self.compileWidget.compile_pushButton.clicked.connect(self.compileWidget.do_compile)
         self.init_ui()
-        if C51COMPILE ==1:
-            self.init_C51()
 
+
+
+    def init_Arduino(self):
+        self.arduinoCompileWidget = moduleArduinoCompileWidget()
+        self.arduinoCompile_tab = QWidget()
+        self.arduinoCompile_tab.setObjectName(u"arduinoCompile_tab")
+        self.leftModuleWidgetIn.addTab(self.arduinoCompile_tab, "")
+        self.leftModuleWidgetIn.setTabText(self.leftModuleWidgetIn.indexOf(self.arduinoCompile_tab), "Arduino")
+        layout = QFormLayout()
+        layout.addWidget(self.arduinoCompileWidget)
+        self.arduinoCompile_tab.setLayout(layout)
+        self.arduinoCompile_tab.moduleWidget = self.arduinoCompileWidget
+        self.arduinoCompileWidget.setHidden(1)
+        #self.arduinoCompileWidget.c51compile_pushButton.clicked.connect(self.C51CompileWidget.do_compile)
 
 
     def init_C51(self):
@@ -100,27 +115,42 @@ class LeftModuleWidget(QWidget,Ui_leftModuleWidget):
         self.C51compile_tab.setLayout(layout)
         self.C51compile_tab.moduleWidget = self.C51CompileWidget
 
-        self.C51CompileWidget.setHidden(1)
+        #self.C51CompileWidget.setHidden(1)
         self.C51CompileWidget.c51compile_pushButton.clicked.connect(self.C51CompileWidget.do_compile)
 
 
 
     def init_ui(self):
         self.setupUi(self)
-        self.add_module_project_widget()
-        self.add_module_compile_widget()
-        self.add_module_simulate_widget()
-        self.leftModuleWidgetIn.currentChanged.connect(self.change_tab_module)
-        #self.currentWidget = ""
-        self.currentModule = self.project_tab.moduleWidget
+        if C51COMPILE == 1:
+            self.init_C51()
+        if ARDUINOCOMPILE == 1:
+            self.init_Arduino()
+        if EveIDECOMMON == 1:
+            self.add_module_project_widget()
+            self.add_module_compile_widget()
+            self.add_module_simulate_widget()
+            self.currentModule = self.project_tab.moduleWidget
+        else:
+            self.leftModuleWidgetIn.removeTab(0)
+            self.leftModuleWidgetIn.removeTab(0)
+            self.leftModuleWidgetIn.removeTab(0)
+            #self.currentModule = self.C51compile_tab.moduleWidget
+        #self.change_tab_module()
 
+
+        #self.currentWidget = ""
+
+        self.leftModuleWidgetIn.currentChanged.connect(self.change_tab_module)
         #self.leftModuleWidgetIn.setTabPosition(QTabWidget.South)
 
     def change_tab_module(self):
         for eachModule in self.moduleList :
             eachModule.setHidden(1)
         currentTab= self.leftModuleWidgetIn.currentWidget()
+        #print(currentTab.moduleWidget)
         self.currentModule = currentTab.moduleWidget
+        print(self.currentModule)
         #self.currentModule = self.currentWidget.moduleWidget
 
         self.currentModule.setHidden(0)
@@ -227,7 +257,7 @@ class moduleCompileWidget(Ui_CompileWidget,QWidget):
         #self.compile_pushButton.clicked.connect(self.do_compile)
         self.init_name()
     def change_dir_by_file_selector(self,currentLineEdit):
-        pathNow = QFileDialog.getExistingDirectory(None, "Choose Dict Path", "../")
+        pathNow = os.path.relpath( QFileDialog.getExistingDirectory(None, "Choose Dict Path", "../"))
         currentLineEdit.setText(pathNow)
     def init_name(self):
         pass
